@@ -1,0 +1,342 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'Data/TodoData.dart';
+import 'dart:io' show Platform;
+import 'notification_service.dart' if (Platform.isAndroid) "";
+import 'file.dart';
+import 'dart:convert';
+
+// Initialises the needed classes for notifications
+Future<void> notif() async{
+  if (Platform.isAndroid) {
+    WidgetsFlutterBinding.ensureInitialized();
+    await NotificationService().init();
+  }
+}
+
+
+void main() async {
+  notif();
+  String s = await readFile(); //read previous stored data
+  if (s.isEmpty) { 
+    runApp(MyApp(data: new TodoData("Root"))); //use a empty todo
+  }
+  else {
+    runApp(MyApp(data: TodoData.fromJson(jsonDecode(s)))); //use the stored data
+  }
+}
+
+// In charge of displaying the App
+class MyApp extends StatelessWidget {
+  final TodoData data;
+  const MyApp({ Key? key, required  this.data}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    final Controller c = Get.put(Controller(data));
+    return GetMaterialApp(
+      title: 'Todo infinite',
+      theme: ThemeData.dark(),
+      home: TodoHome(arr:[]),
+    );
+  }
+}
+
+// Displays a todo chosen by the arr variable
+class TodoHome extends StatelessWidget {
+  final List<int> arr;
+  const TodoHome({ Key? key, required this.arr }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final Controller c = Get.find();
+    return  Scaffold(
+      appBar: AppBar(
+        title:GetBuilder<Controller>(
+          builder: (todo) => Text('${c.getText(arr)}'),
+        ),
+        leading: GetBuilder<Controller>( //display a back button when the chosen todo is not the root
+          builder: (todo) => arr.isEmpty? Container(): IconButton(
+            onPressed: () {             //display the todo above the current one
+              if (arr.isEmpty) {return;}
+              List<int> a = List<int>.from(arr);
+              a.removeLast();
+              Get.offAll(() => TodoHome(arr: a));
+            }, 
+            icon: Icon(Icons.keyboard_arrow_left_rounded,),
+          ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.to(() => Notifications());
+            }, 
+            icon: Icon(Icons.notifications_none_rounded,),
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: GetBuilder<Controller>(
+              builder: (todo) => ListView(
+                padding: EdgeInsets.all(10),
+                children: [ //display a todo element for every item in the sub array
+                  for (int i=0; i<todo.getTodo(arr).sub.length; i++) Todo(arr: arr + [i],), 
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 70,
+            child: MakeTodo(arr: arr)
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+class Notifications extends StatefulWidget {
+  const Notifications({ Key? key }) : super(key: key);
+  @override
+  _NotificationsState createState() => _NotificationsState();
+}
+// Provides the notification window
+class _NotificationsState extends State<Notifications> {
+  final _formkey = GlobalKey<FormState>();
+  final fieldText = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Notifications'),
+      ),
+      body: Container(
+        padding: EdgeInsets.all(20),
+        child: Form(
+          key: _formkey,
+          child: Column(
+            children: [
+              TextFormField(
+                controller: fieldText,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Displayed text',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              ElevatedButton(
+                onPressed: (){
+                  if (_formkey.currentState!.validate()) {
+                    if (Platform.isAndroid){ //notifications dont work on versions other then android
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Sending notification...')));
+                      NotificationService().send(fieldText.text, "");
+                    }
+                    else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Notifications are not possible on this device.')));
+                    }
+                    fieldText.clear();
+                  }
+                }, 
+                child: Text("Send notification"),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// displays the button and textfield for adding new todos
+class MakeTodo extends StatelessWidget {
+  final fieldText = TextEditingController();
+  final List<int> arr;
+  MakeTodo({ Key? key, required this.arr}) : super(key: key);
+
+  // used when the add button is pressed
+  void submitText(String str, Controller c) {
+    c.addTodo(arr, str);
+    fieldText.clear();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final Controller c = Get.find();
+    return Container(
+      padding:EdgeInsets.all(5.0),
+      child: Card(
+        child: Container(
+          padding: EdgeInsets.all(5),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: fieldText,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'New Todo',
+                  ),
+                  onSubmitted: (String val) => submitText(val, c),
+                ),
+              ),
+              SizedBox(
+                height: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => submitText(fieldText.text, c), 
+                  child: Icon(Icons.add)
+                ), 
+              ),
+            ],
+          ),
+        )
+      )
+    );
+  }
+}
+
+// Used by TodoHome to display a todo element on screen
+class Todo extends StatelessWidget {
+  final List<int> arr;
+  const Todo({ Key? key, required this.arr }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final Controller c = Get.find();
+
+    return  Dismissible(
+      key: UniqueKey(),
+      onDismissed: (direction) =>c.delTodo(arr),
+      background: RedBox(),
+      direction: DismissDirection.endToStart,
+      child: Column(
+        children: [
+          Center(
+            child: TodoCard(arr:arr),
+          ),
+          GetBuilder<Controller>( //display the sub todo's when the todo is open and there are sub todo's
+            builder: (todo) => todo.getOpen(arr) && todo.getTodo(arr).sub.isNotEmpty? ListTodo(arr: arr): SizedBox(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// used by Todo to display a red box when being dismissed 
+class RedBox extends StatelessWidget {
+  const RedBox({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.red,
+      child: Container(
+        padding: EdgeInsets.all(10.0),
+        width: double.infinity,
+        height: 60,
+        child: Row(
+          children: [
+            Expanded(child: Container(),),
+            Icon(Icons.delete)
+          ],
+        )
+      ),
+    );
+  }
+}
+
+// used by Todo to display a card with the text and needed buttons of the todo
+class TodoCard extends StatelessWidget {
+  const TodoCard({ Key? key,required this.arr, }) : super(key: key);
+  final List<int> arr;
+
+  @override
+  Widget build(BuildContext context) {
+    final Controller c = Get.find();
+    return Card(
+      child: Container(
+        padding: EdgeInsets.all(10.0),
+        width: double.infinity,
+        height: 60,
+        child: Row(
+          children: [
+            SizedBox(
+              height: double.infinity,
+              child: GetBuilder<Controller>(
+                builder: (todo) => IconButton(
+                  onPressed: () => c.toggleDone(arr), 
+                  icon: Icon(todo.getDone(arr)? Icons.check_circle_outline: Icons.radio_button_unchecked),
+                )
+              )
+            ),
+            Expanded(
+              child:
+              GetBuilder<Controller>(
+                builder: (todo) {
+                  return Text("${todo.getText(arr)}",
+                  style: TextStyle(fontSize: 18),);
+                }
+              ),
+            ),
+            SizedBox(
+              height: double.infinity,
+              child: GetBuilder<Controller>(
+                builder: (todo) => todo.getTodo(arr).sub.isNotEmpty? SizedBox(
+                  width: 30,
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(padding: EdgeInsets.all(2)),
+                    onPressed: () => c.toggleOpen(arr), 
+                    child: Icon(todo.getOpen(arr)?  Icons.expand_less_rounded: Icons.notes),
+                  ),
+                ): Container(), 
+              )
+            ),
+            SizedBox(width:5),
+            SizedBox(
+              height: double.infinity,
+              child: SizedBox(
+                width: 30,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(padding: EdgeInsets.all(2)),
+                  onPressed: () { 
+                    Get.offAll(() => TodoHome(arr: arr));
+                  }, 
+                  child: Icon(Icons.navigate_next_rounded ),
+                ), 
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// used by Todo to display its sub elements
+class ListTodo extends StatelessWidget {
+  final List<int> arr;
+  const ListTodo({ Key? key, required this.arr }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(left: 25),
+      child: GetBuilder<Controller>(
+        builder: (todo) => Column(
+          children: [
+            for (int i=0; i<todo.getTodo(arr).sub.length; i++) Todo(arr: arr + [i],),
+          ],
+        ),
+      ) 
+    );
+  }
+}
+
+
