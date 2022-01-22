@@ -26,27 +26,31 @@ class NotificationService {
  
   }
   Future selectNotification(String? payload) async {
-    //Currently nor needed
+    //Currently not needed
   }
 
   // used to send a notification with given title and body
-  void send(String title, String body) async{
+  void send(String title, String body, int id) async{
+    const String groupKey = 'com.android.todo-infinite.GROUP';
+    const String groupChannelId = 'grouped channel id';
+    const String groupChannelName = 'grouped channel name';
     AndroidNotificationDetails androidPlatformChannelSpecifics = 
     AndroidNotificationDetails(
-        "String",   
-        "String", 
-        "String", 
+        groupChannelId,   
+        groupChannelName, 
+        groupChannelName, 
         importance: Importance.max,
         priority: Priority.high,
         visibility: NotificationVisibility.private,
         playSound: true,
         enableVibration: true,
+        groupKey: groupKey
     );
 
     NotificationDetails platformChannelSpecifics = 
   NotificationDetails(android: androidPlatformChannelSpecifics);
 
-  await flutterLocalNotificationsPlugin.show(0, title, body, platformChannelSpecifics);
+  await flutterLocalNotificationsPlugin.show(id, title, body, platformChannelSpecifics);
   }
    
 }

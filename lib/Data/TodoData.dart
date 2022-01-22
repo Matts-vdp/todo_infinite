@@ -87,6 +87,7 @@ class TodoData {
 // is used to control the state management of the App
 class Controller extends GetxController{
   var todo;
+  var cnt = 0;
   Controller(this.todo);
 
   void toggleDone(List<int> arr) {
@@ -121,5 +122,12 @@ class Controller extends GetxController{
     update();
     todo.delTodo(arr);
     todo.save(); // save to local storage when changed
+  }
+  int getCnt(){
+    return cnt;
+  }
+  void incCnt(){
+    cnt++;
+    update();
   }
 }

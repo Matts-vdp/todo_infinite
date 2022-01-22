@@ -19,7 +19,7 @@ void main() async {
   notif();
   String s = await readFile(); //read previous stored data
   if (s.isEmpty) { 
-    runApp(MyApp(data: new TodoData("Root"))); //use a empty todo
+    runApp(MyApp(data: new TodoData("To Do"))); //use a empty todo
   }
   else {
     runApp(MyApp(data: TodoData.fromJson(jsonDecode(s)))); //use the stored data
@@ -108,6 +108,7 @@ class _NotificationsState extends State<Notifications> {
   final fieldText = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final Controller c = Get.find();
     return Scaffold(
       appBar: AppBar(
         title: Text('Notifications'),
@@ -136,7 +137,8 @@ class _NotificationsState extends State<Notifications> {
                   if (_formkey.currentState!.validate()) {
                     if (Platform.isAndroid){ //notifications dont work on versions other then android
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Sending notification...')));
-                      NotificationService().send(fieldText.text, "");
+                      c.incCnt();
+                      NotificationService().send(fieldText.text, "", c.getCnt());
                     }
                     else {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Notifications are not possible on this device.')));
