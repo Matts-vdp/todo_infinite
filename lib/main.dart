@@ -5,6 +5,7 @@ import 'dart:io' show Platform;
 import 'notification_service.dart' if (Platform.isAndroid) "";
 import 'file.dart';
 import 'dart:convert';
+import 'package:flutter/services.dart';
 
 // Initialises the needed classes for notifications
 Future<void> notif() async{
@@ -12,6 +13,19 @@ Future<void> notif() async{
     WidgetsFlutterBinding.ensureInitialized();
     await NotificationService().init();
   }
+}
+
+void toClip() async{
+  final Controller c = Get.find();
+  ClipboardData data = ClipboardData(text: c.getJson());
+  await Clipboard.setData(data);  
+}
+
+void fromClip() async {
+  final Controller c = Get.find();
+  Clipboard.getData("text/plain").then((value) => {
+    c.fromJson(value?.text)
+  });
 }
 
 
@@ -66,6 +80,18 @@ class TodoHome extends StatelessWidget {
           ),
         ),
         actions: [
+          IconButton(
+            onPressed: () {
+              toClip();
+            }, 
+            icon: Icon(Icons.upload)
+          ),
+          IconButton(
+            onPressed: () {
+              fromClip();
+            }, 
+            icon: Icon(Icons.download)
+          ),
           IconButton(
             onPressed: () {
               Get.to(() => Notifications());

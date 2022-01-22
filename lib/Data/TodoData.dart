@@ -86,7 +86,7 @@ class TodoData {
 
 // is used to control the state management of the App
 class Controller extends GetxController{
-  var todo;
+  TodoData todo;
   var cnt = 0;
   Controller(this.todo);
 
@@ -122,6 +122,23 @@ class Controller extends GetxController{
     update();
     todo.delTodo(arr);
     todo.save(); // save to local storage when changed
+  }
+
+  String getJson(){
+    return todo.getJson();
+  }
+  void fromJson(String? json){
+    if (json == null) {
+      return;
+    }
+    try{
+      TodoData newTodo = TodoData.fromJson(jsonDecode(json));
+      todo = newTodo;
+      update();
+      todo.save();
+    } catch(e){
+      return;
+    }
   }
   int getCnt(){
     return cnt;
