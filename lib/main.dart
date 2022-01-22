@@ -104,11 +104,14 @@ class TodoHome extends StatelessWidget {
         children: [
           Expanded(
             child: GetBuilder<Controller>(
-              builder: (todo) => ListView(
+              builder: (todo) => ReorderableListView(
                 padding: EdgeInsets.all(10),
                 children: [ //display a todo element for every item in the sub array
-                  for (int i=0; i<todo.getTodo(arr).sub.length; i++) Todo(arr: arr + [i],), 
+                  for (int i=0; i<todo.getTodo(arr).sub.length; i++) Todo(arr: arr + [i], key: Key('$i'),), 
                 ],
+                onReorder: (oldIndex, newIndex) {
+                  c.reorder(arr, oldIndex, newIndex);
+                },
               ),
             ),
           ),

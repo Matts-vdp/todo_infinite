@@ -12,9 +12,9 @@ class TodoData {
   TodoData(this.text);
 
   // used to get a todo from within this
-  TodoData getTodo(List<int> arr){
+  TodoData getTodo(List<int> arr) {
     List<int> a = List<int>.from(arr);
-    if (a.isEmpty){
+    if (a.isEmpty) {
       return this;
     }
     int i = a.first;
@@ -36,7 +36,7 @@ class TodoData {
     getTodo(arr).sub.add(new TodoData(str));
   }
 
-  void delTodo(List<int> arr){
+  void delTodo(List<int> arr) {
     List<int> a = List<int>.from(arr);
     var i = a.last;
     a.removeLast();
@@ -44,17 +44,27 @@ class TodoData {
   }
 
   //Creates a todo with the given data
-  TodoData newData(bool donei, List<TodoData> subi){
+  TodoData newData(bool donei, List<TodoData> subi) {
     this.done = donei;
     this.sub = subi;
     return this;
   }
 
+  void reorder(List<int> arr, int oldid, int newid) {
+    print(oldid);
+    print(newid);
+    if (oldid < newid) {
+      newid -= 1;
+    }
+    TodoData sel = getTodo(arr);
+    final TodoData item = sel.sub.removeAt(oldid);
+    sel.sub.insert(newid, item);
+  }
+
   // used to convert the object to json
   Map toJson() {
-    List<Map>? subs =
-        this.sub.map((i) => i.toJson()).toList();
-    
+    List<Map>? subs = this.sub.map((i) => i.toJson()).toList();
+
     return {
       'text': this.text,
       'done': this.done,
@@ -62,15 +72,15 @@ class TodoData {
     };
   }
 
-  String getJson(){
+  String getJson() {
     return jsonEncode(this);
   }
 
   // used to create a TodoData object from a json string
-  factory TodoData.fromJson(Map<String, dynamic> parsedJson){
+  factory TodoData.fromJson(Map<String, dynamic> parsedJson) {
     List<dynamic> l = parsedJson['sub'];
     List<TodoData> s = <TodoData>[];
-    for (int i=0; i<l.length; i++){
+    for (int i = 0; i < l.length; i++) {
       s.add(TodoData.fromJson(l[i]));
     }
     return TodoData(parsedJson['text']).newData(
@@ -79,13 +89,13 @@ class TodoData {
     );
   }
 
-  void save(){
+  void save() {
     writeFile(this.getJson());
   }
 }
 
 // is used to control the state management of the App
-class Controller extends GetxController{
+class Controller extends GetxController {
   TodoData todo;
   var cnt = 0;
   Controller(this.todo);
@@ -95,55 +105,69 @@ class Controller extends GetxController{
     update();
     todo.save(); // save to local storage when changed
   }
+
   void toggleOpen(List<int> arr) {
     todo.toggleOpen(arr);
     update();
   }
-  String getText(List<int> arr){
+
+  String getText(List<int> arr) {
     return todo.getTodo(arr).text;
   }
-  bool getOpen(List<int> arr){
+
+  bool getOpen(List<int> arr) {
     return todo.getTodo(arr).open;
   }
-  TodoData getTodo(List<int> arr){
+
+  TodoData getTodo(List<int> arr) {
     return todo.getTodo(arr);
   }
-  bool getDone(List<int> arr){
+
+  bool getDone(List<int> arr) {
     return todo.getTodo(arr).done;
   }
 
-  void addTodo(List<int> arr, String str){
+  void addTodo(List<int> arr, String str) {
     todo.addTodo(arr, str);
     update();
     todo.save(); // save to local storage when changed
   }
 
-  void delTodo(List<int> arr){
+  void delTodo(List<int> arr) {
     update();
     todo.delTodo(arr);
     todo.save(); // save to local storage when changed
   }
 
-  String getJson(){
+  String getJson() {
     return todo.getJson();
   }
-  void fromJson(String? json){
+
+  void fromJson(String? json) {
     if (json == null) {
       return;
     }
-    try{
+    try {
       TodoData newTodo = TodoData.fromJson(jsonDecode(json));
       todo = newTodo;
       update();
       todo.save();
-    } catch(e){
+    } catch (e) {
       return;
     }
   }
-  int getCnt(){
+
+  void reorder(List<int> arr, int oldid, int newid) {
+    todo.reorder(arr, oldid, newid);
+    update();
+    todo.save();
+  }
+
+  int getCnt() {
     return cnt;
   }
-  void incCnt(){
+
+  void incCnt() {
     cnt++;
     update();
   }
