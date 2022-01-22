@@ -1,16 +1,32 @@
+
+<img src="https://github.com/Matts-vdp/todo_infinite/blob/main/preview/icon.png" width="100" height="100" >
+
 # todo_infinite
 
-A new Flutter project.
+A todo app with infinite possibilities and infinite nesting of your todo's.
+The app is build aroud the concept of infinitely nestable todo's.
+Because of you can choose how you want to stucture your todo's.
+Want everything in a giant list no problem.
+A list of categories with in each one some todo's is just as easy.
+Do you want to have subitems in your subitems in your subitems... 
+This todo App is the one for you.
 
-## Getting Started
+## Preview
+Here you see the root screen with some added todo's for demostration purposes.
 
-This project is a starting point for a Flutter application.
+<img src="https://github.com/Matts-vdp/todo_infinite/blob/main/preview/root.png" width="150">
 
-A few resources to get you started if this is your first Flutter project:
+You can also take a look into a todo.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+<img src="https://github.com/Matts-vdp/todo_infinite/blob/main/preview/task.png" width="150">
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## Usage
+You can build it yourself or download the latest apk in the releases tab
+
+Most of the app is self explanatory. 
+The only thing that is not is that you have to swipe a todo to the left to delete it.
+
+## Notifications
+By clicking on the notification icon you can send yourself a local notification.
+This can be used to stop you from forgetting something because when you open your phone the notification will be visible.
