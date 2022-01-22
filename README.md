@@ -1,4 +1,3 @@
-
 <img src="https://github.com/Matts-vdp/todo_infinite/blob/main/preview/icon.png" width="100" height="100" >
 
 # todo_infinite
