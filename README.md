@@ -19,6 +19,7 @@ You can also take a look into a todo.
 
 <img src="https://github.com/Matts-vdp/todo_infinite/blob/main/preview/task.png" width="150">
 
+You can try a demo version here: [link](https://matts-vdp.github.io/todo-infinite-web/)
 
 ## Usage
 You can build it yourself or download the latest apk in the releases tab
