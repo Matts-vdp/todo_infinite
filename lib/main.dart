@@ -82,21 +82,15 @@ class TodoHome extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              toClip();
-            }, 
-            icon: Icon(Icons.upload)
-          ),
-          IconButton(
-            onPressed: () {
-              fromClip();
-            }, 
-            icon: Icon(Icons.download)
-          ),
-          IconButton(
-            onPressed: () {
               Get.to(() => Notifications());
             }, 
             icon: Icon(Icons.notifications_none_rounded,),
+          ),
+          IconButton(
+            onPressed: () {
+              Get.to(() => Settings());
+            }, 
+            icon: Icon(Icons.settings,),
           ),
         ],
       ),
@@ -185,6 +179,61 @@ class _NotificationsState extends State<Notifications> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+// Displays the settings tab
+class Settings extends StatelessWidget {
+  const Settings({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final Controller c = Get.find();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Settings'),
+      ),
+      body: Container(
+        padding: EdgeInsets.all(20),
+        child: Column(
+
+          children: [
+            Card(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Export to clipboard as json"),
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(padding: EdgeInsets.all(2)),
+                      onPressed: () => toClip(), 
+                      child: Icon(Icons.upload),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Card(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Import json from clipboard"),
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(padding: EdgeInsets.all(2)),
+                      onPressed: () => fromClip(), 
+                      child: Icon(Icons.download),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
