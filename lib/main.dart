@@ -111,7 +111,7 @@ class TodoHome extends StatelessWidget {
                   padding: EdgeInsets.all(10),
                   children: [ //display a todo element for every item in the sub array
                     for (int i=0; i<todo.getTodo(arr).sub.length; i++) 
-                      ReorderableDragStartListener(
+                      ReorderableDelayedDragStartListener(
                         index: i,
                         key: Key('$i'),
                         child:Todo(arr: arr + [i]),
