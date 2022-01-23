@@ -15,12 +15,14 @@ Future<void> notif() async{
   }
 }
 
+// Copies the stored data to the clipboard
 void toClip() async{
   final Controller c = Get.find();
   ClipboardData data = ClipboardData(text: c.getJson());
   await Clipboard.setData(data);  
 }
 
+// copies the data from clipboard to the saved data
 void fromClip() async {
   final Controller c = Get.find();
   Clipboard.getData("text/plain").then((value) => {
@@ -200,7 +202,6 @@ class Settings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Controller c = Get.find();
     return Scaffold(
       appBar: AppBar(
         title: Text('Settings'),
@@ -208,7 +209,6 @@ class Settings extends StatelessWidget {
       body: Container(
         padding: EdgeInsets.all(20),
         child: Column(
-
           children: [
             Card(
               child: Padding(
