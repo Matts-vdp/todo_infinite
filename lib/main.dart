@@ -281,6 +281,7 @@ class MakeTodo extends StatelessWidget {
                   onSubmitted: (String val) => submitText(val, c),
                 ),
               ),
+              SizedBox(width: 5,),
               SizedBox(
                 height: 40,
                 width: 40,
@@ -361,11 +362,11 @@ class TodoCard extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(10.0),
         width: double.infinity,
-        height: 60,
+        //height: 60,
         child: Row(
           children: [
             SizedBox(
-              height: double.infinity,
+              height: 40,
               child: GetBuilder<Controller>(
                 builder: (todo) => IconButton(
                   onPressed: () => c.toggleDone(arr), 
@@ -383,7 +384,7 @@ class TodoCard extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: double.infinity,
+              height: 40,
               child: GetBuilder<Controller>(
                 builder: (todo) => todo.getTodo(arr).sub.isNotEmpty? SizedBox(
                   width: 30,
@@ -397,7 +398,7 @@ class TodoCard extends StatelessWidget {
             ),
             SizedBox(width:5),
             SizedBox(
-              height: double.infinity,
+              height: 40,
               child: SizedBox(
                 width: 30,
                 child: ElevatedButton(
