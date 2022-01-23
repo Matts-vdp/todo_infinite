@@ -35,17 +35,17 @@ void main() async {
   notif();
   String s = await readFile(); //read previous stored data
   if (s.isEmpty) { 
-    runApp(MyApp(data: new TodoData("To Do"))); //use a empty todo
+    runApp(TodoInfinite(data: new TodoData("To Do"))); //use a empty todo
   }
   else {
-    runApp(MyApp(data: TodoData.fromJson(jsonDecode(s)))); //use the stored data
+    runApp(TodoInfinite(data: TodoData.fromJson(jsonDecode(s)))); //use the stored data
   }
 }
 
 // In charge of displaying the App
-class MyApp extends StatelessWidget {
+class TodoInfinite extends StatelessWidget {
   final TodoData data;
-  const MyApp({ Key? key, required  this.data}) : super(key: key);
+  const TodoInfinite({ Key? key, required  this.data}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final Controller c = Get.put(Controller(data));
