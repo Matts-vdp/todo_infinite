@@ -63,63 +63,72 @@ class TodoHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Controller c = Get.find();
-    return  Scaffold(
-      appBar: AppBar(
-        title:GetBuilder<Controller>(
-          builder: (todo) => Text('${c.getText(arr)}'),
-        ),
-        leading: GetBuilder<Controller>( //display a back button when the chosen todo is not the root
-          builder: (todo) => arr.isEmpty? Container(): IconButton(
-            onPressed: () {             //display the todo above the current one
-              if (arr.isEmpty) {return;}
-              List<int> a = List<int>.from(arr);
-              a.removeLast();
-              Get.offAll(() => TodoHome(arr: a));
-            }, 
-            icon: Icon(Icons.keyboard_arrow_left_rounded,),
+    return  WillPopScope(
+      onWillPop: () async {
+        if (arr.isEmpty) {return true;}
+        List<int> a = List<int>.from(arr);
+        a.removeLast();
+        Get.offAll(() => TodoHome(arr: a));
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title:GetBuilder<Controller>(
+            builder: (todo) => Text('${c.getText(arr)}'),
           ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Get.to(() => Notifications());
-            }, 
-            icon: Icon(Icons.notifications_none_rounded,),
-          ),
-          IconButton(
-            onPressed: () {
-              Get.to(() => Settings());
-            }, 
-            icon: Icon(Icons.settings,),
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: GetBuilder<Controller>(
-              builder: (todo) => ReorderableListView(
-                buildDefaultDragHandles: false,
-                padding: EdgeInsets.all(10),
-                children: [ //display a todo element for every item in the sub array
-                  for (int i=0; i<todo.getTodo(arr).sub.length; i++) 
-                    ReorderableDragStartListener(
-                      index: i,
-                      key: Key('$i'),
-                      child:Todo(arr: arr + [i]),
-                    ) 
-                ],
-                onReorder: (oldIndex, newIndex) {
-                  c.reorder(arr, oldIndex, newIndex);
-                },
-              ),
+          leading: GetBuilder<Controller>( //display a back button when the chosen todo is not the root
+            builder: (todo) => arr.isEmpty? Container(): IconButton(
+              onPressed: () {             //display the todo above the current one
+                if (arr.isEmpty) {return;}
+                List<int> a = List<int>.from(arr);
+                a.removeLast();
+                Get.offAll(() => TodoHome(arr: a));
+              }, 
+              icon: Icon(Icons.keyboard_arrow_left_rounded,),
             ),
           ),
-          SizedBox(
-            height: 70,
-            child: MakeTodo(arr: arr)
-          ),
-        ],
+          actions: [
+            IconButton(
+              onPressed: () {
+                Get.to(() => Notifications());
+              }, 
+              icon: Icon(Icons.notifications_none_rounded,),
+            ),
+            IconButton(
+              onPressed: () {
+                Get.to(() => Settings());
+              }, 
+              icon: Icon(Icons.settings,),
+            ),
+          ],
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: GetBuilder<Controller>(
+                builder: (todo) => ReorderableListView(
+                  buildDefaultDragHandles: false,
+                  padding: EdgeInsets.all(10),
+                  children: [ //display a todo element for every item in the sub array
+                    for (int i=0; i<todo.getTodo(arr).sub.length; i++) 
+                      ReorderableDragStartListener(
+                        index: i,
+                        key: Key('$i'),
+                        child:Todo(arr: arr + [i]),
+                      ) 
+                  ],
+                  onReorder: (oldIndex, newIndex) {
+                    c.reorder(arr, oldIndex, newIndex);
+                  },
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 70,
+              child: MakeTodo(arr: arr)
+            ),
+          ],
+        ),
       ),
     );
   }
