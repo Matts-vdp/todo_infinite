@@ -125,10 +125,7 @@ class TodoHome extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
-              height: 70,
-              child: MakeTodo(arr: arr)
-            ),
+            MakeTodo(arr: arr),
           ],
         ),
       ),
@@ -273,8 +270,11 @@ class MakeTodo extends StatelessWidget {
             children: [
               Expanded(
                 child: TextField(
+                  maxLines:3,
+                  minLines: 1,
                   controller: fieldText,
                   decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(8),
                     border: OutlineInputBorder(),
                     labelText: 'New Todo',
                   ),
@@ -282,8 +282,10 @@ class MakeTodo extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: double.infinity,
+                height: 40,
+                width: 40,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(padding: EdgeInsets.all(2)),
                   onPressed: () => submitText(fieldText.text, c), 
                   child: Icon(Icons.add)
                 ), 
