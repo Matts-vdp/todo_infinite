@@ -33,25 +33,27 @@ void fromClip() async {
 
 void main() async {
   notif();
-  String s = await readFile(); //read previous stored data
-  if (s.isEmpty) { 
-    runApp(TodoInfinite(data: new TodoData("To Do"))); //use a empty todo
-  }
-  else {
-    runApp(TodoInfinite(data: TodoData.fromJson(jsonDecode(s)))); //use the stored data
-  }
+  String data = await readFile("data.json"); //read previous stored data
+  String settingsData = await readFile("settings.json");
+  runApp(TodoInfinite(data: data, settingsData: settingsData,)); //use the stored data
 }
 
 // In charge of displaying the App
 class TodoInfinite extends StatelessWidget {
-  final TodoData data;
-  const TodoInfinite({ Key? key, required  this.data}) : super(key: key);
+  final String data;
+  final String settingsData;
+  const TodoInfinite({ Key? key, required  this.data, required this.settingsData}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final Controller c = Get.put(Controller(data));
+    final Controller c = Get.put(Controller(data, settingsData));
     return GetMaterialApp(
       title: 'Todo infinite',
-      theme: ThemeData.dark(),
+      theme: ThemeData.dark().copyWith(
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: c.getColor(),
+        ),
+      ),
+      themeMode: ThemeMode.light,
       home: TodoHome(arr:[]),
     );
   }
@@ -79,7 +81,7 @@ class TodoHome extends StatelessWidget {
             builder: (todo) => Text('${c.getText(arr)}'),
           ),
           leading: GetBuilder<Controller>( //display a back button when the chosen todo is not the root
-            builder: (todo) => arr.isEmpty? Container(): IconButton(
+            builder: (todo) => arr.isEmpty? Icon(Icons.home): IconButton(
               onPressed: () {             //display the todo above the current one
                 if (arr.isEmpty) {return;}
                 List<int> a = List<int>.from(arr);
@@ -132,7 +134,6 @@ class TodoHome extends StatelessWidget {
     );
   }
 }
-
 
 class Notifications extends StatefulWidget {
   const Notifications({ Key? key }) : super(key: key);
@@ -239,8 +240,63 @@ class Settings extends StatelessWidget {
                 ),
               ),
             ),
+            Card(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Color:"),
+                    Row(
+                      children: [
+                        ColorPick(color: Colors.purple),
+                        SizedBox(width: 3,),
+                        ColorPick(color: Colors.pink),
+                        SizedBox(width: 3,),
+                        ColorPick(color: Colors.blue),
+                        SizedBox(width: 3,),
+                        ColorPick(color: Colors.cyan),
+                        SizedBox(width: 3,),
+                        ColorPick(color: Colors.lightGreen),
+                        SizedBox(width: 3,),
+                        ColorPick(color: Colors.lime),
+                        SizedBox(width: 3,),
+                        ColorPick(color: Colors.yellow),
+                        SizedBox(width: 3,),
+                        ColorPick(color: Colors.orange),
+                        SizedBox(width: 3,),
+                        ColorPick(color: Colors.red),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ColorPick extends StatelessWidget {
+  const ColorPick({Key? key, required this.color,}) : super(key: key);
+  final MaterialColor color;
+  @override
+  Widget build(BuildContext context) {
+    final Controller c = Get.find();
+    return SizedBox(
+      width: 30,
+      height: 30,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.all(2),
+          primary: color,
+        ),
+        onPressed: () {
+          c.setColor(color);
+        },
+        child: Container(),
       ),
     );
   }

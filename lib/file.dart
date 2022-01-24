@@ -8,22 +8,22 @@ Future<String> get _localPath async {
 }
 
 // used to get the storage File object
-Future<File> get _localFile async {
+Future<File> getLocalFile(String file) async {
   final path = await _localPath;
-  return File('$path/data.json');
+  return File('$path/$file');
 }
 
 // write a string to a local file
-Future<File> writeFile(String s) async {
-  final file = await _localFile;
-  return file..writeAsString(s);
+Future<File> writeFile(String s, String file) async {
+  final f = await getLocalFile(file);
+  return f..writeAsString(s);
 }
 
 //read a string from the local file
-Future<String> readFile() async {
+Future<String> readFile(String file) async {
   try {
-    final file = await _localFile;
-    final contents = await file.readAsString();
+    final f = await getLocalFile(file);
+    final contents = await f.readAsString();
     return contents;
   } catch (e) {
     return "";

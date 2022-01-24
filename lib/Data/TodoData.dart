@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
+import 'package:todo_infinite/main.dart';
 import 'dart:convert';
 import '../file.dart';
+import 'package:flutter/material.dart';
 
 // represends a todo item
 class TodoData {
@@ -90,15 +92,51 @@ class TodoData {
   }
 
   void save() {
-    writeFile(this.getJson());
+    writeFile(this.getJson(), "data.json");
+  }
+}
+
+class Settings {
+  int cnt = 0;
+  MaterialColor color = Colors.blue;
+  Settings(int i, MaterialColor c){
+    cnt = i;
+    color = c;
+  }
+  // used to convert the object to json
+  Map toJson() {
+    return {
+      'cnt': this.cnt,
+      'color': this.color,
+    };
+  }
+
+  String getJson() {
+    return jsonEncode(this);
+  }
+
+  // used to create a object from a json string
+  factory Settings.fromJson(Map<String, dynamic> parsedJson) {
+    return Settings(parsedJson["cnt"], parsedJson["color"]);
+  }
+
+  void save() {
+    writeFile(this.getJson(), "settings.json");
   }
 }
 
 // is used to control the state management of the App
 class Controller extends GetxController {
-  TodoData todo;
-  var cnt = 0;
-  Controller(this.todo);
+  TodoData todo = TodoData("To Do");
+  Settings settings = Settings(0, Colors.blue);
+  Controller(String td, String sett) {
+    if (td.isNotEmpty) { 
+      todo = TodoData.fromJson(jsonDecode(td));
+    }
+    if (sett.isNotEmpty) { 
+      settings = Settings.fromJson(jsonDecode(sett));
+    }
+  }
 
   void toggleDone(List<int> arr) {
     todo.toggleDone(arr);
@@ -164,11 +202,28 @@ class Controller extends GetxController {
   }
 
   int getCnt() {
-    return cnt;
+    return settings.cnt;
   }
 
   void incCnt() {
-    cnt++;
+    settings.cnt++;
+    settings.save();
+  }
+
+  MaterialColor getColor(){
+    return settings.color;
+  }
+
+  void setColor(MaterialColor c){
+    settings.color = c;
+    Get.changeTheme(
+      ThemeData.dark().copyWith(
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: c,
+        ),
+      )
+    );
     update();
+    settings.save();
   }
 }
