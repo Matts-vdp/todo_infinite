@@ -4,7 +4,8 @@
 
 A todo app with infinite possibilities and infinite nesting of your todo's.
 The app is build aroud the concept of infinitely nestable todo's.
-Because of you can choose how you want to stucture your todo's.
+Because of this you can choose how you want to structure your todo's.
+
 Want everything in a giant list no problem.
 A list of categories with in each one some todo's is just as easy.
 Do you want to have subitems in your subitems in your subitems... 
