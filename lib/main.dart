@@ -50,7 +50,7 @@ class TodoInfinite extends StatelessWidget {
       title: 'Todo infinite',
       theme: ThemeData.dark().copyWith(
         colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: c.getColor(),
+          primarySwatch: c.getColors()[c.getColor()],
         ),
       ),
       themeMode: ThemeMode.light,
@@ -200,6 +200,7 @@ class Settings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Controller c = Get.find();
     return Scaffold(
       appBar: AppBar(
         title: Text('Settings'),
@@ -208,6 +209,30 @@ class Settings extends StatelessWidget {
         padding: EdgeInsets.all(20),
         child: Column(
           children: [
+            Card(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Accent Color"),
+                    SizedBox(height: 10,),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Wrap(
+                        runSpacing: 5,
+                        direction: Axis.horizontal,
+                        spacing: 5,
+                        children: [
+                          for (int i=0; i<c.getColors().length; i++)
+                            ColorPick(color: i,),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             Card(
               child: Padding(
                 padding: EdgeInsets.all(8.0),
@@ -240,38 +265,6 @@ class Settings extends StatelessWidget {
                 ),
               ),
             ),
-            Card(
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Color:"),
-                    Row(
-                      children: [
-                        ColorPick(color: Colors.purple),
-                        SizedBox(width: 3,),
-                        ColorPick(color: Colors.pink),
-                        SizedBox(width: 3,),
-                        ColorPick(color: Colors.blue),
-                        SizedBox(width: 3,),
-                        ColorPick(color: Colors.cyan),
-                        SizedBox(width: 3,),
-                        ColorPick(color: Colors.lightGreen),
-                        SizedBox(width: 3,),
-                        ColorPick(color: Colors.lime),
-                        SizedBox(width: 3,),
-                        ColorPick(color: Colors.yellow),
-                        SizedBox(width: 3,),
-                        ColorPick(color: Colors.orange),
-                        SizedBox(width: 3,),
-                        ColorPick(color: Colors.red),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
           ],
         ),
       ),
@@ -281,17 +274,17 @@ class Settings extends StatelessWidget {
 // Used to create color selector buttons
 class ColorPick extends StatelessWidget {
   const ColorPick({Key? key, required this.color,}) : super(key: key);
-  final MaterialColor color;
+  final int color;
   @override
   Widget build(BuildContext context) {
     final Controller c = Get.find();
     return SizedBox(
-      width: 30,
-      height: 30,
+      width: 50,
+      height: 50,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.all(2),
-          primary: color,
+          primary: c.getColors()[color],
         ),
         onPressed: () {
           c.setColor(color);

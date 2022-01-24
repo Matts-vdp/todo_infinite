@@ -98,11 +98,24 @@ class TodoData {
 
 class Settings {
   int cnt = 0;
-  MaterialColor color = Colors.blue;
-  Settings(int i, MaterialColor c){
+  int color = 1;
+  
+  Settings(int i, int c){
     cnt = i;
     color = c;
   }
+
+  static const List<MaterialColor> colors = [
+    Colors.purple,
+    Colors.pink,
+    Colors.blue,
+    Colors.cyan,
+    Colors.lightGreen,
+    Colors.lime,
+    Colors.yellow,
+    Colors.orange,
+    Colors.red,
+  ];
   // used to convert the object to json
   Map toJson() {
     return {
@@ -128,7 +141,7 @@ class Settings {
 // is used to control the state management of the App
 class Controller extends GetxController {
   TodoData todo = TodoData("To Do");
-  Settings settings = Settings(0, Colors.blue);
+  Settings settings = Settings(0, 1);
   Controller(String td, String sett) {
     if (td.isNotEmpty) { 
       todo = TodoData.fromJson(jsonDecode(td));
@@ -210,16 +223,19 @@ class Controller extends GetxController {
     settings.save();
   }
 
-  MaterialColor getColor(){
+  List<MaterialColor> getColors(){
+    return Settings.colors;
+  }
+  int getColor(){
     return settings.color;
   }
 
-  void setColor(MaterialColor c){
+  void setColor(int c){
     settings.color = c;
     Get.changeTheme(
       ThemeData.dark().copyWith(
         colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: c,
+          primarySwatch: Settings.colors[c],
         ),
       )
     );
