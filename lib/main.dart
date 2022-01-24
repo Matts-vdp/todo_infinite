@@ -4,7 +4,6 @@ import 'Data/TodoData.dart';
 import 'dart:io' show Platform;
 import 'notification_service.dart' if (Platform.isAndroid) "";
 import 'file.dart';
-import 'dart:convert';
 import 'package:flutter/services.dart';
 
 // Initialises the needed classes for notifications
@@ -77,6 +76,7 @@ class TodoHome extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
+          brightness: Brightness.dark,
           title:GetBuilder<Controller>(
             builder: (todo) => Text('${c.getText(arr)}'),
           ),
