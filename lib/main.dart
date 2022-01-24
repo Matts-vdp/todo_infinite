@@ -278,7 +278,7 @@ class Settings extends StatelessWidget {
     );
   }
 }
-
+// Used to create color selector buttons
 class ColorPick extends StatelessWidget {
   const ColorPick({Key? key, required this.color,}) : super(key: key);
   final MaterialColor color;
