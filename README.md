@@ -19,6 +19,10 @@ You can also take a look into a todo.
 
 <img src="https://github.com/Matts-vdp/todo_infinite/blob/main/preview/task.png" width="150">
 
+The newest release has a settings menu to change the outlook and retrieve your data.
+
+<img src="https://github.com/Matts-vdp/todo_infinite/blob/main/preview/settings.png" width="150">
+
 You can try a demo version here: [link](https://matts-vdp.github.io/todo-infinite-web/)
 
 ## Usage
