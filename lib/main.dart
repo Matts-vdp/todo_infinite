@@ -76,7 +76,7 @@ class TodoHome extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          brightness: Brightness.dark,
+          systemOverlayStyle: SystemUiOverlayStyle.light,
           title:GetBuilder<Controller>(
             builder: (todo) => Text('${c.getText(arr)}'),
           ),
