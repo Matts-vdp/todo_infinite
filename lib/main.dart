@@ -49,6 +49,7 @@ class TodoInfinite extends StatelessWidget {
       title: 'Todo infinite',
       theme: ThemeData.dark().copyWith(
         colorScheme: ColorScheme.fromSwatch(
+          brightness: Brightness.dark,
           primarySwatch: c.getColors()[c.getColor()],
         ),
       ),
@@ -75,8 +76,10 @@ class TodoHome extends StatelessWidget {
         return false;
       },
       child: Scaffold(
+
         appBar: AppBar(
-          systemOverlayStyle: SystemUiOverlayStyle.light,
+          backgroundColor: Color.fromRGBO(33, 33, 33, 1),
+          systemOverlayStyle: SystemUiOverlayStyle.dark,
           title:GetBuilder<Controller>(
             builder: (todo) => Text('${c.getText(arr)}'),
           ),
@@ -149,6 +152,7 @@ class _NotificationsState extends State<Notifications> {
     final Controller c = Get.find();
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(33, 33, 33, 1),
         title: Text('Notifications'),
       ),
       body: Container(
@@ -203,6 +207,7 @@ class Settings extends StatelessWidget {
     final Controller c = Get.find();
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(33, 33, 33, 1),
         title: Text('Settings'),
       ),
       body: Container(
@@ -271,6 +276,7 @@ class Settings extends StatelessWidget {
     );
   }
 }
+
 // Used to create color selector buttons
 class ColorPick extends StatelessWidget {
   const ColorPick({Key? key, required this.color,}) : super(key: key);

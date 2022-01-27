@@ -234,7 +234,9 @@ class Controller extends GetxController {
     settings.color = c;
     Get.changeTheme(
       ThemeData.dark().copyWith(
+        // textTheme: Typography.whiteMountainView,
         colorScheme: ColorScheme.fromSwatch(
+          brightness: Brightness.dark,
           primarySwatch: Settings.colors[c],
         ),
       )
