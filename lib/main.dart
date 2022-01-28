@@ -434,7 +434,11 @@ class TodoCard extends StatelessWidget {
               GetBuilder<Controller>(
                 builder: (todo) {
                   return Text("${todo.getText(arr)}",
-                  style: TextStyle(fontSize: 18),);
+                    style: TextStyle(
+                      fontSize: 18,
+                      decoration: todo.getDone(arr)? TextDecoration.lineThrough: TextDecoration.none,
+                    ),
+                  );
                 }
               ),
             ),
