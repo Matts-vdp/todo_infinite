@@ -365,9 +365,17 @@ class Todo extends StatelessWidget {
 
     return  Dismissible(
       key: UniqueKey(),
-      onDismissed: (direction) =>c.delTodo(arr),
-      background: RedBox(),
-      direction: DismissDirection.endToStart,
+      onDismissed: (direction) {
+        if (direction == DismissDirection.endToStart){
+          c.delTodo(arr);
+        }
+        else {
+          
+        }
+      },
+      background: MoveBox(),
+      secondaryBackground: RedBox(),
+      direction: DismissDirection.horizontal,
       child: Column(
         children: [
           Center(
@@ -400,6 +408,30 @@ class RedBox extends StatelessWidget {
             Icon(Icons.delete)
           ],
         )
+      ),
+    );
+  }
+}
+// used by Todo to display a box when being dismissed to the right
+class MoveBox extends StatelessWidget {
+  const MoveBox({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<Controller>( //display the sub todo's when the todo is open and there are sub todo's
+      builder: (todo) => Card(
+        color: todo.getColors()[todo.getColor()],
+        child: Container(
+          padding: EdgeInsets.all(10.0),
+          width: double.infinity,
+          height: 60,
+          child: Row(
+            children: [
+              Icon(Icons.arrow_back, color: Colors.black,),
+              Expanded(child: Container(),),
+            ],
+          )
+        ),
       ),
     );
   }
