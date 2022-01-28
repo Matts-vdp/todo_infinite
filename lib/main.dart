@@ -370,7 +370,8 @@ class Todo extends StatelessWidget {
           c.delTodo(arr);
         }
         else {
-          
+          //Get.dialog(MoveDialog(arr: arr,), );
+          Get.defaultDialog(title: "test", content: MoveDialog(arr: arr));
         }
       },
       background: MoveBox(),
@@ -386,6 +387,19 @@ class Todo extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class MoveDialog extends StatelessWidget {
+  const MoveDialog({ Key? key,required this.arr, }) : super(key: key);
+  final List<int> arr;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text("Test"),
+      
     );
   }
 }
