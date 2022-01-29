@@ -37,11 +37,21 @@ class TodoData {
     getTodo(arr).sub.add(new TodoData(str));
   }
 
+  void addTodoData(List<int> arr, TodoData todo) {
+    getTodo(arr).sub.add(todo);
+  }
+
   void delTodo(List<int> arr) {
     List<int> a = List<int>.from(arr);
     var i = a.last;
     a.removeLast();
     getTodo(a).sub.removeAt(i);
+  }
+
+  void moveTo(List<int> item, List<int> target) {
+    TodoData sel = getTodo(item);
+    addTodoData(target, sel);
+    delTodo(item);
   }
 
   //Creates a todo with the given data
@@ -187,6 +197,12 @@ class Controller extends GetxController {
     update();
     todo.delTodo(arr);
     todo.save(); // save to local storage when changed
+  }
+
+  void moveTodo(List<int> from, List<int> to){
+    todo.moveTo(from, to);
+    update();
+    todo.save();
   }
 
   String getJson() {

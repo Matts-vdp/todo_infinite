@@ -365,13 +365,15 @@ class Todo extends StatelessWidget {
 
     return  Dismissible(
       key: UniqueKey(),
+      confirmDismiss: (direction) {
+        if (direction == DismissDirection.startToEnd){
+          return showMoveDialog(context, arr);
+        }
+        return Future<bool>.value(true);
+      },
       onDismissed: (direction) {
         if (direction == DismissDirection.endToStart){
           c.delTodo(arr);
-        }
-        else {
-          //Get.dialog(MoveDialog(arr: arr,), );
-          Get.defaultDialog(title: "test", content: MoveDialog(arr: arr));
         }
       },
       background: MoveBox(),
@@ -391,16 +393,78 @@ class Todo extends StatelessWidget {
   }
 }
 
-class MoveDialog extends StatelessWidget {
-  const MoveDialog({ Key? key,required this.arr, }) : super(key: key);
-  final List<int> arr;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text("Test"),
-      
-    );
+Future<bool> showMoveDialog(BuildContext context, List<int> arr) async {
+  final Controller c = Get.find();
+  List<int> parr = [...arr];
+  int? res = await showDialog<int>(
+    context: context,
+    builder: (BuildContext context) {
+      parr.removeLast();
+      return SimpleDialog(
+        title: Column(
+          children: [
+            Text('Where do you want to move the item?'),
+            Divider()
+          ],
+        ),
+        children: <Widget>[
+          SimpleDialogOption(
+              onPressed: () {
+                Navigator.pop(context,-1); 
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.arrow_upward),
+                  SizedBox(width: 10,),
+                  Text("..", 
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          for (int i=0; i<c.getTodo(parr).sub.length; i++)
+            if (i != arr[arr.length-1])
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context,i); 
+                },
+                child: Row(
+                  children: [
+                    Icon(Icons.chevron_right_rounded),
+                    SizedBox(width: 10,),
+                    Text(c.getText([...parr, i]),
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+        ],
+      );
+    }
+  );
+  print(arr);
+  if (res == null) {
+    print("nothing");
+    return Future<bool>.value(false);
+  }
+  else if (res == -1) {
+    print("to parent");
+    if (parr.length > 0){
+      parr.removeLast();
+      c.moveTodo(arr, parr);
+      return Future<bool>.value(true);
+    }
+    return Future<bool>.value(false);
+  }
+  else {
+    print(res);
+    parr.add(res);
+    c.moveTodo(arr, parr);
+    return Future<bool>.value(true);
   }
 }
 
