@@ -435,9 +435,13 @@ Future<bool> showMoveDialog(BuildContext context, List<int> arr) async {
                   children: [
                     Icon(Icons.chevron_right_rounded),
                     SizedBox(width: 10,),
-                    Text(c.getText([...parr, i]),
-                      style: TextStyle(
-                        fontSize: 18,
+                    Flexible(
+                      child: Text(c.getText([...parr, i]),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ],
