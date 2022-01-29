@@ -365,9 +365,20 @@ class Todo extends StatelessWidget {
 
     return  Dismissible(
       key: UniqueKey(),
-      onDismissed: (direction) =>c.delTodo(arr),
-      background: RedBox(),
-      direction: DismissDirection.endToStart,
+      confirmDismiss: (direction) {
+        if (direction == DismissDirection.startToEnd){
+          return showMoveDialog(context, arr);
+        }
+        return Future<bool>.value(true);
+      },
+      onDismissed: (direction) {
+        if (direction == DismissDirection.endToStart){
+          c.delTodo(arr);
+        }
+      },
+      background: MoveBox(),
+      secondaryBackground: RedBox(),
+      direction: DismissDirection.horizontal,
       child: Column(
         children: [
           Center(
@@ -379,6 +390,78 @@ class Todo extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+Future<bool> showMoveDialog(BuildContext context, List<int> arr) async {
+  final Controller c = Get.find();
+  List<int> parr = [...arr];
+  int? res = await showDialog<int>(
+    context: context,
+    builder: (BuildContext context) {
+      parr.removeLast();
+      return SimpleDialog(
+        title: Column(
+          children: [
+            Text('Where do you want to move the item?'),
+            Divider()
+          ],
+        ),
+        children: <Widget>[
+          if (parr.length > 0)
+          SimpleDialogOption(
+              onPressed: () {
+                Navigator.pop(context,-1); 
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.arrow_upward),
+                  SizedBox(width: 10,),
+                  Text("..", 
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          for (int i=0; i<c.getTodo(parr).sub.length; i++)
+            if (i != arr[arr.length-1])
+              SimpleDialogOption(
+                onPressed: () {
+                  Navigator.pop(context,i); 
+                },
+                child: Row(
+                  children: [
+                    Icon(Icons.chevron_right_rounded),
+                    SizedBox(width: 10,),
+                    Text(c.getText([...parr, i]),
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+        ],
+      );
+    }
+  );
+  if (res == null) {
+    return Future<bool>.value(false);
+  }
+  else if (res == -1) {
+    if (parr.length > 0){
+      parr.removeLast();
+      c.moveTodo(arr, parr);
+      return Future<bool>.value(true);
+    }
+    return Future<bool>.value(false);
+  }
+  else {
+    parr.add(res);
+    c.moveTodo(arr, parr);
+    return Future<bool>.value(true);
   }
 }
 
@@ -400,6 +483,30 @@ class RedBox extends StatelessWidget {
             Icon(Icons.delete)
           ],
         )
+      ),
+    );
+  }
+}
+// used by Todo to display a box when being dismissed to the right
+class MoveBox extends StatelessWidget {
+  const MoveBox({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<Controller>( //display the sub todo's when the todo is open and there are sub todo's
+      builder: (todo) => Card(
+        color: todo.getColors()[todo.getColor()],
+        child: Container(
+          padding: EdgeInsets.all(10.0),
+          width: double.infinity,
+          height: 60,
+          child: Row(
+            children: [
+              Icon(Icons.arrow_back, color: Colors.black,),
+              Expanded(child: Container(),),
+            ],
+          )
+        ),
       ),
     );
   }
