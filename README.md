@@ -20,9 +20,13 @@ You can also take a look into a todo.
 
 <img src="https://github.com/Matts-vdp/todo_infinite/blob/main/preview/task.png" width="150">
 
-The newest release has a settings menu to change the outlook and retrieve your data.
+You can use settings menu to change the outlook of the app and export/import your data.
 
 <img src="https://github.com/Matts-vdp/todo_infinite/blob/main/preview/settings.png" width="150">
+
+Want to put a todo inside another todo after creation? Use the move menu to do this.
+
+<img src="https://github.com/Matts-vdp/todo_infinite/blob/main/preview/move.png" width="150">
 
 You can try a demo version here: [link](https://matts-vdp.github.io/todo-infinite-web/)
 
@@ -30,7 +34,7 @@ You can try a demo version here: [link](https://matts-vdp.github.io/todo-infinit
 You can build it yourself or download the latest apk in the releases tab
 
 Most of the app is self explanatory. 
-The only thing that is not is that you have to swipe a todo to the left to delete it.
+The only thing that is not is that you have to swipe a todo to the left to delete it and to the right to move the todo into a different todo.
 
 ## Notifications
 By clicking on the notification icon you can send yourself a local notification.
