@@ -79,7 +79,7 @@ class TodoHome extends StatelessWidget {
 
         appBar: AppBar(
           backgroundColor: Color.fromRGBO(33, 33, 33, 1),
-          systemOverlayStyle: SystemUiOverlayStyle.dark,
+          systemOverlayStyle: SystemUiOverlayStyle.light,
           title:GetBuilder<Controller>(
             builder: (todo) => Text('${c.getText(arr)}'),
           ),
