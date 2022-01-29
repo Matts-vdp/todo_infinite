@@ -408,6 +408,7 @@ Future<bool> showMoveDialog(BuildContext context, List<int> arr) async {
           ],
         ),
         children: <Widget>[
+          if (parr.length > 0)
           SimpleDialogOption(
               onPressed: () {
                 Navigator.pop(context,-1); 
@@ -446,13 +447,10 @@ Future<bool> showMoveDialog(BuildContext context, List<int> arr) async {
       );
     }
   );
-  print(arr);
   if (res == null) {
-    print("nothing");
     return Future<bool>.value(false);
   }
   else if (res == -1) {
-    print("to parent");
     if (parr.length > 0){
       parr.removeLast();
       c.moveTodo(arr, parr);
@@ -461,7 +459,6 @@ Future<bool> showMoveDialog(BuildContext context, List<int> arr) async {
     return Future<bool>.value(false);
   }
   else {
-    print(res);
     parr.add(res);
     c.moveTodo(arr, parr);
     return Future<bool>.value(true);
