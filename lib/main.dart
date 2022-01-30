@@ -415,7 +415,7 @@ Future<bool> showMoveDialog(BuildContext context, List<int> arr) async {
               },
               child: Row(
                 children: [
-                  Icon(Icons.arrow_upward),
+                  Icon(Icons.arrow_upward, color: c.getColors()[c.getColor()],),
                   SizedBox(width: 10,),
                   Text("..", 
                     style: TextStyle(
@@ -433,7 +433,7 @@ Future<bool> showMoveDialog(BuildContext context, List<int> arr) async {
                 },
                 child: Row(
                   children: [
-                    Icon(Icons.chevron_right_rounded),
+                    Icon(Icons.chevron_right_rounded, color: c.getColors()[c.getColor()],),
                     SizedBox(width: 10,),
                     Flexible(
                       child: Text(c.getText([...parr, i]),
