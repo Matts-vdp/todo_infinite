@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'Data/TodoData.dart';
+import 'Data/controller.dart';
 import 'dart:io' show Platform;
 import 'notification_service.dart' if (Platform.isAndroid) "";
-import 'file.dart';
+import 'Data/file.dart';
 import 'package:flutter/services.dart';
 
 // Initialises the needed classes for notifications
