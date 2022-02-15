@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'TodoData.dart';
+import 'settings.dart';
 
 // is used to control the state management of the App
 class Controller extends GetxController {
