@@ -29,11 +29,10 @@ class NotificationService {
     //Currently not needed
   }
 
-  // used to send a notification with given title and body
-  void send(String title, String body, int id) async{
+  Future<void> sendGroup() async {
     const String groupKey = 'com.android.todo-infinite.GROUP';
-    const String groupChannelId = 'grouped channel id';
-    const String groupChannelName = 'grouped channel name';
+    const String groupChannelId = 'group';
+    const String groupChannelName = 'group';
     AndroidNotificationDetails androidPlatformChannelSpecifics = 
     AndroidNotificationDetails(
         groupChannelId,   
@@ -44,13 +43,45 @@ class NotificationService {
         visibility: NotificationVisibility.private,
         playSound: true,
         enableVibration: true,
-        groupKey: groupKey
+        groupKey: groupKey,
+        setAsGroupSummary: true,
+    );
+
+    NotificationDetails platformChannelSpecifics = 
+  NotificationDetails(android: androidPlatformChannelSpecifics);
+
+  await flutterLocalNotificationsPlugin.show(0, "Todo's", "", platformChannelSpecifics);
+  }
+
+  void sendnotif(String title, String body, int id) async {
+    const String groupKey = 'com.android.todo-infinite.GROUP';
+    const String groupChannelId = 'group';
+    const String groupChannelName = 'group';
+    AndroidNotificationDetails androidPlatformChannelSpecifics = 
+    AndroidNotificationDetails(
+        groupChannelId,   
+        groupChannelName, 
+        groupChannelName, 
+        importance: Importance.max,
+        priority: Priority.high,
+        visibility: NotificationVisibility.private,
+        playSound: true,
+        enableVibration: true,
+        groupKey: groupKey,
     );
 
     NotificationDetails platformChannelSpecifics = 
   NotificationDetails(android: androidPlatformChannelSpecifics);
 
   await flutterLocalNotificationsPlugin.show(id, title, body, platformChannelSpecifics);
+  }
+
+  // used to send a notification with given title and body
+  void send(String title, String body, int id) async{
+    sendGroup().then((value) {
+      sendnotif(title, body, id);
+    });
+    
   }
    
 }

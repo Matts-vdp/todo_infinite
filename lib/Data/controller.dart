@@ -6,7 +6,7 @@ import 'TodoData.dart';
 // is used to control the state management of the App
 class Controller extends GetxController {
   TodoData todo = TodoData("To Do");
-  Settings settings = Settings(0, 2);
+  Settings settings = Settings(1, 2);
   Controller(String td, String sett) {
     if (td.isNotEmpty) { 
       todo = TodoData.fromJson(jsonDecode(td));

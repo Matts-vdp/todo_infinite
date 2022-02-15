@@ -105,7 +105,7 @@ class TodoData {
 }
 
 class Settings {
-  int cnt = 0;
+  int cnt = 1;
   int color = 0;
   
   Settings(int i, int c){
