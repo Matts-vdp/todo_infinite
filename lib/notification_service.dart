@@ -45,6 +45,7 @@ class NotificationService {
         enableVibration: true,
         groupKey: groupKey,
         setAsGroupSummary: true,
+        autoCancel: false,
     );
 
     NotificationDetails platformChannelSpecifics = 
@@ -68,6 +69,7 @@ class NotificationService {
         playSound: true,
         enableVibration: true,
         groupKey: groupKey,
+        autoCancel: false,
     );
 
     NotificationDetails platformChannelSpecifics = 
