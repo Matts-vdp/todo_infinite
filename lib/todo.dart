@@ -332,6 +332,7 @@ class TodoCard extends StatelessWidget {
                   return Text("${todo.getText(arr)}",
                     style: TextStyle(
                       fontSize: 18,
+                      color: todo.getDone(arr)? Colors.grey: Colors.white,
                       decoration: todo.getDone(arr)? TextDecoration.lineThrough: TextDecoration.none,
                     ),
                   );
