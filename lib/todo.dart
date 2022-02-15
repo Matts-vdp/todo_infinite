@@ -60,6 +60,7 @@ class TodoHome extends StatelessWidget {
               child: GetBuilder<Controller>(
                 builder: (todo) => ReorderableListView(
                   buildDefaultDragHandles: false,
+                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                   padding: EdgeInsets.all(10),
                   children: [ //display a todo element for every item in the sub array
                     for (int i=0; i<todo.getTodo(arr).sub.length; i++) 
