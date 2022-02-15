@@ -188,7 +188,7 @@ Future<bool> showMoveDialog(BuildContext context, List<int> arr) async {
       return SimpleDialog(
         title: Column(
           children: [
-            Text('Where do you want to move the item?'),
+            Text('Move item to:'),
             Divider()
           ],
         ),
