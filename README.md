@@ -30,7 +30,7 @@ Want to put a todo inside another todo after creation? Use the move menu to do t
 
 You can send local notifications to remind you of important tasks.
 
-<img src="https://github.com/Matts-vdp/todo_infinite/blob/main/preview/move.png" width="150">
+<img src="https://github.com/Matts-vdp/todo_infinite/blob/main/preview/notifications.png" width="150">
 
 You can try a demo version here: [link](https://matts-vdp.github.io/todo-infinite-web/)
 
