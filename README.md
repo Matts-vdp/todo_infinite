@@ -28,6 +28,10 @@ Want to put a todo inside another todo after creation? Use the move menu to do t
 
 <img src="https://github.com/Matts-vdp/todo_infinite/blob/main/preview/move.png" width="150">
 
+You can send local notifications to remind you of important tasks.
+
+<img src="https://github.com/Matts-vdp/todo_infinite/blob/main/preview/move.png" width="150">
+
 You can try a demo version here: [link](https://matts-vdp.github.io/todo-infinite-web/)
 
 ## Usage
@@ -39,3 +43,4 @@ The only thing that is not is that you have to swipe a todo to the left to delet
 ## Notifications
 By clicking on the notification icon you can send yourself a local notification.
 This can be used to stop you from forgetting something because when you open your phone the notification will be visible.
+You can also schedule notifications however these will only arrive if the app is active in the background.
