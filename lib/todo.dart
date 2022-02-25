@@ -152,6 +152,10 @@ class Todo extends StatelessWidget {
       key: UniqueKey(),
       confirmDismiss: (direction) {
         if (direction == DismissDirection.startToEnd){
+          FocusScopeNode currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
           return showMoveDialog(context, arr);
         }
         return Future<bool>.value(true);
