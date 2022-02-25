@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo_infinite/Data/trashData.dart';
 import 'Data/controller.dart';
 import 'dart:io' show Platform;
 import 'notification_service.dart' if (Platform.isAndroid) "";

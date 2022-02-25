@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'Data/controller.dart';
-import 'dart:io' show Platform;
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'notification_service.dart' if (Platform.isAndroid) "";
-import 'package:flutter/services.dart';
 
 class Trash extends StatelessWidget {
   const Trash({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final Controller c = Get.find();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(33, 33, 33, 1),
