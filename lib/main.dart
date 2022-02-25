@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_infinite/Data/trashData.dart';
 import 'Data/controller.dart';
 import 'dart:io' show Platform;
 import 'notification_service.dart' if (Platform.isAndroid) "";
@@ -18,17 +19,19 @@ void main() async {
   notif();
   String data = await readFile("data.json"); //read previous stored data
   String settingsData = await readFile("settings.json");
-  runApp(TodoInfinite(data: data, settingsData: settingsData,)); //use the stored data
+  String trashData = await readFile("trash.json");
+  runApp(TodoInfinite(data: data, settingsData: settingsData, trashData: trashData,)); //use the stored data
 }
 
 // In charge of displaying the App
 class TodoInfinite extends StatelessWidget {
   final String data;
   final String settingsData;
-  const TodoInfinite({ Key? key, required  this.data, required this.settingsData}) : super(key: key);
+  final String trashData;
+  const TodoInfinite({ Key? key, required  this.data, required this.settingsData, required this.trashData,}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final Controller c = Get.put(Controller(data, settingsData));
+    final Controller c = Get.put(Controller(data, settingsData, trashData));
     return GetMaterialApp(
       title: 'Todo infinite',
       theme: ThemeData.dark().copyWith(

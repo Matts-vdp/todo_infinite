@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'Data/controller.dart';
 import 'package:flutter/services.dart';
 import 'extra.dart';
+import 'trash.dart';
 
 // Displays a todo chosen by the arr variable
 class TodoHome extends StatelessWidget {
@@ -45,6 +46,12 @@ class TodoHome extends StatelessWidget {
                 Get.to(() => Notifications());
               }, 
               icon: Icon(Icons.notifications_none_rounded,),
+            ),
+            IconButton(
+              onPressed: () {
+                Get.to(() => Trash());
+              }, 
+              icon: Icon(Icons.delete_outline,),
             ),
             IconButton(
               onPressed: () {

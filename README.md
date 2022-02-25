@@ -32,6 +32,11 @@ You can send local notifications to remind you of important tasks.
 
 <img src="https://github.com/Matts-vdp/todo_infinite/blob/main/preview/notifications.png" width="150">
 
+The 10 most recently deleted items will be stored in the trash.
+You can restore them to their original location or to the root if the parent has been moved or deleted.
+
+<img src="https://github.com/Matts-vdp/todo_infinite/blob/main/preview/trash.png" width="150">
+
 You can try a demo version here: [link](https://matts-vdp.github.io/todo-infinite-web/)
 
 ## Usage
