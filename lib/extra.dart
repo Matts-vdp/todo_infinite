@@ -274,4 +274,3 @@ class ColorPick extends StatelessWidget {
   }
 }
 
-

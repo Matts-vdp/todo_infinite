@@ -1,19 +1,24 @@
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'TodoData.dart';
+import 'package:todo_infinite/Data/trashData.dart';
 import 'settings.dart';
+import 'trashData.dart';
 
 // is used to control the state management of the App
 class Controller extends GetxController {
   TodoData todo = TodoData("To Do");
   Settings settings = Settings(1, 0);
-  Controller(String td, String sett) {
+  TrashDataList trash = TrashDataList();
+  Controller(String td, String sett, String trashd) {
     if (td.isNotEmpty) { 
       todo = TodoData.fromJson(jsonDecode(td));
     }
     if (sett.isNotEmpty) { 
       settings = Settings.fromJson(jsonDecode(sett));
+    }
+    if (trashd.isNotEmpty) { 
+      trash = TrashDataList.fromJson(jsonDecode(trashd));
     }
   }
 
@@ -51,8 +56,9 @@ class Controller extends GetxController {
   }
 
   void delTodo(List<int> arr) {
-    update();
+    toTrash(arr);
     todo.delTodo(arr);
+    update();
     todo.save(); // save to local storage when changed
   }
 
@@ -115,5 +121,26 @@ class Controller extends GetxController {
     );
     update();
     settings.save();
+  }
+
+  void toTrash(List<int> arr) {
+    List<int> a = List<int>.from(arr);
+    a.removeLast();
+    String parentText = getText(a);
+    trash.add(arr, getTodo(arr), parentText);
+    trash.save();
+  }
+
+  void fromTrash(int i) {
+    List<int> arr = List<int>.from(trash.items[i].arr);
+    arr.removeLast();
+    if (trash.items[i].parent != getText(arr)) {
+      arr = <int>[];
+    }
+    todo.addTodoData(arr, trash.items[i].data);
+    trash.items.removeAt(i);
+    update();
+    trash.save();
+    todo.save();
   }
 }
