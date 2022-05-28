@@ -21,6 +21,11 @@ class TodoData {
     return this.sub[i].getTodo(a);
   }
 
+  void changeName(List<int> arr, String name) {
+    TodoData t = getTodo(arr);
+    t.text = name;
+  }
+
   void toggleDone(List<int> arr) {
     TodoData t = getTodo(arr);
     t.done = !t.done;

@@ -22,6 +22,12 @@ class Controller extends GetxController {
     }
   }
 
+  void changeName(List<int> arr, String name) {
+    todo.changeName(arr, name);
+    update();
+    todo.save();
+  }
+
   void toggleDone(List<int> arr) {
     todo.toggleDone(arr);
     update();
