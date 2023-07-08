@@ -14,7 +14,7 @@ class Sync {
   }
 
   static Future<bool> post(String key, TodoData data) async {
-    var uri = "api.mattsvdp.com/api/store/" + key;
+    var uri = "https://api.mattsvdp.com/api/store/" + key;
     var response = await http.post(
       Uri.parse(uri), 
       body: data.getJson(), 
