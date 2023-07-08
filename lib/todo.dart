@@ -4,6 +4,7 @@ import 'Data/controller.dart';
 import 'package:flutter/services.dart';
 import 'extra.dart';
 import 'trash.dart';
+import 'syncIcon.dart';
 
 // Displays a todo chosen by the arr variable
 class TodoHome extends StatelessWidget {
@@ -53,6 +54,7 @@ class TodoHome extends StatelessWidget {
                   ),
           ),
           actions: [
+            SyncIcon(),
             IconButton(
               onPressed: () {
                 Get.to(() => Notifications());

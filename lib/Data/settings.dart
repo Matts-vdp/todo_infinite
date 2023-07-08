@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 class Settings {
   int cnt = 1;
   int color = 0;
+  String syncKey = "";
   
-  Settings(int i, int c){
+  Settings(int i, int c, String s){
     cnt = i;
     color = c;
+    syncKey = s;
   }
 
   static const List<MaterialColor> colors = [
@@ -43,6 +45,7 @@ class Settings {
     return {
       'cnt': this.cnt,
       'color': this.color,
+      'syncKey': this.syncKey
     };
   }
 
@@ -52,7 +55,7 @@ class Settings {
 
   // used to create a object from a json string
   factory Settings.fromJson(Map<String, dynamic> parsedJson) {
-    return Settings(parsedJson["cnt"], parsedJson["color"]);
+    return Settings(parsedJson["cnt"], parsedJson["color"], parsedJson["syncKey"]);
   }
 
   void save() {

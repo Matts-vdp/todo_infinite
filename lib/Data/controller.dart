@@ -8,9 +8,10 @@ import 'settings.dart';
 // is used to control the state management of the App
 class Controller extends GetxController {
   TodoData todo = TodoData("To Do");
-  Settings settings = Settings(1, 0);
+  Settings settings = Settings(1, 0, "");
   TrashDataList trash = TrashDataList();
-  
+  bool isSynced = false;
+
   Controller(String td, String sett, String trashd) {
     if (td.isNotEmpty) { 
       todo = TodoData.fromJson(jsonDecode(td));
@@ -23,25 +24,32 @@ class Controller extends GetxController {
     }
   }
 
-  Future<void> post() async {
-    await Sync.post(todo);
+  Future<void> post(String key) async {
+    setSyncKey(key);
+    var success = await Sync.post(key, todo);
+    isSynced = success;
+    update();
   }
-  Future<void> fetch() async {
-    var result = await Sync.fetch();
+  Future<void> fetch(String key) async {
+    setSyncKey(key);
+    var result = await Sync.fetch(key);
     if (result == null) return;
     todo = result;
+    isSynced = true;
     update();
   }
 
   void changeName(List<int> arr, String name) {
     todo.changeName(arr, name);
     update();
+    isSynced = false;
     todo.save();
   }
 
   void toggleDone(List<int> arr) {
     todo.toggleDone(arr);
     update();
+    isSynced = false;
     todo.save(); // save to local storage when changed
   }
 
@@ -69,6 +77,7 @@ class Controller extends GetxController {
   void addTodo(List<int> arr, String str) {
     todo.addTodo(arr, str);
     update();
+    isSynced = false;
     todo.save(); // save to local storage when changed
   }
 
@@ -76,12 +85,14 @@ class Controller extends GetxController {
     toTrash(arr);
     todo.delTodo(arr);
     update();
+    isSynced = false;
     todo.save(); // save to local storage when changed
   }
 
   void moveTodo(List<int> from, List<int> to){
     todo.moveTo(from, to);
     update();
+    isSynced = false;
     todo.save();
   }
 
@@ -97,6 +108,7 @@ class Controller extends GetxController {
       TodoData newTodo = TodoData.fromJson(jsonDecode(json));
       todo = newTodo;
       update();
+      isSynced = false;
       todo.save();
     } catch (e) {
       return;
@@ -106,6 +118,7 @@ class Controller extends GetxController {
   void reorder(List<int> arr, int oldid, int newid) {
     todo.reorder(arr, oldid, newid);
     update();
+    isSynced = false;
     todo.save();
   }
 
@@ -158,6 +171,20 @@ class Controller extends GetxController {
     trash.items.removeAt(i);
     update();
     trash.save();
+    isSynced = false;
     todo.save();
+  }
+
+  String getSyncKey(){
+    return settings.syncKey;
+  }
+
+  void setSyncKey(String key){
+    settings.syncKey = key;
+    settings.save();
+  }
+
+  bool synced(){
+    return isSynced;
   }
 }

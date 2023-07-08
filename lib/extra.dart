@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_infinite/syncIcon.dart';
 import 'Data/controller.dart';
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -19,16 +20,6 @@ void fromClip() async {
   Clipboard.getData("text/plain").then((value) => {
     c.fromJson(value?.text)
   });
-}
-
-void post() async {
-  final Controller c = Get.find();
-  c.post();
-}
-
-void fetch() async {
-  final Controller c = Get.find();
-  c.fetch();
 }
 
 
@@ -192,6 +183,9 @@ class Settings extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(33, 33, 33, 1),
         title: Text('Settings'),
+        actions: [
+          SyncIcon(),
+        ],
       ),
       body: Container(
         padding: EdgeInsets.all(20),
@@ -256,38 +250,63 @@ class Settings extends StatelessWidget {
             Card(
               child: Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Post data"),
-                    OutlinedButton(
-                      style: OutlinedButton.styleFrom(padding: EdgeInsets.all(2)),
-                      onPressed: () => post(), 
-                      child: Icon(Icons.upload),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Card(
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Fetch data"),
-                    OutlinedButton(
-                      style: OutlinedButton.styleFrom(padding: EdgeInsets.all(2)),
-                      onPressed: () => fetch(), 
-                      child: Icon(Icons.download),
-                    ),
-                  ],
-                ),
+                child: SyncSettings()
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class SyncSettings extends StatefulWidget {
+  const SyncSettings({Key? key}) : super(key: key);
+  @override
+  State<SyncSettings> createState() => _SyncSettingsState();
+}
+
+class _SyncSettingsState extends State<SyncSettings> {
+  final _formkey = GlobalKey<FormState>();
+  final fieldText = TextEditingController(text: Get.find<Controller>().getSyncKey());
+
+  void post() async {
+    final Controller c = Get.find();
+    c.post(fieldText.text);
+  }
+
+  void fetch() async {
+    final Controller c = Get.find();
+    c.fetch(fieldText.text);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formkey,
+      child: Row(
+        children: [
+          Expanded(
+            child: TextFormField(
+              controller: fieldText,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Key',
+              ),
+            ),
+          ),
+          OutlinedButton(
+            style: OutlinedButton.styleFrom(padding: EdgeInsets.all(2)),
+            onPressed: () => post(), 
+            child: Icon(Icons.upload),
+          ),
+          OutlinedButton(
+            style: OutlinedButton.styleFrom(padding: EdgeInsets.all(2)),
+            onPressed: () => fetch(), 
+            child: Icon(Icons.download),
+          ),
+        ]
+      )
     );
   }
 }
