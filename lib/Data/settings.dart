@@ -55,7 +55,7 @@ class Settings {
 
   // used to create a object from a json string
   factory Settings.fromJson(Map<String, dynamic> parsedJson) {
-    return Settings(parsedJson["cnt"], parsedJson["color"], parsedJson["syncKey"]);
+    return Settings(parsedJson["cnt"] ?? 1, parsedJson["color"] ?? 0, parsedJson["syncKey"] ?? "");
   }
 
   void save() {

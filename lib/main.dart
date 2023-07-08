@@ -22,6 +22,7 @@ void main() async {
   runApp(TodoInfinite(data: data, settingsData: settingsData, trashData: trashData,)); //use the stored data
 }
 
+
 // In charge of displaying the App
 class TodoInfinite extends StatelessWidget {
   final String data;
