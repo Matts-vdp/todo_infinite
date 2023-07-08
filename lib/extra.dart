@@ -21,6 +21,16 @@ void fromClip() async {
   });
 }
 
+void post() async {
+  final Controller c = Get.find();
+  c.post();
+}
+
+void fetch() async {
+  final Controller c = Get.find();
+  c.fetch();
+}
+
 
 // Provides the notification window
 class Notifications extends StatefulWidget {
@@ -237,6 +247,38 @@ class Settings extends StatelessWidget {
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(padding: EdgeInsets.all(2)),
                       onPressed: () => fromClip(), 
+                      child: Icon(Icons.download),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Card(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Post data"),
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(padding: EdgeInsets.all(2)),
+                      onPressed: () => post(), 
+                      child: Icon(Icons.upload),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Card(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Fetch data"),
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(padding: EdgeInsets.all(2)),
+                      onPressed: () => fetch(), 
                       child: Icon(Icons.download),
                     ),
                   ],

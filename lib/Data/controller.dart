@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:todo_infinite/Data/httpsync.dart';
 import 'package:todo_infinite/Data/trashData.dart';
 import 'settings.dart';
 
@@ -9,6 +10,7 @@ class Controller extends GetxController {
   TodoData todo = TodoData("To Do");
   Settings settings = Settings(1, 0);
   TrashDataList trash = TrashDataList();
+  
   Controller(String td, String sett, String trashd) {
     if (td.isNotEmpty) { 
       todo = TodoData.fromJson(jsonDecode(td));
@@ -19,6 +21,16 @@ class Controller extends GetxController {
     if (trashd.isNotEmpty) { 
       trash = TrashDataList.fromJson(jsonDecode(trashd));
     }
+  }
+
+  Future<void> post() async {
+    await Sync.post(todo);
+  }
+  Future<void> fetch() async {
+    var result = await Sync.fetch();
+    if (result == null) return;
+    todo = result;
+    update();
   }
 
   void changeName(List<int> arr, String name) {
