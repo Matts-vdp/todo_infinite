@@ -109,7 +109,7 @@ class NotificationService {
       time, 
       platformChannelSpecifics, 
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime, 
-      androidAllowWhileIdle: true,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
   }
    
