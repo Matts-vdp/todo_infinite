@@ -25,12 +25,8 @@ class NotificationService {
             iOS: null, 
             macOS: null);
 
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: selectNotification);
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
  
-  }
-  Future selectNotification(String? payload) async {
-    //Currently not needed
   }
 
   Future<void> sendGroup() async {
@@ -40,7 +36,6 @@ class NotificationService {
     AndroidNotificationDetails androidPlatformChannelSpecifics = 
     AndroidNotificationDetails(
         groupChannelId,   
-        groupChannelName, 
         groupChannelName, 
         importance: Importance.max,
         priority: Priority.high,
@@ -65,8 +60,7 @@ class NotificationService {
     AndroidNotificationDetails androidPlatformChannelSpecifics = 
     AndroidNotificationDetails(
         groupChannelId,   
-        groupChannelName, 
-        groupChannelName, 
+        groupChannelName,
         importance: Importance.max,
         priority: Priority.high,
         visibility: NotificationVisibility.private,
@@ -95,7 +89,6 @@ class NotificationService {
     AndroidNotificationDetails androidPlatformChannelSpecifics = 
     AndroidNotificationDetails(
         groupChannelId,   
-        groupChannelName, 
         groupChannelName, 
         importance: Importance.max,
         priority: Priority.high,

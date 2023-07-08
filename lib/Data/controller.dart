@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:todo_infinite/Data/trashData.dart';
 import 'settings.dart';
-import 'trashData.dart';
 
 // is used to control the state management of the App
 class Controller extends GetxController {

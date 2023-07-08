@@ -263,7 +263,7 @@ class ColorPick extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.all(2),
-          primary: c.getColors()[color],
+          backgroundColor: c.getColors()[color],
         ),
         onPressed: () {
           c.setColor(color);
