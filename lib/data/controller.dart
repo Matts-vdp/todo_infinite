@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'httpsync.dart';
 import 'settings.dart';
-import 'todoData.dart';
 import 'trashData.dart';
 
 // is used to control the state management of the App

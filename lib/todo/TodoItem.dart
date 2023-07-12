@@ -4,7 +4,6 @@ import '../data/controller.dart';
 import '../dialogs/MoveDialog.dart';
 import 'TodoCard.dart';
 
-
 // Displays a todo item and its children when open
 class Todo extends StatelessWidget {
   final List<int> arr;
@@ -49,6 +48,28 @@ class Todo extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+// used by Todo to display its sub elements
+class ListTodo extends StatelessWidget {
+  final List<int> arr;
+  const ListTodo({Key? key, required this.arr}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        padding: EdgeInsets.only(left: 25),
+        child: GetBuilder<Controller>(
+          builder: (todo) => Column(
+            children: [
+              for (int i = 0; i < todo.getTodo(arr).sub.length; i++)
+                Todo(
+                  arr: arr + [i],
+                ),
+            ],
+          ),
+        ));
   }
 }
 
@@ -106,24 +127,3 @@ class MoveBox extends StatelessWidget {
   }
 }
 
-// used by Todo to display its sub elements
-class ListTodo extends StatelessWidget {
-  final List<int> arr;
-  const ListTodo({Key? key, required this.arr}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        padding: EdgeInsets.only(left: 25),
-        child: GetBuilder<Controller>(
-          builder: (todo) => Column(
-            children: [
-              for (int i = 0; i < todo.getTodo(arr).sub.length; i++)
-                Todo(
-                  arr: arr + [i],
-                ),
-            ],
-          ),
-        ));
-  }
-}

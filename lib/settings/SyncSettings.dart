@@ -10,7 +10,8 @@ class SyncSettings extends StatefulWidget {
 
 class _SyncSettingsState extends State<SyncSettings> {
   final _formkey = GlobalKey<FormState>();
-  final fieldText = TextEditingController(text: Get.find<Controller>().getSyncKey());
+  final fieldText =
+      TextEditingController(text: Get.find<Controller>().getSyncKey());
 
   void post() async {
     final Controller c = Get.find();
@@ -24,31 +25,31 @@ class _SyncSettingsState extends State<SyncSettings> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-        key: _formkey,
-        child: Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  controller: fieldText,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Key',
+    return Card(
+        child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Form(
+                key: _formkey,
+                child: Row(children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: fieldText,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Key',
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(padding: EdgeInsets.all(2)),
-                onPressed: () => post(),
-                child: Icon(Icons.upload),
-              ),
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(padding: EdgeInsets.all(2)),
-                onPressed: () => fetch(),
-                child: Icon(Icons.download),
-              ),
-            ]
-        )
-    );
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(padding: EdgeInsets.all(2)),
+                    onPressed: () => post(),
+                    child: Icon(Icons.upload),
+                  ),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(padding: EdgeInsets.all(2)),
+                    onPressed: () => fetch(),
+                    child: Icon(Icons.download),
+                  ),
+                ]))));
   }
 }

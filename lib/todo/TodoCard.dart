@@ -13,7 +13,6 @@ class TodoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Controller c = Get.find();
     return Card(
       child: Container(
         padding: EdgeInsets.all(10.0),
@@ -21,63 +20,120 @@ class TodoCard extends StatelessWidget {
         //height: 60,
         child: Row(
           children: [
-            SizedBox(
-                height: 40,
-                child: GetBuilder<Controller>(
-                    builder: (todo) => IconButton(
-                      onPressed: () => c.toggleDone(arr),
-                      icon: Icon(todo.getDone(arr)
-                          ? Icons.check_circle_outline
-                          : Icons.radio_button_unchecked),
-                    ))),
-            Expanded(
-              child: GetBuilder<Controller>(builder: (todo) {
-                return Text(
-                  "${todo.getText(arr)}",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: todo.getDone(arr) ? Colors.grey : Colors.white,
-                    decoration: todo.getDone(arr)
-                        ? TextDecoration.lineThrough
-                        : TextDecoration.none,
-                  ),
-                );
-              }),
-            ),
-            SizedBox(
-                height: 40,
-                child: GetBuilder<Controller>(
-                  builder: (todo) => todo.getTodo(arr).sub.isNotEmpty
-                      ? SizedBox(
-                    width: 30,
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                          padding: EdgeInsets.all(2)),
-                      onPressed: () => c.toggleOpen(arr),
-                      child: Icon(todo.getOpen(arr)
-                          ? Icons.expand_less_rounded
-                          : Icons.notes),
-                    ),
-                  )
-                      : Container(),
-                )),
+            IsDoneIcon(arr: arr),
+            Name(arr: arr),
+            OpenButton(arr: arr),
             SizedBox(width: 5),
-            SizedBox(
-              height: 40,
-              child: SizedBox(
-                width: 30,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(padding: EdgeInsets.all(2)),
-                  onPressed: () {
-                    Get.offAll(() => TodoPage(arr: arr));
-                  },
-                  child: Icon(Icons.navigate_next_rounded),
-                ),
-              ),
-            )
+            EnterButton(arr: arr)
           ],
         ),
       ),
     );
+  }
+}
+
+class EnterButton extends StatelessWidget {
+  const EnterButton({
+    Key? key,
+    required this.arr,
+  }) : super(key: key);
+
+  final List<int> arr;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 40,
+      child: SizedBox(
+        width: 30,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(padding: EdgeInsets.all(2)),
+          onPressed: () {
+            Get.offAll(() => TodoPage(arr: arr));
+          },
+          child: Icon(Icons.navigate_next_rounded),
+        ),
+      ),
+    );
+  }
+}
+
+class OpenButton extends StatelessWidget {
+  const OpenButton({
+    Key? key,
+    required this.arr,
+  }) : super(key: key);
+
+  final List<int> arr;
+
+  @override
+  Widget build(BuildContext context) {
+    final Controller c = Get.find();
+    return SizedBox(
+        height: 40,
+        child: GetBuilder<Controller>(
+          builder: (todo) => todo.getTodo(arr).sub.isNotEmpty
+              ? SizedBox(
+                  width: 30,
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(padding: EdgeInsets.all(2)),
+                    onPressed: () => c.toggleOpen(arr),
+                    child: Icon(todo.getOpen(arr)
+                        ? Icons.expand_less_rounded
+                        : Icons.notes),
+                  ),
+                )
+              : Container(),
+        ));
+  }
+}
+
+class Name extends StatelessWidget {
+  const Name({
+    Key? key,
+    required this.arr,
+  }) : super(key: key);
+
+  final List<int> arr;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: GetBuilder<Controller>(builder: (todo) {
+        return Text(
+          "${todo.getText(arr)}",
+          style: TextStyle(
+            fontSize: 18,
+            color: todo.getDone(arr) ? Colors.grey : Colors.white,
+            decoration: todo.getDone(arr)
+                ? TextDecoration.lineThrough
+                : TextDecoration.none,
+          ),
+        );
+      }),
+    );
+  }
+}
+
+class IsDoneIcon extends StatelessWidget {
+  const IsDoneIcon({
+    Key? key,
+    required this.arr,
+  }) : super(key: key);
+
+  final List<int> arr;
+
+  @override
+  Widget build(BuildContext context) {
+    final Controller c = Get.find();
+    return SizedBox(
+        height: 40,
+        child: GetBuilder<Controller>(
+            builder: (todo) => IconButton(
+                  onPressed: () => c.toggleDone(arr),
+                  icon: Icon(todo.getDone(arr)
+                      ? Icons.check_circle_outline
+                      : Icons.radio_button_unchecked),
+                )));
   }
 }

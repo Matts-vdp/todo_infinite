@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'Data/controller.dart';
+import 'data/controller.dart';
 import 'dart:io' show Platform;
 import 'notifications/notification_service.dart' if (Platform.isAndroid) "";
 import 'Data/file.dart';

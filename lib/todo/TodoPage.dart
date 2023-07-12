@@ -7,7 +7,6 @@ import '../dialogs/RenameDialog.dart';
 import '../notifications/Notifications.dart';
 import '../settings/Settings.dart';
 import '../trash/trash.dart';
-import '../syncIcon.dart';
 import 'MakeTodo.dart';
 import 'TodoItem.dart';
 
