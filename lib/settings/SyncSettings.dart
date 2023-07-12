@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../Data/controller.dart';
+import '../data/controller.dart';
 
 class SyncSettings extends StatefulWidget {
   const SyncSettings({Key? key}) : super(key: key);

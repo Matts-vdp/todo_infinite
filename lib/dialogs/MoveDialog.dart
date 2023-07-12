@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../Data/controller.dart';
+import '../data/controller.dart';
 
 
 Future<bool> showMoveDialog(BuildContext context, List<int> arr) async {

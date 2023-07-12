@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:todo_infinite/syncIcon.dart';
-import '../Data/controller.dart';
+import '../data/controller.dart';
 import '../components/SyncIcon.dart';
 import 'ColorPicker.dart';
 import 'SyncSettings.dart';

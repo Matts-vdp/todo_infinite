@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:todo_infinite/Data/todoData.dart';
+
+import 'todoData.dart';
+
 
 class Sync {
   // static const baseUrl = "http://localhost:5000/api/store/";

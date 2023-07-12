@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../Data/controller.dart';
+import '../data/controller.dart';
 
 // Used to create color selector buttons
 class ColorPicker extends StatelessWidget {

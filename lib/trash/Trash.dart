@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../Data/controller.dart';
+import '../data/controller.dart';
 
 class Trash extends StatelessWidget {
   const Trash({ Key? key }) : super(key: key);

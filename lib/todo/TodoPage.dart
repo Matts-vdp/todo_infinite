@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../Data/controller.dart';
+import '../data/controller.dart';
 import 'package:flutter/services.dart';
 import '../components/SyncIcon.dart';
 import '../dialogs/RenameDialog.dart';
