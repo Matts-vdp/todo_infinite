@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'Data/controller.dart';
 import 'dart:io' show Platform;
-import 'notification_service.dart' if (Platform.isAndroid) "";
+import 'notifications/notification_service.dart' if (Platform.isAndroid) "";
 import 'Data/file.dart';
-import 'todo.dart';
+import 'todo/TodoPage.dart';
 
 // Initialises the needed classes for notifications
 Future<void> notif() async{
@@ -41,7 +41,7 @@ class TodoInfinite extends StatelessWidget {
         ),
       ),
       themeMode: ThemeMode.light,
-      home: TodoHome(arr:[]),
+      home: TodoPage(arr:[]),
     );
   }
 }
