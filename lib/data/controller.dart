@@ -7,22 +7,12 @@ import 'trashData.dart';
 
 // is used to control the state management of the App
 class Controller extends GetxController {
-  TodoData todo = TodoData("To Do");
-  Settings settings = Settings(1, 0, "", []);
-  TrashDataList trash = TrashDataList();
   bool isSynced = false;
+  TodoData todo;
+  Settings settings;
+  TrashDataList trash;
 
-  Controller(String td, String sett, String trashd) {
-    if (td.isNotEmpty) { 
-      todo = TodoData.fromJson(jsonDecode(td));
-    }
-    if (sett.isNotEmpty) { 
-      settings = Settings.fromJson(jsonDecode(sett));
-    }
-    if (trashd.isNotEmpty) { 
-      trash = TrashDataList.fromJson(jsonDecode(trashd));
-    }
-  }
+  Controller(this.todo, this.settings, this.trash);
 
   Future<void> post(String key) async {
     setSyncKey(key);
