@@ -7,11 +7,41 @@ class Settings {
   int cnt = 1;
   int color = 0;
   String syncKey = "";
+  List<String> workspaces = [];
   
-  Settings(int i, int c, String s){
+  Settings(int i, int c, String s, List<String> w){
     cnt = i;
     color = c;
     syncKey = s;
+    workspaces = w;
+  }
+
+  // used to convert the object to json
+  Map toJson() {
+    return {
+      'cnt': this.cnt,
+      'color': this.color,
+      'syncKey': this.syncKey,
+      'workspaces': this.workspaces
+    };
+  }
+
+  String getJson() {
+    return jsonEncode(this);
+  }
+
+  // used to create a object from a json string
+  factory Settings.fromJson(Map<String, dynamic> parsedJson) {
+    return Settings(
+        parsedJson["cnt"] ?? 1,
+        parsedJson["color"] ?? 0,
+        parsedJson["syncKey"] ?? "",
+        parsedJson["workspaces"] ?? []
+    );
+  }
+
+  void save() {
+    writeFile(this.getJson(), "settings.json");
   }
 
   static const List<MaterialColor> colors = [
@@ -40,25 +70,4 @@ class Settings {
       },
     ),
   ];
-  // used to convert the object to json
-  Map toJson() {
-    return {
-      'cnt': this.cnt,
-      'color': this.color,
-      'syncKey': this.syncKey
-    };
-  }
-
-  String getJson() {
-    return jsonEncode(this);
-  }
-
-  // used to create a object from a json string
-  factory Settings.fromJson(Map<String, dynamic> parsedJson) {
-    return Settings(parsedJson["cnt"] ?? 1, parsedJson["color"] ?? 0, parsedJson["syncKey"] ?? "");
-  }
-
-  void save() {
-    writeFile(this.getJson(), "settings.json");
-  }
 }

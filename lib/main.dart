@@ -19,7 +19,7 @@ void main() async {
   String data = await readFile("data.json"); //read previous stored data
   String settingsData = await readFile("settings.json");
   String trashData = await readFile("trash.json");
-  runApp(TodoInfinite(data: data, settingsData: settingsData, trashData: trashData,)); //use the stored data
+  runApp(TodoInfinite(data: data, settingsData: settingsData, trashData: trashData)); //use the stored data
 }
 
 
@@ -29,6 +29,7 @@ class TodoInfinite extends StatelessWidget {
   final String settingsData;
   final String trashData;
   const TodoInfinite({ Key? key, required  this.data, required this.settingsData, required this.trashData,}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final Controller c = Get.put(Controller(data, settingsData, trashData));

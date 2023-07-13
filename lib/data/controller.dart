@@ -8,7 +8,7 @@ import 'trashData.dart';
 // is used to control the state management of the App
 class Controller extends GetxController {
   TodoData todo = TodoData("To Do");
-  Settings settings = Settings(1, 0, "");
+  Settings settings = Settings(1, 0, "", []);
   TrashDataList trash = TrashDataList();
   bool isSynced = false;
 
@@ -30,6 +30,7 @@ class Controller extends GetxController {
     isSynced = success;
     update();
   }
+
   Future<void> fetch(String key) async {
     setSyncKey(key);
     var result = await Sync.fetch(key);
@@ -37,6 +38,10 @@ class Controller extends GetxController {
     todo = result;
     isSynced = true;
     update();
+  }
+
+  Future<void> switchToWorkSpace(String key) async {
+    await fetch(key);
   }
 
   void changeName(List<int> arr, String name) {
@@ -186,5 +191,15 @@ class Controller extends GetxController {
 
   bool synced(){
     return isSynced;
+  }
+
+  List<String> getWorkSpaces(){
+    return settings.workspaces;
+  }
+
+  void addWorkSpace(String workspace){
+    settings.workspaces.add(workspace);
+    settings.save();
+    update();
   }
 }

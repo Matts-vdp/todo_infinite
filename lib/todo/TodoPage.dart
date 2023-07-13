@@ -9,6 +9,7 @@ import '../settings/Settings.dart';
 import '../trash/trash.dart';
 import 'MakeTodo.dart';
 import 'TodoItem.dart';
+import '../workspaces/WorkSpaceSelector.dart';
 
 // Displays a todo chosen by the arr variable
 class TodoPage extends StatelessWidget {
@@ -27,13 +28,7 @@ class TodoPage extends StatelessWidget {
         return false;
       },
       child: Scaffold(
-        drawer: Drawer(
-          child: ListView(
-            children: [
-              Text("Test")
-            ],
-          ),
-        ),
+        drawer: WorkSpaceSelector(),
         appBar: AppBar(
           backgroundColor: Color.fromRGBO(33, 33, 33, 1),
           systemOverlayStyle: SystemUiOverlayStyle.light,
