@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:todo_infinite/data/PersistedTodos.dart';
 import 'httpsync.dart';
 import 'settings.dart';
 import 'trashData.dart';
@@ -8,7 +9,8 @@ import 'trashData.dart';
 // is used to control the state management of the App
 class Controller extends GetxController {
   bool isSynced = false;
-  TodoData todo;
+  // TodoData todo;
+  PersistedTodos todo;
   Settings settings;
   TrashDataList trash;
 
@@ -38,14 +40,12 @@ class Controller extends GetxController {
     todo.changeName(arr, name);
     update();
     isSynced = false;
-    todo.save();
   }
 
   void toggleDone(List<int> arr) {
     todo.toggleDone(arr);
     update();
     isSynced = false;
-    todo.save(); // save to local storage when changed
   }
 
   void toggleOpen(List<int> arr) {
@@ -73,7 +73,6 @@ class Controller extends GetxController {
     todo.addTodo(arr, str);
     update();
     isSynced = false;
-    todo.save(); // save to local storage when changed
   }
 
   void delTodo(List<int> arr) {
@@ -81,14 +80,12 @@ class Controller extends GetxController {
     todo.delTodo(arr);
     update();
     isSynced = false;
-    todo.save(); // save to local storage when changed
   }
 
   void moveTodo(List<int> from, List<int> to){
     todo.moveTo(from, to);
     update();
     isSynced = false;
-    todo.save();
   }
 
   String getJson() {
@@ -100,7 +97,7 @@ class Controller extends GetxController {
       return;
     }
     try {
-      TodoData newTodo = TodoData.fromJson(jsonDecode(json));
+      PersistedTodos newTodo = PersistedTodos.fromJson(jsonDecode(json));
       todo = newTodo;
       update();
       isSynced = false;
@@ -114,7 +111,6 @@ class Controller extends GetxController {
     todo.reorder(arr, oldid, newid);
     update();
     isSynced = false;
-    todo.save();
   }
 
   int getCnt() {
@@ -162,7 +158,7 @@ class Controller extends GetxController {
     if (trash.items[i].parent != getText(arr)) {
       arr = <int>[];
     }
-    todo.addTodoData(arr, trash.items[i].data);
+    todo.data.addTodoData(arr, trash.items[i].data);
     trash.items.removeAt(i);
     update();
     trash.save();

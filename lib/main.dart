@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_infinite/data/PersistedTodos.dart';
 import 'package:todo_infinite/data/settings.dart';
 import 'package:todo_infinite/data/trashData.dart';
 import 'data/controller.dart';
@@ -24,7 +25,7 @@ void main() async {
 
 
 class TodoInfinite extends StatelessWidget {
-  final TodoData data;
+  final PersistedTodos data;
   final Settings settingsData;
   final TrashDataList trashData;
   const TodoInfinite({ Key? key, required  this.data, required this.settingsData, required this.trashData,}) : super(key: key);
@@ -67,8 +68,8 @@ Future<Settings> initializeSettings() async {
   return Settings.fromJson(jsonDecode(str));
 }
 
-Future<TodoData> initializeTodoData() async {
+Future<PersistedTodos> initializeTodoData() async {
   var str = await readFile("data.json");
-  if (str.isEmpty) return TodoData("To Do");
-  return TodoData.fromJson(jsonDecode(str));
+  if (str.isEmpty) return PersistedTodos(DateTime.now(), TodoData("To Do"));
+  return PersistedTodos.fromJson(jsonDecode(str));
 }
