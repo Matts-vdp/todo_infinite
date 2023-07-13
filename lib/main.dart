@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo_infinite/data/PersistedTodos.dart';
-import 'package:todo_infinite/data/settings.dart';
-import 'package:todo_infinite/data/trashData.dart';
+import '../data/PersistedTodos.dart';
+import '../data/settings.dart';
+import '../data/trashData.dart';
 import 'data/controller.dart';
 import 'dart:io' show Platform;
 import 'notifications/notification_service.dart' if (Platform.isAndroid) "";
@@ -14,11 +14,15 @@ import 'todo/TodoPage.dart';
 void main() async {
   initializeNotifications();
 
+  var settings = await initializeSettings();
+  var todos = await initializeTodoData(settings.syncKey);
+  var trashDataList = await initializeTrashData();
+
   runApp(
       TodoInfinite(
-        data: await initializeTodoData(),
-        settingsData: await initializeSettings(),
-        trashData: await initializeTrashData()
+        data: todos,
+        settingsData: settings,
+        trashData: trashDataList
       )
   ); //use the stored data
 }
@@ -68,8 +72,6 @@ Future<Settings> initializeSettings() async {
   return Settings.fromJson(jsonDecode(str));
 }
 
-Future<PersistedTodos> initializeTodoData() async {
-  var str = await readFile("data.json");
-  if (str.isEmpty) return PersistedTodos(DateTime.now(), TodoData("To Do"));
-  return PersistedTodos.fromJson(jsonDecode(str));
+Future<PersistedTodos> initializeTodoData(String key) async {
+  return readTodosFromFile(key);
 }

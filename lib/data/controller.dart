@@ -1,15 +1,15 @@
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:todo_infinite/data/PersistedTodos.dart';
+import '../data/PersistedTodos.dart';
 import 'httpsync.dart';
 import 'settings.dart';
 import 'trashData.dart';
 
+
 // is used to control the state management of the App
 class Controller extends GetxController {
   bool isSynced = false;
-  // TodoData todo;
   PersistedTodos todo;
   Settings settings;
   TrashDataList trash;
@@ -33,7 +33,9 @@ class Controller extends GetxController {
   }
 
   Future<void> switchToWorkSpace(String key) async {
-    await fetch(key);
+    await readTodosFromFile(key);
+    setSyncKey(key);
+    update();
   }
 
   void changeName(List<int> arr, String name) {
@@ -97,7 +99,7 @@ class Controller extends GetxController {
       return;
     }
     try {
-      PersistedTodos newTodo = PersistedTodos.fromJson(jsonDecode(json));
+      PersistedTodos newTodo = PersistedTodos.fromJson(jsonDecode(json), settings.syncKey);
       todo = newTodo;
       update();
       isSynced = false;

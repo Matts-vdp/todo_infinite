@@ -1,9 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo_infinite/data/PersistedTodos.dart';
-import 'package:todo_infinite/data/todoData.dart';
 import '../data/controller.dart';
 
 class SyncIcon extends StatelessWidget {

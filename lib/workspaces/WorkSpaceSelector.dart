@@ -10,16 +10,15 @@ class WorkSpaceSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Controller c = Get.find();
     String workspace;
     return Drawer(
         child: GetBuilder<Controller>(
-          builder: (controller) =>
+          builder: (c) =>
               ListView(
                 children: [
                   WorkSpaceTitle(),
                   for (workspace in c.getWorkSpaces())
-                    WorkSpace(workspace: workspace),
+                    WorkSpace(workspace: workspace, isCurrent: workspace == c.getSyncKey()),
                   AddWorkSpace()
                 ],
               ),)
@@ -31,8 +30,10 @@ class WorkSpace extends StatelessWidget {
   const WorkSpace({
     Key? key,
     required this.workspace,
+    required this.isCurrent,
   }) : super(key: key);
   final String workspace;
+  final bool isCurrent;
 
   void handlePressed(Controller c){
     c.switchToWorkSpace(workspace);
@@ -43,8 +44,12 @@ class WorkSpace extends StatelessWidget {
     final Controller c = Get.find();
     return Card(
         child: MaterialButton(
-            child: Text(workspace, textScaleFactor: 1.1),
-            onPressed: () => handlePressed(c)
+          disabledColor: Colors.black26,
+          disabledTextColor: Colors.white30,
+          child: Text(workspace,
+            textScaleFactor: 1.1
+          ),
+          onPressed: isCurrent ? null : () => handlePressed(c)
         )
     );
   }

@@ -16,7 +16,7 @@ class Sync {
     debugPrint(response.statusCode.toString());
     if (response.statusCode != 200) return null;
 
-    return PersistedTodos.fromJson(jsonDecode(response.body));
+    return PersistedTodos.fromJson(jsonDecode(response.body), key);
   }
 
   static Future<bool> post(String key, PersistedTodos data) async {
