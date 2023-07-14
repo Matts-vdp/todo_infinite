@@ -15,12 +15,14 @@ class _SyncSettingsState extends State<SyncSettings> {
 
   void post() async {
     final Controller c = Get.find();
-    c.post(fieldText.text);
+    c.setSyncKey(fieldText.text);
+    c.post();
   }
 
   void fetch() async {
     final Controller c = Get.find();
-    c.fetch(fieldText.text);
+    c.setSyncKey(fieldText.text);
+    c.fetch(overwrite: true);
   }
 
   @override

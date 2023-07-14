@@ -9,45 +9,71 @@ import 'trashData.dart';
 
 // is used to control the state management of the App
 class Controller extends GetxController {
-  bool isSynced = false;
+  SyncState isSynced = SyncState.Unknown;
   PersistedTodos todo;
   Settings settings;
   TrashDataList trash;
 
   Controller(this.todo, this.settings, this.trash);
 
-  Future<void> post(String key) async {
-    setSyncKey(key);
-    var success = await Sync.post(key, todo);
-    isSynced = success;
+  Future<void> post() async {
+    var success = await Sync.post(settings.syncKey, todo);
+    if (!success) return;
+
+    isSynced = SyncState.Synced;
     update();
   }
 
-  Future<void> fetch(String key) async {
-    setSyncKey(key);
-    var result = await Sync.fetch(key);
-    if (result == null) return;
-    todo = result;
-    isSynced = true;
+  Future<SyncState> fetch({bool overwrite = false}) async {
+    var result = await Sync.fetch(settings.syncKey);
+    if (result == null) {
+      isSynced = SyncState.Unknown;
+      update();
+      return isSynced;
+    }
+    debugPrint(result.getJson());
+
+    var oldStatus = isSynced;
+    var status = todo.compareLastMod(result);
+    if (status < 0) isSynced = SyncState.Outdated;
+    if (status > 0) isSynced = SyncState.MoreRecent;
+    if (status == 0) isSynced = SyncState.Synced;
+
+    if (overwrite || isSynced == oldStatus) {
+      await synchronize(result, isSynced);
+      isSynced = SyncState.Synced;
+    }
+
     update();
+    return isSynced;
+  }
+
+  Future<void> synchronize(PersistedTodos result, SyncState status) async {
+    if (status == SyncState.Synced) return;
+    if (status == SyncState.Outdated) todo = result;
+    if (status == SyncState.MoreRecent) await post();
   }
 
   Future<void> switchToWorkSpace(String key) async {
-    await readTodosFromFile(key);
     setSyncKey(key);
+    isSynced = SyncState.Unknown;
+    todo = await readTodosFromFile(key);
+    fetch();
     update();
   }
+
+
 
   void changeName(List<int> arr, String name) {
     todo.changeName(arr, name);
     update();
-    isSynced = false;
+    isSynced = SyncState.Unknown;
   }
 
   void toggleDone(List<int> arr) {
     todo.toggleDone(arr);
     update();
-    isSynced = false;
+    isSynced = SyncState.Unknown;
   }
 
   void toggleOpen(List<int> arr) {
@@ -74,20 +100,20 @@ class Controller extends GetxController {
   void addTodo(List<int> arr, String str) {
     todo.addTodo(arr, str);
     update();
-    isSynced = false;
+    isSynced = SyncState.Unknown;
   }
 
   void delTodo(List<int> arr) {
     toTrash(arr);
     todo.delTodo(arr);
     update();
-    isSynced = false;
+    isSynced = SyncState.Unknown;
   }
 
   void moveTodo(List<int> from, List<int> to){
     todo.moveTo(from, to);
     update();
-    isSynced = false;
+    isSynced = SyncState.Unknown;
   }
 
   String getJson() {
@@ -102,7 +128,7 @@ class Controller extends GetxController {
       PersistedTodos newTodo = PersistedTodos.fromJson(jsonDecode(json), settings.syncKey);
       todo = newTodo;
       update();
-      isSynced = false;
+      isSynced = SyncState.Unknown;
       todo.save();
     } catch (e) {
       return;
@@ -112,7 +138,7 @@ class Controller extends GetxController {
   void reorder(List<int> arr, int oldid, int newid) {
     todo.reorder(arr, oldid, newid);
     update();
-    isSynced = false;
+    isSynced = SyncState.Unknown;
   }
 
   int getCnt() {
@@ -164,12 +190,8 @@ class Controller extends GetxController {
     trash.items.removeAt(i);
     update();
     trash.save();
-    isSynced = false;
+    isSynced = SyncState.Unknown;
     todo.save();
-  }
-
-  String getSyncKey(){
-    return settings.syncKey;
   }
 
   void setSyncKey(String key){
@@ -177,7 +199,11 @@ class Controller extends GetxController {
     settings.save();
   }
 
-  bool synced(){
+  String getSyncKey(){
+    return settings.syncKey;
+  }
+
+  SyncState synced(){
     return isSynced;
   }
 
@@ -190,4 +216,11 @@ class Controller extends GetxController {
     settings.save();
     update();
   }
+}
+
+enum SyncState {
+  Unknown,
+  Outdated,
+  Synced,
+  MoreRecent
 }
