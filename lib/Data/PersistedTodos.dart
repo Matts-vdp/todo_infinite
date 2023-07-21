@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
-
 import '../data/todoData.dart';
 import 'file.dart';
 
@@ -91,7 +89,7 @@ class PersistedTodos {
 Future<PersistedTodos> readTodosFromFile(String key) async {
   var path = dataPath(key);
   var str = await readFile(path);
-  if (str.isEmpty) return PersistedTodos(DateTime(0), TodoData("To Do"), "");
+  if (str.isEmpty) return PersistedTodos(DateTime(0), TodoData("To Do"), key);
   return PersistedTodos.fromJson(jsonDecode(str), key);
 }
 

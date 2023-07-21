@@ -20,7 +20,7 @@ class Settings extends StatelessWidget {
       ),
       body: Container(
         padding: EdgeInsets.all(20),
-        child: Column(
+        child: ListView(
           children: [
             ColorPicker(),
             ClipboardActions(),
