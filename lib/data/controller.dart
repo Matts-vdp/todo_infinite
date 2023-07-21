@@ -14,7 +14,10 @@ class Controller extends GetxController {
   Settings settings;
   TrashDataList trash;
 
-  Controller(this.todo, this.settings, this.trash);
+  Controller(this.todo, this.settings, this.trash) {
+    if (settings.syncKey.isNotEmpty)
+      fetch();
+  }
 
   Future<void> post() async {
     var success = await Sync.post(settings.syncKey, todo);
@@ -61,8 +64,6 @@ class Controller extends GetxController {
     fetch();
     update();
   }
-
-
 
   void changeName(List<int> arr, String name) {
     todo.changeName(arr, name);
