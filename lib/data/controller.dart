@@ -212,6 +212,8 @@ class Controller extends GetxController {
   }
 
   void addWorkSpace(String workspace){
+    if (settings.workspaces.contains(workspace)) return;
+
     settings.workspaces.add(workspace);
     settings.save();
     update();
