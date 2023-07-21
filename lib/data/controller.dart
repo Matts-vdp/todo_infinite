@@ -218,6 +218,14 @@ class Controller extends GetxController {
     settings.save();
     update();
   }
+
+  void deleteWorkSpace(String workspace){
+    if (!settings.workspaces.contains(workspace)) return;
+
+    settings.workspaces.remove(workspace);
+    settings.save();
+    update();
+  }
 }
 
 enum SyncState {

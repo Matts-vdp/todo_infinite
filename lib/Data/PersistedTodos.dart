@@ -27,7 +27,11 @@ class PersistedTodos {
 
   // used to create a TodoData object from a json string
   factory PersistedTodos.fromJson(Map<String, dynamic> parsedJson, String key) {
-    debugPrint(DateTime.parse(parsedJson["lastMod"]).toString());
+    //handle legacy save structure
+    if (!parsedJson.containsKey("data")) {
+      return PersistedTodos(DateTime.now(), TodoData.fromJson(parsedJson), key);
+    }
+
     return PersistedTodos(
         DateTime.parse(parsedJson["lastMod"]),
         TodoData.fromJson(parsedJson["data"]),

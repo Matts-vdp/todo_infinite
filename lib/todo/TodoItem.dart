@@ -64,9 +64,7 @@ class ListTodo extends StatelessWidget {
           builder: (todo) => Column(
             children: [
               for (int i = 0; i < todo.getTodo(arr).sub.length; i++)
-                Todo(
-                  arr: arr + [i],
-                ),
+                Todo(arr: arr + [i],),
             ],
           ),
         ));
