@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../components/SyncIcon.dart';
+import '../components/actions/actions.dart';
 import 'ClipboardActions.dart';
 import 'ColorPicker.dart';
 import 'SyncSettings.dart';
@@ -16,6 +17,8 @@ class Settings extends StatelessWidget {
         title: Text('Settings'),
         actions: [
           SyncIcon(),
+          TrashAction(),
+          NotificationAction(),
         ],
       ),
       body: Container(

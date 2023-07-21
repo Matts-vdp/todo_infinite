@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../components/actions/actions.dart';
 import '../data/controller.dart';
 import 'package:flutter/services.dart';
 import '../components/SyncIcon.dart';
 import '../dialogs/RenameDialog.dart';
-import '../notifications/Notifications.dart';
-import '../settings/Settings.dart';
-import '../trash/trash.dart';
 import 'MakeTodo.dart';
 import 'TodoItem.dart';
 import '../workspaces/WorkSpaceSelector.dart';
@@ -38,8 +36,7 @@ class TodoPage extends StatelessWidget {
               builder: (todo) => Text('${todo.getText(arr)}'),
             ),
           ),
-          leading: arr.isEmpty ? null :
-          IconButton(
+          leading: arr.isEmpty ? null : IconButton(
             onPressed: () {
               goToParent();
             },
@@ -47,32 +44,11 @@ class TodoPage extends StatelessWidget {
               Icons.keyboard_arrow_left_rounded,
             ),
           ),
+
           actions: [
             SyncIcon(),
-            IconButton(
-              onPressed: () {
-                Get.to(() => Notifications());
-              },
-              icon: Icon(
-                Icons.notifications_none_rounded,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                Get.to(() => Trash());
-              },
-              icon: Icon(
-                Icons.delete_outline,
-              ),
-            ),
-            IconButton(
-              onPressed: () {
-                Get.to(() => Settings());
-              },
-              icon: Icon(
-                Icons.settings,
-              ),
-            ),
+            NotificationAction(),
+            SettingsAction(),
           ],
         ),
         body: Column(
@@ -81,8 +57,7 @@ class TodoPage extends StatelessWidget {
               child: GetBuilder<Controller>(
                 builder: (todo) => ReorderableListView(
                   buildDefaultDragHandles: false,
-                  keyboardDismissBehavior:
-                  ScrollViewKeyboardDismissBehavior.onDrag,
+                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                   padding: EdgeInsets.all(10),
                   children: [
                     //display a todo element for every item in the sub array

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../components/SyncIcon.dart';
 import '../data/controller.dart';
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -15,6 +16,28 @@ class _NotificationsState extends State<Notifications> {
   final _formkey = GlobalKey<FormState>();
   final fieldText = TextEditingController();
   DateTime time = DateTime.now();
+
+  void sendNotification(Controller c, {bool sendNow = false}) {
+    FocusManager.instance.primaryFocus?.unfocus();
+    if (!_formkey.currentState!.validate()) return;
+    var text = fieldText.text;
+    fieldText.clear();
+
+    if (kIsWeb || !Platform.isAndroid) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Notifications are not possible on this device.')));
+      fieldText.clear();
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Sending notification')));
+    c.incCnt();
+
+    if (sendNow || time.isBefore(DateTime.now().add(Duration(seconds: 1))))
+      NotificationService().send(text, "", c.getCnt());
+    else
+      NotificationService().sendDelay(text, "", c.getCnt(), time);
+  }
+
   @override
   Widget build(BuildContext context) {
     final Controller c = Get.find();
@@ -22,6 +45,9 @@ class _NotificationsState extends State<Notifications> {
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(33, 33, 33, 1),
         title: Text('Notifications'),
+        actions: [
+          SyncIcon(),
+        ],
       ),
       body: Container(
         padding: EdgeInsets.all(20),
@@ -29,19 +55,7 @@ class _NotificationsState extends State<Notifications> {
           key: _formkey,
           child: Column(
             children: [
-              TextFormField(
-                controller: fieldText,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Displayed text',
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
-              ),
+              TextInputField(fieldText: fieldText),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -54,8 +68,8 @@ class _NotificationsState extends State<Notifications> {
                               context: context,
                               initialDate: DateTime.now(),
                               firstDate: DateTime.now(),
-                              lastDate: DateTime.now().add(Duration(days: 365)))
-                              .then((value) {
+                              lastDate: DateTime.now().add(Duration(days: 365))
+                          ).then((value) {
                             if (value != null) {
                               setState(() {
                                 time = DateTime(value.year, value.month, value.day, time.hour, time.minute);
@@ -104,43 +118,12 @@ class _NotificationsState extends State<Notifications> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
-                        FocusManager.instance.primaryFocus?.unfocus();
-                        if (_formkey.currentState!.validate()) {
-                          if (!kIsWeb && Platform.isAndroid){ //notifications dont work on versions other then android
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Sending notification...')));
-                            c.incCnt();
-                            NotificationService().send(fieldText.text, "", c.getCnt());
-                          }
-                          else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Notifications are not possible on this device.')));
-                          }
-                          fieldText.clear();
-                        }
-                      },
+                      onPressed: () {sendNotification(c, sendNow: true);},
                       child: Text("Send now"),
                     ),
                     SizedBox(width: 10,),
                     ElevatedButton(
-                      onPressed: () {
-                        FocusManager.instance.primaryFocus?.unfocus();
-                        if (_formkey.currentState!.validate()) {
-                          if (!kIsWeb && Platform.isAndroid){ //notifications dont work on versions other then android
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Sending notification...')));
-                            c.incCnt();
-                            if (time.isAfter(DateTime.now().add(Duration(seconds: 1)))) {
-                              NotificationService().sendDelay(fieldText.text, "", c.getCnt(), time);
-                            }
-                            else {
-                              NotificationService().send(fieldText.text, "", c.getCnt());
-                            }
-                          }
-                          else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Notifications are not possible on this device.')));
-                          }
-                          fieldText.clear();
-                        }
-                      },
+                      onPressed: () {sendNotification(c);},
                       child: Text("Send later"),
                     ),
                   ],
@@ -150,6 +133,32 @@ class _NotificationsState extends State<Notifications> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class TextInputField extends StatelessWidget {
+  const TextInputField({
+    Key? key,
+    required this.fieldText,
+  }) : super(key: key);
+
+  final TextEditingController fieldText;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: fieldText,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: 'Displayed text',
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter some text';
+        }
+        return null;
+      },
     );
   }
 }

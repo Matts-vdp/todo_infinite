@@ -11,6 +11,7 @@ class MakeTodo extends StatelessWidget {
 
   // used when the add button is pressed
   void submitText(String str, Controller c) {
+    FocusManager.instance.primaryFocus?.unfocus();
     c.addTodo(arr, str);
     fieldText.clear();
   }
