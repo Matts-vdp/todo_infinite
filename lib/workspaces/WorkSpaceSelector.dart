@@ -42,7 +42,7 @@ class WorkSpace extends StatelessWidget {
   Widget build(BuildContext context) {
     final Controller c = Get.find();
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15),
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 2),
         child: Dismissible(
             key: Key(workspace),
             direction: DismissDirection.endToStart,
@@ -60,13 +60,7 @@ class WorkSpace extends StatelessWidget {
             background: Container(
                 padding: EdgeInsets.all(10.0),
                 width: double.infinity,
-                color: Colors.red,
-                child: Row(
-                  children: [
-                    Expanded(child: Container()),
-                    Icon(Icons.delete)
-                  ],
-                )),
+                color: Colors.red),
         ));
   }
 }
