@@ -26,17 +26,19 @@ class SyncIcon extends StatelessWidget {
 
   IconData getIcon(SyncState status){
     switch (status){
-      case SyncState.Unknown: return Icons.sync_problem;
+      case SyncState.Unknown: return Icons.sync_outlined;
       case SyncState.Outdated: return Icons.download;
       case SyncState.Synced: return Icons.cloud_sync;
       case SyncState.MoreRecent: return Icons.upload;
+      case SyncState.Offline: return Icons.cloud_off;
     }
   }
 
   Color getColor(SyncState status) {
     switch (status){
       case SyncState.Unknown: return Colors.orange;
-      case SyncState.Outdated: return Colors.red;
+      case SyncState.Outdated: return Colors.yellow;
+      case SyncState.Offline: return Colors.white24;
       case SyncState.Synced: return Colors.green;
       case SyncState.MoreRecent: return Colors.blue;
     }

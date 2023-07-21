@@ -20,33 +20,29 @@ class Controller extends GetxController {
   }
 
   Future<void> post() async {
-    var success = await Sync.post(settings.syncKey, todo);
-    if (!success) return;
-
-    isSynced = SyncState.Synced;
+    var status = await Sync.post(settings.syncKey, todo);
+    isSynced = mapSyncStatus(status);
     update();
   }
 
   Future<SyncState> fetch({bool overwrite = false}) async {
     var result = await Sync.fetch(settings.syncKey);
-    if (result == null) {
+    if (result.status == Status.Other)
       isSynced = SyncState.Unknown;
-      update();
-      return isSynced;
+    else if (result.status == Status.Offline)
+      isSynced = SyncState.Offline;
+    else if (result.status == Status.Success) {
+      var oldStatus = isSynced;
+      var status = todo.compareLastMod(result.data!);
+      if (status < 0) isSynced = SyncState.Outdated;
+      if (status > 0) isSynced = SyncState.MoreRecent;
+      if (status == 0) isSynced = SyncState.Synced;
+
+      if (overwrite || isSynced == oldStatus) {
+        await synchronize(result.data!, isSynced);
+        isSynced = SyncState.Synced;
+      }
     }
-    debugPrint(result.getJson());
-
-    var oldStatus = isSynced;
-    var status = todo.compareLastMod(result);
-    if (status < 0) isSynced = SyncState.Outdated;
-    if (status > 0) isSynced = SyncState.MoreRecent;
-    if (status == 0) isSynced = SyncState.Synced;
-
-    if (overwrite || isSynced == oldStatus) {
-      await synchronize(result, isSynced);
-      isSynced = SyncState.Synced;
-    }
-
     update();
     return isSynced;
   }
@@ -231,7 +227,15 @@ class Controller extends GetxController {
 
 enum SyncState {
   Unknown,
+  Offline,
   Outdated,
   Synced,
   MoreRecent
+}
+SyncState mapSyncStatus(Status status) {
+  switch (status) {
+    case Status.Success: return SyncState.Synced;
+    case Status.Offline: return SyncState.Offline;
+  }
+  return SyncState.Unknown;
 }
