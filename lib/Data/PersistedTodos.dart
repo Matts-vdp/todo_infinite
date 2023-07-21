@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
+
 import '../data/todoData.dart';
 import 'file.dart';
 
@@ -25,6 +27,7 @@ class PersistedTodos {
 
   // used to create a TodoData object from a json string
   factory PersistedTodos.fromJson(Map<String, dynamic> parsedJson, String key) {
+    debugPrint(DateTime.parse(parsedJson["lastMod"]).toString());
     return PersistedTodos(
         DateTime.parse(parsedJson["lastMod"]),
         TodoData.fromJson(parsedJson["data"]),
@@ -33,6 +36,7 @@ class PersistedTodos {
   }
 
   void save() {
+    lastMod = DateTime.now();
     writeFile(this.getJson(), "data.json");
   }
 
@@ -73,10 +77,14 @@ class PersistedTodos {
     data.reorder(arr, oldid, newid);
     save();
   }
+
+  int compareLastMod(PersistedTodos other){
+    return lastMod.compareTo(other.lastMod);
+  }
 }
 
 Future<PersistedTodos> readTodosFromFile(String key) async {
   var str = await readFile("data.json");
-  if (str.isEmpty) return PersistedTodos(DateTime.now(), TodoData("To Do"), "key");
+  if (str.isEmpty) return PersistedTodos(DateTime(0), TodoData("To Do"), "key");
   return PersistedTodos.fromJson(jsonDecode(str), key);
 }

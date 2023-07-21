@@ -32,11 +32,12 @@ class Settings {
 
   // used to create a object from a json string
   factory Settings.fromJson(Map<String, dynamic> parsedJson) {
+    List<String>? w = (parsedJson["workspaces"] as List?)?.map((item)=>item as String).toList();
     return Settings(
         parsedJson["cnt"] ?? 1,
         parsedJson["color"] ?? 0,
         parsedJson["syncKey"] ?? "",
-        parsedJson["workspaces"] ?? []
+        w ?? []
     );
   }
 
