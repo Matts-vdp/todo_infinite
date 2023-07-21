@@ -35,11 +35,6 @@ class PersistedTodos {
     );
   }
 
-  void save() {
-    lastMod = DateTime.now();
-    writeFile(this.getJson(), "data.json");
-  }
-
   void changeName(List<int> arr, String name) {
     data.changeName(arr, name);
     save();
@@ -81,10 +76,22 @@ class PersistedTodos {
   int compareLastMod(PersistedTodos other){
     return lastMod.compareTo(other.lastMod);
   }
+
+  void save() {
+    lastMod = DateTime.now();
+    var path = dataPath(key);
+    writeFile(this.getJson(), path);
+  }
 }
 
 Future<PersistedTodos> readTodosFromFile(String key) async {
-  var str = await readFile("data.json");
-  if (str.isEmpty) return PersistedTodos(DateTime(0), TodoData("To Do"), "key");
+  var path = dataPath(key);
+  var str = await readFile(path);
+  if (str.isEmpty) return PersistedTodos(DateTime(0), TodoData("To Do"), "");
   return PersistedTodos.fromJson(jsonDecode(str), key);
+}
+
+String dataPath(String key) {
+  var separator = key.isEmpty ? "" : "-";
+  return key + separator + "data.json";
 }

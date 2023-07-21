@@ -13,16 +13,15 @@ class WorkSpaceSelector extends StatelessWidget {
     String workspace;
     return Drawer(
         child: GetBuilder<Controller>(
-          builder: (c) =>
-              ListView(
-                children: [
-                  WorkSpaceTitle(),
-                  for (workspace in c.getWorkSpaces())
-                    WorkSpace(workspace: workspace, isCurrent: workspace == c.getSyncKey()),
-                  AddWorkSpace()
-                ],
-              ),)
-    );
+          builder: (c) => ListView(
+            children: [
+              WorkSpaceTitle(),
+              for (workspace in c.getWorkSpaces())
+                WorkSpace(workspace: workspace, isCurrent: workspace == c.getSyncKey()),
+              AddWorkSpace()
+            ],
+          ),
+    ));
   }
 }
 
@@ -35,23 +34,21 @@ class WorkSpace extends StatelessWidget {
   final String workspace;
   final bool isCurrent;
 
-  void handlePressed(Controller c){
+  void handlePressed(Controller c) {
     c.switchToWorkSpace(workspace);
   }
 
   @override
   Widget build(BuildContext context) {
     final Controller c = Get.find();
-    return Card(
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15),
         child: MaterialButton(
-          disabledColor: Colors.black26,
-          disabledTextColor: Colors.white30,
-          child: Text(workspace,
-            textScaleFactor: 1.1
-          ),
-          onPressed: isCurrent ? null : () => handlePressed(c)
-        )
-    );
+            color: Colors.white10,
+            disabledColor: Colors.black26,
+            disabledTextColor: Colors.white30,
+            child: Text(workspace, textScaleFactor: 1.1),
+            onPressed: isCurrent ? null : () => handlePressed(c)));
   }
 }
 
@@ -65,9 +62,9 @@ class WorkSpaceTitle extends StatelessWidget {
     return Center(
         child: Padding(
             padding: EdgeInsets.all(15),
-            child: Text("Workspaces",
-            textScaleFactor: 1.3,)
-        )
-    );
+            child: Text(
+              "Workspaces",
+              textScaleFactor: 1.3,
+            )));
   }
 }
