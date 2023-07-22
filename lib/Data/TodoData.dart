@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'persistence/persistence.dart';
 
-// represends a todo item
 class TodoData {
   String text;
   bool done = false;
@@ -106,6 +105,20 @@ class TodoData {
   void save() {
     writeToPersistence(this.getJson(), "data.json");
   }
+
+  void listTodos(List<TodoReference> todos, List<int> arr) {
+    todos.add(TodoReference(arr, this));
+    for (var i=0; i<sub.length; i++){
+      sub[i].listTodos(todos, [...arr, i]);
+    }
+  }
+}
+
+class TodoReference {
+  TodoData data;
+  List<int> arr;
+
+  TodoReference(this.arr, this.data);
 }
 
 

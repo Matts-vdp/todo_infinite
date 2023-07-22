@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:todo_infinite/data/WorkSpaces.dart';
 import '../PersistedTodos.dart';
-import '../httpsync.dart';
+import '../persistence/httpsync.dart';
 import 'TodoController.dart';
 
 class WorkSpaceController extends GetxController {

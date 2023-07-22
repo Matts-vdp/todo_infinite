@@ -12,6 +12,10 @@ class TodoController extends GetxController {
 
   TodoController(this.todo);
 
+  List<TodoReference> listTodos() {
+    return todo.flatten();
+  }
+
   void setTodo(PersistedTodos todos) {
     todo = todos;
     update();

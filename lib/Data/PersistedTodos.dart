@@ -89,6 +89,12 @@ class PersistedTodos {
     data.addTodoData(parentArr, todoData);
     save();
   }
+
+  List<TodoReference> flatten() {
+    List<TodoReference> todos = [];
+    data.listTodos(todos, []);
+    return todos;
+  }
 }
 
 Future<PersistedTodos> readTodosFromFile(String key) async {
