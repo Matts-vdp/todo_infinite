@@ -16,8 +16,8 @@ class Trash extends StatelessWidget {
         builder: (todo) => ListView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           padding: EdgeInsets.all(10),
-          children: [ //display a todo element for every item in the array
-            for (int i=0; i<todo.trash.items.length; i++)
+          children: [
+            for (int i=todo.trash.items.length-1; i>=0; i--)
               TodoTrashCard(arr: i)
           ],
         ),

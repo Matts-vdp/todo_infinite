@@ -16,6 +16,7 @@ class TrashDataList {
     if (items.length > maxItems) {
       items.removeAt(0);
     }
+    save();
   }
 
   // used to convert the object to json

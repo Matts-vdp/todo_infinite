@@ -174,7 +174,6 @@ class Controller extends GetxController {
     a.removeLast();
     String parentText = getText(a);
     trash.add(arr, getTodo(arr), parentText);
-    trash.save();
   }
 
   void fromTrash(int i) {
