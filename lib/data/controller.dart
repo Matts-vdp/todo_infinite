@@ -63,14 +63,14 @@ class Controller extends GetxController {
 
   void changeName(List<int> arr, String name) {
     todo.changeName(arr, name);
+    updateSyncState();
     update();
-    isSynced = SyncState.Unknown;
   }
 
   void toggleDone(List<int> arr) {
     todo.toggleDone(arr);
+    updateSyncState();
     update();
-    isSynced = SyncState.Unknown;
   }
 
   void toggleOpen(List<int> arr) {
@@ -96,21 +96,21 @@ class Controller extends GetxController {
 
   void addTodo(List<int> arr, String str) {
     todo.addTodo(arr, str);
+    updateSyncState();
     update();
-    isSynced = SyncState.Unknown;
   }
 
   void delTodo(List<int> arr) {
     toTrash(arr);
     todo.delTodo(arr);
+    updateSyncState();
     update();
-    isSynced = SyncState.Unknown;
   }
 
   void moveTodo(List<int> from, List<int> to){
     todo.moveTo(from, to);
+    updateSyncState();
     update();
-    isSynced = SyncState.Unknown;
   }
 
   String getJson() {
@@ -124,8 +124,8 @@ class Controller extends GetxController {
     try {
       PersistedTodos newTodo = PersistedTodos.fromJson(jsonDecode(json), settings.syncKey);
       todo = newTodo;
+      updateSyncState();
       update();
-      isSynced = SyncState.Unknown;
       todo.save();
     } catch (e) {
       return;
@@ -134,8 +134,8 @@ class Controller extends GetxController {
 
   void reorder(List<int> arr, int oldid, int newid) {
     todo.reorder(arr, oldid, newid);
+    updateSyncState();
     update();
-    isSynced = SyncState.Unknown;
   }
 
   int getCnt() {
@@ -186,7 +186,7 @@ class Controller extends GetxController {
     trash.items.removeAt(i);
     update();
     trash.save();
-    isSynced = SyncState.Unknown;
+    updateSyncState();
     todo.save();
   }
 
@@ -221,6 +221,12 @@ class Controller extends GetxController {
     settings.workspaces.remove(workspace);
     settings.save();
     update();
+  }
+
+  void updateSyncState(){
+    if (isSynced == SyncState.Offline) return;
+    if (isSynced == SyncState.Unknown) return;
+    isSynced = SyncState.MoreRecent;
   }
 }
 

@@ -109,6 +109,7 @@ class Name extends StatelessWidget {
       result.add(url);
       endIndex = index + url.length;
     }
+    result.add(text.substring(endIndex));
     return result;
   }
 
