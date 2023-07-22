@@ -17,8 +17,8 @@ class Settings extends StatelessWidget {
         title: Text('Settings'),
         actions: [
           SyncIcon(),
-          TrashAction(),
           NotificationAction(),
+          TrashAction(),
         ],
       ),
       body: Container(
