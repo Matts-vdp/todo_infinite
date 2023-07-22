@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import '../components/SyncIcon.dart';
 import '../dialogs/RenameDialog.dart';
 import 'MakeTodo.dart';
+import 'TodoDetails.dart';
 import 'TodoItem.dart';
 
 // Displays a todo chosen by the arr variable
@@ -57,6 +58,7 @@ class TodoPage extends StatelessWidget {
                 builder: (todo) => ReorderableListView(
                   buildDefaultDragHandles: false,
                   keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                  footer: TodoDetails(arr: arr),
                   padding: EdgeInsets.all(10),
                   children: [
                     //display a todo element for every item in the sub array
@@ -65,7 +67,7 @@ class TodoPage extends StatelessWidget {
                         index: i,
                         key: Key('$i'),
                         child: Todo(arr: arr + [i]),
-                      )
+                      ),
                   ],
                   onReorder: (oldIndex, newIndex) {
                     todo.reorder(arr, oldIndex, newIndex);

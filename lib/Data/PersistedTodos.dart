@@ -95,6 +95,11 @@ class PersistedTodos {
     data.listTodos(todos, []);
     return todos;
   }
+
+  void toggleFavorite(List<int> arr) {
+    data.toggleFavorite(arr);
+    save();
+  }
 }
 
 Future<PersistedTodos> readTodosFromFile(String key) async {

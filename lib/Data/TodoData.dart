@@ -5,6 +5,7 @@ class TodoData {
   String text;
   bool done = false;
   bool open = false;
+  bool favorite = false;
   List<TodoData> sub = <TodoData>[];
 
   TodoData(this.text);
@@ -57,9 +58,10 @@ class TodoData {
   }
 
   //Creates a todo with the given data
-  TodoData newData(bool donei, List<TodoData> subi) {
-    this.done = donei;
-    this.sub = subi;
+  TodoData newData(bool done, bool favorite, List<TodoData> sub) {
+    this.done = done;
+    this.favorite = favorite;
+    this.sub = sub;
     return this;
   }
 
@@ -74,6 +76,11 @@ class TodoData {
     sel.sub.insert(newid, item);
   }
 
+  void toggleFavorite(List<int> arr){
+    var todo = getTodo(arr);
+    todo.favorite = !todo.favorite;
+  }
+
   // used to convert the object to json
   Map toJson() {
     List<Map>? subs = this.sub.map((i) => i.toJson()).toList();
@@ -81,12 +88,9 @@ class TodoData {
     return {
       'text': this.text,
       'done': this.done,
+      'favorite' : this.favorite,
       'sub': subs,
     };
-  }
-
-  String getJson() {
-    return jsonEncode(this);
   }
 
   // used to create a TodoData object from a json string
@@ -97,13 +101,10 @@ class TodoData {
       s.add(TodoData.fromJson(l[i]));
     }
     return TodoData(parsedJson['text']).newData(
-      parsedJson['done'],
+      parsedJson['done'] ?? false,
+      parsedJson['favorite'] ?? false,
       s,
     );
-  }
-
-  void save() {
-    writeToPersistence(this.getJson(), "data.json");
   }
 
   void listTodos(List<TodoReference> todos, List<int> arr) {

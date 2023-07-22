@@ -12,8 +12,14 @@ class TodoController extends GetxController {
 
   TodoController(this.todo);
 
-  List<TodoReference> listTodos() {
-    return todo.flatten();
+  List<TodoReference> listFavorites() {
+    var todos = todo.flatten();
+    return todos.where((e) => e.data.favorite).toList();
+  }
+
+  void toggleFavorite(List<int> arr) {
+    todo.toggleFavorite(arr);
+    update();
   }
 
   void setTodo(PersistedTodos todos) {
