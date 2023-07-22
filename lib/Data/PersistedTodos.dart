@@ -100,6 +100,11 @@ class PersistedTodos {
     data.toggleFavorite(arr);
     save();
   }
+
+  void setUntil(List<int> arr, DateTime? time) {
+    data.setUntil(arr, time);
+    save();
+  }
 }
 
 Future<PersistedTodos> readTodosFromFile(String key) async {

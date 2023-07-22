@@ -17,8 +17,32 @@ class TodoController extends GetxController {
     return todos.where((e) => e.data.favorite).toList();
   }
 
+  List<PlannedTodoGroup> listPlanned() {
+    var todos = todo.flatten().where((e) => e.data.until != null);
+
+    var groups = Map<DateTime, List<TodoReference>>();
+    for (var item in todos) {
+      if (!groups.containsKey(item.data.until))
+        groups[item.data.until!] = [item];
+      else
+        groups[item.data.until!]!.add(item);
+    }
+
+    var sortedTimes = groups.keys.toList();
+    sortedTimes.sort((e, o) => e.compareTo(o));
+
+    return sortedTimes
+        .map((t) => PlannedTodoGroup(t, groups[t]!))
+        .toList();
+  }
+
   void toggleFavorite(List<int> arr) {
     todo.toggleFavorite(arr);
+    update();
+  }
+
+  void setUntil(List<int> arr, DateTime? time){
+    todo.setUntil(arr, time);
     update();
   }
 
@@ -139,4 +163,11 @@ class TodoController extends GetxController {
     final WorkSpaceController c = Get.find<WorkSpaceController>();
     return c.getSyncKey();
   }
+}
+
+class PlannedTodoGroup {
+  DateTime until;
+  List<TodoReference> todos;
+
+  PlannedTodoGroup(this.until, this.todos);
 }

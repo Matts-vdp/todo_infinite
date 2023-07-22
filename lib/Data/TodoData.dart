@@ -1,11 +1,9 @@
-import 'dart:convert';
-import 'persistence/persistence.dart';
-
 class TodoData {
   String text;
   bool done = false;
   bool open = false;
   bool favorite = false;
+  DateTime? until;
   List<TodoData> sub = <TodoData>[];
 
   TodoData(this.text);
@@ -58,10 +56,11 @@ class TodoData {
   }
 
   //Creates a todo with the given data
-  TodoData newData(bool done, bool favorite, List<TodoData> sub) {
+  TodoData newData(bool done, bool favorite, List<TodoData> sub, DateTime? until) {
     this.done = done;
     this.favorite = favorite;
     this.sub = sub;
+    this.until = until;
     return this;
   }
 
@@ -81,6 +80,10 @@ class TodoData {
     todo.favorite = !todo.favorite;
   }
 
+  void setUntil(List<int> arr, DateTime? time) {
+    getTodo(arr).until = time;
+  }
+
   // used to convert the object to json
   Map toJson() {
     List<Map>? subs = this.sub.map((i) => i.toJson()).toList();
@@ -88,6 +91,7 @@ class TodoData {
     return {
       'text': this.text,
       'done': this.done,
+      'until': this.until?.toIso8601String(),
       'favorite' : this.favorite,
       'sub': subs,
     };
@@ -100,10 +104,14 @@ class TodoData {
     for (int i = 0; i < l.length; i++) {
       s.add(TodoData.fromJson(l[i]));
     }
+
+    var time = parsedJson['until'];
+
     return TodoData(parsedJson['text']).newData(
       parsedJson['done'] ?? false,
       parsedJson['favorite'] ?? false,
       s,
+      time == null ? null : DateTime.parse(time)
     );
   }
 

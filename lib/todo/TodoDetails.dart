@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_infinite/data/todoData.dart';
+import 'package:todo_infinite/utils/timeUtils.dart';
 import '../data/controllers/TodoController.dart';
 
 class TodoDetails extends StatelessWidget {
@@ -48,15 +49,15 @@ class UntilPicker extends StatelessWidget {
           showDatePicker(
               context: context,
               initialDate: DateTime.now(),
-              firstDate: DateTime.now(),
-              lastDate: DateTime.now().add(Duration(days: 365))
+              firstDate: DateTime.now().add(Duration(days: -365)),
+              lastDate: DateTime.now().add(Duration(days: 365*2))
           ).then((value) {
             var time = value == null ? null : DateTime(value.year, value.month, value.day);
             todo.setUntil(arr, time);
           });
         },
         child: todoData.until != null ?
-          Text("Until: ${todoData.until?.day}/${todoData.until?.month}") :
+          Text("Until: ${formatDate(todoData.until!)}") :
           Text("Until")
     );
   }

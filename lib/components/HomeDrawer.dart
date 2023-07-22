@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_infinite/planning/PlanningPage.dart';
 import '../favorites/Favorites.dart';
 import '../workspaces/WorkSpaceSelector.dart';
 
@@ -28,7 +29,6 @@ class Pages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var text = "Favorites";
     return Column(
         children: [
           PagesTitle(),
@@ -37,11 +37,22 @@ class Pages extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 3),
             child: FilledButton(
                 onPressed: (){Get.to(() => Favorites());},
-                child: Text(text),
+                child: Text("Favorites"),
                 style: ButtonStyle(
                     backgroundColor: MaterialStateColor.resolveWith((states) => Colors.amber),
                     foregroundColor: MaterialStateColor.resolveWith((states) => Colors.black87)
                 ),
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 3),
+            child: FilledButton(
+              onPressed: (){Get.to(() => PlanningPage());},
+              child: Text("Planning"),
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateColor.resolveWith((states) => Colors.blueGrey),
+              ),
             ),
           )
         ]
