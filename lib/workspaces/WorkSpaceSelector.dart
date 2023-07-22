@@ -11,22 +11,26 @@ class WorkSpaceSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String workspace;
-    return Drawer(
-        child: GetBuilder<WorkSpaceController>(
-          builder: (c) => ListView(
-            children: [
-              WorkSpaceTitle(),
-              for (workspace in c.getWorkSpaces())
-                WorkSpace(workspace: workspace, isCurrent: workspace == c.getSyncKey()),
-              AddWorkSpace()
-            ],
-          ),
-    ));
+    return GetBuilder<WorkSpaceController>(
+        builder: (c) => Column(
+              children: [
+                WorkSpaceTitle(),
+                for (workspace in c.getWorkSpaces())
+                  WorkSpace(
+                      workspace: workspace,
+                      isCurrent: workspace == c.getSyncKey()),
+                AddWorkSpace()
+              ],
+            ));
   }
 }
 
 class WorkSpace extends StatelessWidget {
-  const WorkSpace({Key? key, required this.workspace, required this.isCurrent,}) : super(key: key);
+  const WorkSpace({
+    Key? key,
+    required this.workspace,
+    required this.isCurrent,
+  }) : super(key: key);
   final String workspace;
   final bool isCurrent;
 
@@ -44,27 +48,25 @@ class WorkSpace extends StatelessWidget {
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 2),
         child: Dismissible(
-            key: Key(workspace),
-            direction: DismissDirection.endToStart,
-            confirmDismiss: (direction) => Future.value(!isCurrent),
-            onDismissed: (direction) => {handleDismiss(c)},
-            child: Container(
-                width: double.infinity,
-                child:MaterialButton(
-                color: Colors.white10,
-                disabledColor: Colors.black26,
-                disabledTextColor: Colors.white30,
-                child: Text(workspace, textScaleFactor: 1.1),
-                onPressed: isCurrent ? null : () => handlePressed(c))),
-
-            background: Container(
-                padding: EdgeInsets.all(10.0),
-                width: double.infinity,
-                color: Colors.red),
+          key: Key(workspace),
+          direction: DismissDirection.endToStart,
+          confirmDismiss: (direction) => Future.value(!isCurrent),
+          onDismissed: (direction) => {handleDismiss(c)},
+          child: Container(
+              width: double.infinity,
+              child: MaterialButton(
+                  color: Colors.white10,
+                  disabledColor: Colors.black26,
+                  disabledTextColor: Colors.white30,
+                  child: Text(workspace, textScaleFactor: 1.1),
+                  onPressed: isCurrent ? null : () => handlePressed(c))),
+          background: Container(
+              padding: EdgeInsets.all(10.0),
+              width: double.infinity,
+              color: Colors.red),
         ));
   }
 }
-
 
 class WorkSpaceTitle extends StatelessWidget {
   const WorkSpaceTitle({

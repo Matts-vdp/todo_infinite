@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../components/HomeDrawer.dart';
 import '../components/actions/actions.dart';
 import '../data/controllers/TodoController.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +8,6 @@ import '../components/SyncIcon.dart';
 import '../dialogs/RenameDialog.dart';
 import 'MakeTodo.dart';
 import 'TodoItem.dart';
-import '../workspaces/WorkSpaceSelector.dart';
 
 // Displays a todo chosen by the arr variable
 class TodoPage extends StatelessWidget {
@@ -25,7 +25,7 @@ class TodoPage extends StatelessWidget {
         return false;
       },
       child: Scaffold(
-        drawer: WorkSpaceSelector(),
+        drawer: HomeDrawer(),
         appBar: AppBar(
           backgroundColor: Color.fromRGBO(33, 33, 33, 1),
           systemOverlayStyle: SystemUiOverlayStyle.light,

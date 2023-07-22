@@ -107,7 +107,8 @@ class TodoData {
   }
 
   void listTodos(List<TodoReference> todos, List<int> arr) {
-    todos.add(TodoReference(arr, this));
+    if (arr.isNotEmpty)
+      todos.add(TodoReference(arr, this));
     for (var i=0; i<sub.length; i++){
       sub[i].listTodos(todos, [...arr, i]);
     }
