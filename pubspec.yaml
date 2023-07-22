@@ -18,6 +18,7 @@ dependencies:
   flutter_local_notifications: ^15.1.0+1
   http: ^1.1.0
   localstorage: ^4.0.1+4
+  url_launcher: ^6.1.12
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../data/controller.dart';
 import 'TodoPage.dart';
 
@@ -96,19 +98,42 @@ class Name extends StatelessWidget {
 
   final List<int> arr;
 
+  List<String> processText(String text) {
+    var re = RegExp("\\s+");
+    var urls = text.split(re).where((word) => word.isURL).toList();
+    List<String> result = [];
+    var endIndex = 0;
+    for (var url in urls) {
+      var index = text.indexOf(url, endIndex);
+      result.add(text.substring(endIndex, index));
+      result.add(url);
+      endIndex = index + url.length;
+    }
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: GetBuilder<Controller>(builder: (todo) {
-        return Text(
-          "${todo.getText(arr)}",
-          style: TextStyle(
-            fontSize: 18,
-            color: todo.getDone(arr) ? Colors.grey : Colors.white,
-            decoration: todo.getDone(arr)
-                ? TextDecoration.lineThrough
-                : TextDecoration.none,
-          ),
+        var words = processText(todo.getText(arr));
+        return RichText(
+          text: TextSpan(children: [
+            for (var word in words)
+              TextSpan(
+                text: "$word",
+                recognizer: new TapGestureRecognizer() ..onTap = word.isURL ? 
+                    (){launchUrl(Uri.parse(word));} :
+                    (){},
+                style: TextStyle(
+                  fontSize: 18,
+                  color: word.isURL ? Colors.blue : todo.getDone(arr) ? Colors.grey : Colors.white,
+                  decoration: todo.getDone(arr)
+                      ? TextDecoration.lineThrough
+                      : word.isURL ? TextDecoration.underline : TextDecoration.none,
+                ),
+              )
+          ])
         );
       }),
     );
