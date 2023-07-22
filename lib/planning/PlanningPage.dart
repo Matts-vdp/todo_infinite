@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_infinite/todo/TodoItem.dart';
 import 'package:todo_infinite/utils/timeUtils.dart';
+import '../components/HomeDrawer.dart';
 import '../components/SyncIcon.dart';
 import '../components/actions/actions.dart';
 import '../data/controllers/TodoController.dart';
@@ -13,13 +14,14 @@ class PlanningPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: HomeDrawer(),
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(33, 33, 33, 1),
         title: Text('Planning'),
         actions: [
           SyncIcon(),
           NotificationAction(),
-          TrashAction(),
+          HomeAction()
         ],
       ),
       body: Container(

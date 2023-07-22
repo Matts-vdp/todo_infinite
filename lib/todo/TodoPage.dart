@@ -48,7 +48,8 @@ class TodoPage extends StatelessWidget {
           actions: [
             SyncIcon(),
             NotificationAction(),
-            SettingsAction(),
+            if (arr.isNotEmpty)
+              HomeAction(),
           ],
         ),
         body: Column(

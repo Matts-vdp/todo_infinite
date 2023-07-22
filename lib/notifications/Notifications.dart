@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_infinite/components/actions/actions.dart';
 import '../components/SyncIcon.dart';
 import '../data/controllers/SettingsController.dart';
 import 'dart:io' show Platform;
@@ -47,6 +48,7 @@ class _NotificationsState extends State<Notifications> {
         title: Text('Notifications'),
         actions: [
           SyncIcon(),
+          HomeAction()
         ],
       ),
       body: Container(

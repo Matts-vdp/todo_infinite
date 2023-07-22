@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../notifications/Notifications.dart';
 import '../../settings/Settings.dart';
+import '../../todo/TodoPage.dart';
 import '../../trash/Trash.dart';
 
 
@@ -56,6 +57,23 @@ class SettingsAction extends StatelessWidget {
       icon: Icon(
         Icons.settings,
       ),
+    );
+  }
+}
+
+class HomeAction extends StatelessWidget {
+  const HomeAction({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        debugPrint("test");
+        Get.offAll(() => TodoPage(arr: []));
+      },
+      icon: Icon(Icons.home),
     );
   }
 }

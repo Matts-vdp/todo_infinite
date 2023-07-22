@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_infinite/components/HomeDrawer.dart';
 import 'package:todo_infinite/todo/TodoItem.dart';
 import '../components/SyncIcon.dart';
 import '../components/actions/actions.dart';
@@ -12,13 +13,14 @@ class Favorites extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: HomeDrawer(),
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(33, 33, 33, 1),
         title: Text('Favorites'),
         actions: [
           SyncIcon(),
           NotificationAction(),
-          TrashAction(),
+          HomeAction()
         ],
       ),
       body: Container(
