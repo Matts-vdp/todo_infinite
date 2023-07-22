@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../data/controller.dart';
+import '../data/controllers/SettingsController.dart';
+import '../data/controllers/TodoController.dart';
 
 
 Future<bool> showMoveDialog(BuildContext context, List<int> arr) async {
-  final Controller c = Get.find();
+  final todos = Get.find<TodoController>();
+  final settings = Get.find<SettingsController>();
+
   List<int> parr = [...arr];
   int? res = await showDialog<int>(
       context: context,
@@ -24,7 +27,7 @@ Future<bool> showMoveDialog(BuildContext context, List<int> arr) async {
                   children: [
                     Icon(
                       Icons.arrow_upward,
-                      color: c.getColors()[c.getColor()],
+                      color: settings.currentColor(),
                     ),
                     SizedBox(
                       width: 10,
@@ -38,7 +41,7 @@ Future<bool> showMoveDialog(BuildContext context, List<int> arr) async {
                   ],
                 ),
               ),
-            for (int i = 0; i < c.getTodo(parr).sub.length; i++)
+            for (int i = 0; i < todos.getTodo(parr).sub.length; i++)
               if (i != arr[arr.length - 1])
                 SimpleDialogOption(
                   onPressed: () {
@@ -48,14 +51,14 @@ Future<bool> showMoveDialog(BuildContext context, List<int> arr) async {
                     children: [
                       Icon(
                         Icons.chevron_right_rounded,
-                        color: c.getColors()[c.getColor()],
+                        color: settings.currentColor(),
                       ),
                       SizedBox(
                         width: 10,
                       ),
                       Flexible(
                         child: Text(
-                          c.getText([...parr, i]),
+                          todos.getText([...parr, i]),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -74,13 +77,13 @@ Future<bool> showMoveDialog(BuildContext context, List<int> arr) async {
   } else if (res == -1) {
     if (parr.length > 0) {
       parr.removeLast();
-      c.moveTodo(arr, parr);
+      todos.moveTodo(arr, parr);
       return Future<bool>.value(true);
     }
     return Future<bool>.value(false);
   } else {
     parr.add(res);
-    c.moveTodo(arr, parr);
+    todos.moveTodo(arr, parr);
     return Future<bool>.value(true);
   }
 }

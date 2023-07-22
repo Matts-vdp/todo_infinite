@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../data/controller.dart';
+import '../data/controllers/WorkSpaceController.dart';
 import 'AddWorkSpace.dart';
 
 class WorkSpaceSelector extends StatelessWidget {
@@ -12,7 +12,7 @@ class WorkSpaceSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     String workspace;
     return Drawer(
-        child: GetBuilder<Controller>(
+        child: GetBuilder<WorkSpaceController>(
           builder: (c) => ListView(
             children: [
               WorkSpaceTitle(),
@@ -30,17 +30,17 @@ class WorkSpace extends StatelessWidget {
   final String workspace;
   final bool isCurrent;
 
-  void handlePressed(Controller c) {
+  void handlePressed(WorkSpaceController c) {
     c.switchToWorkSpace(workspace);
   }
 
-  void handleDismiss(Controller c) {
+  void handleDismiss(WorkSpaceController c) {
     c.deleteWorkSpace(workspace);
   }
 
   @override
   Widget build(BuildContext context) {
-    final Controller c = Get.find();
+    final WorkSpaceController c = Get.find();
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 2),
         child: Dismissible(

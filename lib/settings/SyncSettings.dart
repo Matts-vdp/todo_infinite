@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../data/controller.dart';
+import '../data/controllers/WorkSpaceController.dart';
 
 class SyncSettings extends StatefulWidget {
   const SyncSettings({Key? key}) : super(key: key);
@@ -10,18 +10,17 @@ class SyncSettings extends StatefulWidget {
 
 class _SyncSettingsState extends State<SyncSettings> {
   final _formkey = GlobalKey<FormState>();
-  final fieldText =
-      TextEditingController(text: Get.find<Controller>().getSyncKey());
+  final fieldText = TextEditingController(text: Get.find<WorkSpaceController>().getSyncKey());
 
   void post() async {
-    final Controller c = Get.find();
+    final c = Get.find<WorkSpaceController>();
     c.setSyncKey(fieldText.text);
     c.addWorkSpace(fieldText.text);
     c.post();
   }
 
   void fetch() async {
-    final Controller c = Get.find();
+    final c = Get.find<WorkSpaceController>();
     c.setSyncKey(fieldText.text);
     c.addWorkSpace(fieldText.text);
     c.fetch(overwrite: true);

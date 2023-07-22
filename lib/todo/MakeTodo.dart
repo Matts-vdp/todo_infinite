@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../data/controller.dart';
+import '../data/controllers/TodoController.dart';
 
 
 // displays the button and textfield for adding new todos
@@ -10,7 +10,7 @@ class MakeTodo extends StatelessWidget {
   MakeTodo({Key? key, required this.arr}) : super(key: key);
 
   // used when the add button is pressed
-  void submitText(String str, Controller c) {
+  void submitText(String str, TodoController c) {
     FocusManager.instance.primaryFocus?.unfocus();
     c.addTodo(arr, str.trim());
     fieldText.clear();
@@ -18,7 +18,7 @@ class MakeTodo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Controller c = Get.find();
+    final c = Get.find<TodoController>();
     return Container(
         padding: EdgeInsets.all(5.0),
         child: Card(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../data/controller.dart';
+import '../data/controllers/SettingsController.dart';
+import '../data/controllers/TodoController.dart';
 import '../dialogs/MoveDialog.dart';
 import 'TodoCard.dart';
 
@@ -11,7 +12,7 @@ class Todo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Controller c = Get.find();
+    final c = Get.find<TodoController>();
 
     return Dismissible(
       key: UniqueKey(),
@@ -38,7 +39,7 @@ class Todo extends StatelessWidget {
           Center(
             child: TodoCard(arr: arr),
           ),
-          GetBuilder<Controller>(
+          GetBuilder<TodoController>(
             //display the sub todo's when the todo is open and there are sub todo's
             builder: (todo) =>
             todo.getOpen(arr) && todo.getTodo(arr).sub.isNotEmpty
@@ -60,7 +61,7 @@ class ListTodo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.only(left: 25),
-        child: GetBuilder<Controller>(
+        child: GetBuilder<TodoController>(
           builder: (todo) => Column(
             children: [
               for (int i = 0; i < todo.getTodo(arr).sub.length; i++)
@@ -101,8 +102,7 @@ class MoveBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<Controller>(
-      //display the sub todo's when the todo is open and there are sub todo's
+    return GetBuilder<SettingsController>(
       builder: (todo) => Card(
         color: todo.getColors()[todo.getColor()],
         child: Container(

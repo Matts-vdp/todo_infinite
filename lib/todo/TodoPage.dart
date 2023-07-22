@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../components/actions/actions.dart';
-import '../data/controller.dart';
+import '../data/controllers/TodoController.dart';
 import 'package:flutter/services.dart';
 import '../components/SyncIcon.dart';
 import '../dialogs/RenameDialog.dart';
@@ -16,7 +16,6 @@ class TodoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Controller c = Get.find();
     return WillPopScope(
       onWillPop: () async {
         if (arr.isEmpty) {
@@ -32,7 +31,7 @@ class TodoPage extends StatelessWidget {
           systemOverlayStyle: SystemUiOverlayStyle.light,
           title: GestureDetector(
             onDoubleTap: () => {showRenameDialog(context, arr)},
-            child: GetBuilder<Controller>(
+            child: GetBuilder<TodoController>(
               builder: (todo) => Text('${todo.getText(arr)}'),
             ),
           ),
@@ -54,7 +53,7 @@ class TodoPage extends StatelessWidget {
         body: Column(
           children: [
             Expanded(
-              child: GetBuilder<Controller>(
+              child: GetBuilder<TodoController>(
                 builder: (todo) => ReorderableListView(
                   buildDefaultDragHandles: false,
                   keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -69,7 +68,7 @@ class TodoPage extends StatelessWidget {
                       )
                   ],
                   onReorder: (oldIndex, newIndex) {
-                    c.reorder(arr, oldIndex, newIndex);
+                    todo.reorder(arr, oldIndex, newIndex);
                   },
                 ),
               ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../data/controller.dart';
+import '../data/controllers/TrashController.dart';
 
 class Trash extends StatelessWidget {
   const Trash({ Key? key }) : super(key: key);
@@ -12,12 +12,12 @@ class Trash extends StatelessWidget {
         backgroundColor: Color.fromRGBO(33, 33, 33, 1),
         title: Text('Trash'),
       ),
-      body: GetBuilder<Controller>(
-        builder: (todo) => ListView(
+      body: GetBuilder<TrashController>(
+        builder: (trash) => ListView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           padding: EdgeInsets.all(10),
           children: [
-            for (int i=todo.trash.items.length-1; i>=0; i--)
+            for (int i=trash.trash.items.length-1; i>=0; i--)
               TodoTrashCard(arr: i)
           ],
         ),
@@ -33,19 +33,18 @@ class TodoTrashCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Controller c = Get.find();
+    final c = Get.find<TrashController>();
     return Card(
       child: Container(
         padding: EdgeInsets.all(10.0),
         width: double.infinity,
-        //height: 60,
         child: Row(
           children: [
             Expanded(
               child:
-              GetBuilder<Controller>(
-                  builder: (todo) {
-                    return Text(todo.trash.items[arr].data.text,
+              GetBuilder<TrashController>(
+                  builder: (trash) {
+                    return Text(trash.trash.items[arr].data.text,
                       style: TextStyle(
                         fontSize: 18,
                       ),

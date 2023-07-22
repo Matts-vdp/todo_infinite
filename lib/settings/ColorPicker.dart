@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../data/controller.dart';
+import '../data/controllers/SettingsController.dart';
 
 class ColorPicker extends StatelessWidget {
   const ColorPicker({
@@ -9,7 +9,7 @@ class ColorPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Controller c = Get.find();
+    final c = Get.find<SettingsController>();
     return Card(
       child: Padding(
         padding: EdgeInsets.all(8.0),
@@ -43,7 +43,7 @@ class ColorButton extends StatelessWidget {
   final int color;
   @override
   Widget build(BuildContext context) {
-    final Controller c = Get.find();
+    final c = Get.find<SettingsController>();
     return SizedBox(
       width: 50,
       height: 50,
