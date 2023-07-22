@@ -20,10 +20,15 @@ class TodoDetails extends StatelessWidget {
           var todoData = todo.getTodo(arr);
           return Column(
             children: [
-              SizedBox.fromSize(size: Size.fromHeight(10)),
-              Text("Details", style: TextStyle(color: Colors.white30)),
-              FavoriteButton(arr: arr, todoData: todoData),
-              UntilPicker(arr: arr, todoData: todoData),
+              SizedBox.fromSize(size: Size.fromHeight(15)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FavoriteButton(arr: arr, todoData: todoData),
+                  UntilPicker(arr: arr, todoData: todoData),
+                ],
+              ),
+
             ],
           );
         }

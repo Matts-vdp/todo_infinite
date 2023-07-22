@@ -67,6 +67,7 @@ class Pages extends StatelessWidget {
               ),
               style: ButtonStyle(
                   backgroundColor: MaterialStateColor.resolveWith((states) => Colors.blueGrey),
+                  foregroundColor: MaterialStateColor.resolveWith((states) => Colors.white)
               ),
             ),
           ),
@@ -85,6 +86,7 @@ class Pages extends StatelessWidget {
               ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateColor.resolveWith((states) => Colors.black26),
+                  foregroundColor: MaterialStateColor.resolveWith((states) => Colors.white)
               ),
             ),
           )
