@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../data/controller.dart';
+import '../data/controllers/WorkSpaceController.dart';
 
 class SyncIcon extends StatelessWidget {
   const SyncIcon({Key? key}) : super(key: key);
 
-  Future<void> handlePressed(Controller c) async {
+  Future<void> handlePressed(WorkSpaceController c) async {
     await c.fetch();
   }
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<Controller>(builder: (todo)=>
+    return GetBuilder<WorkSpaceController>(builder: (todo)=>
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 6),
           child: IconButton(

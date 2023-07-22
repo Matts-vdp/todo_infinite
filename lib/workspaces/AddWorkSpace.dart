@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../data/controller.dart';
+import '../data/controllers/WorkSpaceController.dart';
 
 
 class AddWorkSpace extends StatefulWidget {
@@ -16,7 +16,7 @@ class _AddWorkSpaceState extends State<AddWorkSpace> {
   final fieldText = TextEditingController();
 
   // used when the add button is pressed
-  void submitText(String str, Controller c) {
+  void submitText(String str, WorkSpaceController c) {
     if (str.isEmpty) return;
     c.addWorkSpace(str);
     fieldText.clear();
@@ -24,7 +24,7 @@ class _AddWorkSpaceState extends State<AddWorkSpace> {
 
   @override
   Widget build(BuildContext context) {
-    final Controller c = Get.find();
+    final WorkSpaceController c = Get.find();
 
     return Padding(
       padding: EdgeInsets.all(10),

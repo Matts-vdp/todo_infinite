@@ -6,23 +6,17 @@ import 'package:flutter/material.dart';
 class Settings {
   int cnt = 1;
   int color = 0;
-  String syncKey = "";
-  List<String> workspaces = [];
   
-  Settings(int i, int c, String s, List<String> w){
+  Settings(int i, int c){
     cnt = i;
     color = c;
-    syncKey = s;
-    workspaces = w;
   }
 
   // used to convert the object to json
   Map toJson() {
     return {
       'cnt': this.cnt,
-      'color': this.color,
-      'syncKey': this.syncKey,
-      'workspaces': this.workspaces
+      'color': this.color
     };
   }
 
@@ -32,12 +26,9 @@ class Settings {
 
   // used to create a object from a json string
   factory Settings.fromJson(Map<String, dynamic> parsedJson) {
-    List<String>? w = (parsedJson["workspaces"] as List?)?.map((item)=>item as String).toList();
     return Settings(
         parsedJson["cnt"] ?? 1,
         parsedJson["color"] ?? 0,
-        parsedJson["syncKey"] ?? "",
-        w ?? []
     );
   }
 

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../data/controller.dart';
+import '../data/controllers/TodoController.dart';
 
 
 Future<void> showRenameDialog(BuildContext context, List<int> arr) async {
-  final Controller c = Get.find();
-  TextEditingController _textFieldController =
-  TextEditingController(text: c.getText(arr));
+  final todos = Get.find<TodoController>();
+  TextEditingController _textFieldController = TextEditingController(text: todos.getText(arr));
 
   void submit(String text) {
-    c.changeName(arr, text);
+    todos.changeName(arr, text);
     Navigator.pop(context);
   }
   showDialog(

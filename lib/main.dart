@@ -1,42 +1,33 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_infinite/data/WorkSpaces.dart';
 import '../data/PersistedTodos.dart';
 import '../data/settings.dart';
 import '../data/trashData.dart';
-import 'data/controller.dart';
 import 'dart:io' show Platform;
 import 'notifications/notification_service.dart' if (Platform.isAndroid) "";
 import 'data/persistence/persistence.dart';
 import 'todo/TodoPage.dart';
+import 'data/controllers/SettingsController.dart';
+import 'data/controllers/TodoController.dart';
+import 'data/controllers/TrashController.dart';
+import 'data/controllers/WorkSpaceController.dart';
 
 
 void main() async {
-  initializeNotifications();
+  await registerDependencies();
 
-  var settings = await initializeSettings();
-  var todos = await initializeTodoData(settings.syncKey);
-  var trashDataList = await initializeTrashData();
-
-  runApp(
-      TodoInfinite(
-        data: todos,
-        settingsData: settings,
-        trashData: trashDataList
-      )
-  ); //use the stored data
+  runApp(TodoInfinite());
 }
 
 
 class TodoInfinite extends StatelessWidget {
-  final PersistedTodos data;
-  final Settings settingsData;
-  final TrashDataList trashData;
-  const TodoInfinite({ Key? key, required  this.data, required this.settingsData, required this.trashData,}) : super(key: key);
+  const TodoInfinite({ Key? key,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final Controller c = Get.put(Controller(data, settingsData, trashData));
+    final c = Get.find<SettingsController>();
 
     return GetMaterialApp(
       title: 'Todo infinite',
@@ -50,6 +41,18 @@ class TodoInfinite extends StatelessWidget {
       home: TodoPage(arr:[]),
     );
   }
+}
+
+Future<void> registerDependencies() async {
+  initializeNotifications();
+  var settings = await initializeSettings();
+  var workspaces = await initializeWorkSpaces();
+  var todos = await initializeTodoData(workspaces.syncKey);
+  var trashDataList = await initializeTrashData();
+  Get.put(SettingsController(settings));
+  Get.put(WorkSpaceController(workspaces));
+  Get.put(TrashController(trashDataList));
+  Get.put(TodoController(todos));
 }
 
 // Initialises the needed classes for notifications
@@ -66,9 +69,15 @@ Future<TrashDataList> initializeTrashData() async {
   return TrashDataList.fromJson(jsonDecode(str));
 }
 
+Future<WorkSpaces> initializeWorkSpaces() async {
+  var str = await readFromPersistence("workspaces.json");
+  if (str.isEmpty) return WorkSpaces("", []);
+  return WorkSpaces.fromJson(jsonDecode(str));
+}
+
 Future<Settings> initializeSettings() async {
   var str = await readFromPersistence("settings.json");
-  if (str.isEmpty) return Settings(1, 0, "", []);
+  if (str.isEmpty) return Settings(1, 0);
   return Settings.fromJson(jsonDecode(str));
 }
 

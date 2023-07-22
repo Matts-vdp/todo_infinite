@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../components/SyncIcon.dart';
-import '../data/controller.dart';
+import '../data/controllers/SettingsController.dart';
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import '../notifications/notification_service.dart' if (Platform.isAndroid) "";
@@ -17,7 +17,7 @@ class _NotificationsState extends State<Notifications> {
   final fieldText = TextEditingController();
   DateTime time = DateTime.now();
 
-  void sendNotification(Controller c, {bool sendNow = false}) {
+  void sendNotification(SettingsController settings, {bool sendNow = false}) {
     FocusManager.instance.primaryFocus?.unfocus();
     if (!_formkey.currentState!.validate()) return;
     var text = fieldText.text;
@@ -30,17 +30,17 @@ class _NotificationsState extends State<Notifications> {
     }
 
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Sending notification')));
-    c.incCnt();
+    settings.incCnt();
 
     if (sendNow || time.isBefore(DateTime.now().add(Duration(seconds: 1))))
-      NotificationService().send(text, "", c.getCnt());
+      NotificationService().send(text, "", settings.getCnt());
     else
-      NotificationService().sendDelay(text, "", c.getCnt(), time);
+      NotificationService().sendDelay(text, "", settings.getCnt(), time);
   }
 
   @override
   Widget build(BuildContext context) {
-    final Controller c = Get.find();
+    final settings = Get.find<SettingsController>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(33, 33, 33, 1),
@@ -118,12 +118,12 @@ class _NotificationsState extends State<Notifications> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      onPressed: () {sendNotification(c, sendNow: true);},
+                      onPressed: () {sendNotification(settings, sendNow: true);},
                       child: Text("Send now"),
                     ),
                     SizedBox(width: 10,),
                     ElevatedButton(
-                      onPressed: () {sendNotification(c);},
+                      onPressed: () {sendNotification(settings);},
                       child: Text("Send later"),
                     ),
                   ],

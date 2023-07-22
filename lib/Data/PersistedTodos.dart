@@ -84,6 +84,11 @@ class PersistedTodos {
     var path = dataPath(key);
     writeToPersistence(this.getJson(), path);
   }
+
+  void addTodoData(List<int> parentArr, TodoData todoData) {
+    data.addTodoData(parentArr, todoData);
+    save();
+  }
 }
 
 Future<PersistedTodos> readTodosFromFile(String key) async {

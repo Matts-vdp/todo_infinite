@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../data/controller.dart';
+import '../data/controllers/TodoController.dart';
 import 'TodoPage.dart';
 
 // used by Todo to display a card with the text and needed buttons of the todo
@@ -70,16 +70,15 @@ class OpenButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Controller c = Get.find();
     return SizedBox(
         height: 40,
-        child: GetBuilder<Controller>(
+        child: GetBuilder<TodoController>(
           builder: (todo) => todo.getTodo(arr).sub.isNotEmpty
               ? SizedBox(
                   width: 30,
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(padding: EdgeInsets.all(2)),
-                    onPressed: () => c.toggleOpen(arr),
+                    onPressed: () => todo.toggleOpen(arr),
                     child: Icon(todo.getOpen(arr)
                         ? Icons.expand_less_rounded
                         : Icons.notes),
@@ -116,7 +115,7 @@ class Name extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: GetBuilder<Controller>(builder: (todo) {
+      child: GetBuilder<TodoController>(builder: (todo) {
         var words = processText(todo.getText(arr));
         return RichText(
           text: TextSpan(children: [
@@ -151,12 +150,11 @@ class IsDoneIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Controller c = Get.find();
     return SizedBox(
         height: 40,
-        child: GetBuilder<Controller>(
+        child: GetBuilder<TodoController>(
             builder: (todo) => IconButton(
-                  onPressed: () => c.toggleDone(arr),
+                  onPressed: () => todo.toggleDone(arr),
                   icon: Icon(todo.getDone(arr)
                       ? Icons.check_circle_outline
                       : Icons.radio_button_unchecked),
