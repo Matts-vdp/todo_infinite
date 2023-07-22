@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'file.dart';
+import 'persistence/persistence.dart';
 import 'todoData.dart';
 export 'todoData.dart';
 
@@ -40,7 +40,7 @@ class TrashDataList {
   }
 
   void save() {
-    writeFile(this.getJson(), "trash.json");
+    writeToPersistence(this.getJson(), "trash.json");
   }
 }
 

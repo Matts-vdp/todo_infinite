@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'file.dart';
+import 'persistence/persistence.dart';
 
 // represends a todo item
 class TodoData {
@@ -104,7 +104,7 @@ class TodoData {
   }
 
   void save() {
-    writeFile(this.getJson(), "data.json");
+    writeToPersistence(this.getJson(), "data.json");
   }
 }
 

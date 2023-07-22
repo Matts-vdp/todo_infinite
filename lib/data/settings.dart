@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'file.dart';
+import 'persistence/persistence.dart';
 import 'package:flutter/material.dart';
 
 
@@ -42,7 +42,7 @@ class Settings {
   }
 
   void save() {
-    writeFile(this.getJson(), "settings.json");
+    writeToPersistence(this.getJson(), "settings.json");
   }
 
   static const List<MaterialColor> colors = [

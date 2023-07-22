@@ -14,13 +14,13 @@ Future<File> getLocalFile(String file) async {
 }
 
 // write a string to a local file
-Future<File> writeFile(String s, String file) async {
+Future<void> writeToFile(String s, String file) async {
   final f = await getLocalFile(file);
-  return f..writeAsString(s);
+  f.writeAsString(s);
 }
 
 //read a string from the local file
-Future<String> readFile(String file) async {
+Future<String> readFromFile(String file) async {
   try {
     final f = await getLocalFile(file);
     final contents = await f.readAsString();

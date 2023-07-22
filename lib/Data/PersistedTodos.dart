@@ -1,6 +1,6 @@
 import 'dart:convert';
 import '../data/todoData.dart';
-import 'file.dart';
+import 'persistence/persistence.dart';
 
 class PersistedTodos {
   DateTime lastMod;
@@ -82,13 +82,13 @@ class PersistedTodos {
   void save() {
     lastMod = DateTime.now();
     var path = dataPath(key);
-    writeFile(this.getJson(), path);
+    writeToPersistence(this.getJson(), path);
   }
 }
 
 Future<PersistedTodos> readTodosFromFile(String key) async {
   var path = dataPath(key);
-  var str = await readFile(path);
+  var str = await readFromPersistence(path);
   if (str.isEmpty) return PersistedTodos(DateTime(0), TodoData("To Do"), key);
   return PersistedTodos.fromJson(jsonDecode(str), key);
 }

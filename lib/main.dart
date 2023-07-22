@@ -7,7 +7,7 @@ import '../data/trashData.dart';
 import 'data/controller.dart';
 import 'dart:io' show Platform;
 import 'notifications/notification_service.dart' if (Platform.isAndroid) "";
-import 'Data/file.dart';
+import 'data/persistence/persistence.dart';
 import 'todo/TodoPage.dart';
 
 
@@ -61,13 +61,13 @@ Future<void> initializeNotifications() async{
 }
 
 Future<TrashDataList> initializeTrashData() async {
-  var str = await readFile("trash.json");
+  var str = await readFromPersistence("trash.json");
   if (str.isEmpty) return TrashDataList();
   return TrashDataList.fromJson(jsonDecode(str));
 }
 
 Future<Settings> initializeSettings() async {
-  var str = await readFile("settings.json");
+  var str = await readFromPersistence("settings.json");
   if (str.isEmpty) return Settings(1, 0, "", []);
   return Settings.fromJson(jsonDecode(str));
 }
