@@ -26,7 +26,7 @@ class TodoDetails extends StatelessWidget {
                 children: [
                   FavoriteButton(arr: arr, todoData: todoData),
                   UntilPicker(arr: arr, todoData: todoData),
-                  // RepeatPicker(arr: arr, todoData: todoData),
+                  RepeatPicker(arr: arr, todoData: todoData),
                 ],
               ),
 

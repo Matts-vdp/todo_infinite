@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class TodoData {
   String text;
   bool done = false;
@@ -27,7 +29,13 @@ class TodoData {
 
   void toggleDone(List<int> arr) {
     TodoData t = getTodo(arr);
-    t.done = !t.done;
+    if (!t.done && t.repeat != null && t.until != null) {
+      debugPrint(t.repeat.toString());
+      debugPrint(t.until.toString());
+      t.until = t.until!.add(Duration(days: t.repeat!));
+    }
+    else
+      t.done = !t.done;
   }
 
   void toggleOpen(List<int> arr) {
