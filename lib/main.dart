@@ -49,10 +49,11 @@ Future<void> registerDependencies() async {
   var workspaces = await initializeWorkSpaces();
   var todos = await initializeTodoData(workspaces.syncKey);
   var trashDataList = await initializeTrashData();
+
+  Get.put(TodoController(todos));
   Get.put(SettingsController(settings));
   Get.put(WorkSpaceController(workspaces));
   Get.put(TrashController(trashDataList));
-  Get.put(TodoController(todos));
 }
 
 // Initialises the needed classes for notifications
