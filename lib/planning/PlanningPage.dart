@@ -48,7 +48,7 @@ class PlannedGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var isTooOld = group.until.compareTo(DateTime.now()) < 0;
+    var isTooOld = isBeforeToday(group.until);
 
     return Column(
       children: [
