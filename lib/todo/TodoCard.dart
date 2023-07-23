@@ -62,6 +62,8 @@ class Info extends StatelessWidget {
                       Favorite(),
                     if (todoData.until != null)
                       Until(time: todoData.until!),
+                    if (todoData.repeat != null)
+                      Repeat(repeat: todoData.repeat!),
                   ],
                 ),
               ),
@@ -103,11 +105,38 @@ class Until extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 10,
+      padding: EdgeInsets.only(right: 5),
       child: Text(formatDate(time),
         style: TextStyle(
           fontSize: 10,
           color: isBeforeToday(time) ? Colors.red : Colors.white38
         ),),
+    );
+  }
+}
+
+class Repeat extends StatelessWidget {
+  const Repeat({
+    Key? key,
+    required this.repeat,
+  }) : super(key: key);
+
+  final int repeat;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 10,
+      child: Row(
+        children: [
+          Icon(Icons.repeat, size: 10,),
+          Text(repeat.toString(),
+            style: TextStyle(
+                fontSize: 10,
+                color: Colors.white38
+            ),),
+        ],
+      ),
     );
   }
 }
