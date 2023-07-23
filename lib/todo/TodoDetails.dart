@@ -26,6 +26,7 @@ class TodoDetails extends StatelessWidget {
                 children: [
                   FavoriteButton(arr: arr, todoData: todoData),
                   UntilPicker(arr: arr, todoData: todoData),
+                  // RepeatPicker(arr: arr, todoData: todoData),
                 ],
               ),
 
@@ -65,6 +66,42 @@ class UntilPicker extends StatelessWidget {
           Text("Until: ${formatDate(todoData.until!)}") :
           Text("Until")
     );
+  }
+}
+
+class RepeatPicker extends StatelessWidget {
+  const RepeatPicker({
+    Key? key,
+    required this.arr,
+    required this.todoData,
+  }) : super(key: key);
+
+  final List<int> arr;
+  final TodoData todoData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        PopupMenuButton<int>(
+            constraints: BoxConstraints(maxHeight: 200, minWidth: 100),
+            icon: Icon(Icons.repeat),
+            onSelected: (value){handleSelect(value);},
+            onCanceled: (){handleSelect(null);},
+            shape: BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
+            itemBuilder: (context) => [
+              for (var i=1; i<32; i++)
+                PopupMenuItem(child: Text(i.toString()), value: i,)
+            ],),
+        if (todoData.repeat != null)
+          Text(todoData.repeat.toString()),
+      ],
+    );
+  }
+
+  void handleSelect(int? value) {
+    final todo = Get.find<TodoController>();
+    todo.setRepeat(arr, value);
   }
 }
 
