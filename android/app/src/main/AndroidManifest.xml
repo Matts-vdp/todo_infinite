@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.todo_infinite">
    <application
-        android:label="todo_infinite"
+        android:label="todo infinite"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:exported="true"

@@ -123,7 +123,7 @@ class Name extends StatelessWidget {
               TextSpan(
                 text: "$word",
                 recognizer: new TapGestureRecognizer() ..onTap = word.isURL ? 
-                    (){launchUrl(Uri.parse(word));} :
+                    (){openUrl(word);} :
                     (){},
                 style: TextStyle(
                   fontSize: 18,
@@ -137,6 +137,13 @@ class Name extends StatelessWidget {
         );
       }),
     );
+  }
+
+  Future<bool> openUrl(String word) {
+    if (!word.startsWith("http"))
+      word = "http://$word";
+    var url = Uri.parse(word);
+    return launchUrl(url, mode: LaunchMode.externalApplication);
   }
 }
 
