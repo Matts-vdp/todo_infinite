@@ -105,6 +105,11 @@ class PersistedTodos {
     data.setUntil(arr, time);
     save();
   }
+
+  void setRepeat(List<int> arr, int? repeat) {
+    data.setRepeat(arr, repeat);
+    save();
+  }
 }
 
 Future<PersistedTodos> readTodosFromFile(String key) async {

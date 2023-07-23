@@ -46,6 +46,11 @@ class TodoController extends GetxController {
     update();
   }
 
+  void setRepeat(List<int> arr, int? repeat){
+    todo.setRepeat(arr, repeat);
+    update();
+  }
+
   void setTodo(PersistedTodos todos) {
     todo = todos;
     update();

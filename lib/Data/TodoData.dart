@@ -3,6 +3,7 @@ class TodoData {
   bool done = false;
   bool open = false;
   bool favorite = false;
+  int? repeat;
   DateTime? until;
   List<TodoData> sub = <TodoData>[];
 
@@ -56,11 +57,12 @@ class TodoData {
   }
 
   //Creates a todo with the given data
-  TodoData newData(bool done, bool favorite, List<TodoData> sub, DateTime? until) {
+  TodoData newData(bool done, bool favorite, List<TodoData> sub, DateTime? until, int? repeat) {
     this.done = done;
     this.favorite = favorite;
     this.sub = sub;
     this.until = until;
+    this.repeat = repeat;
     return this;
   }
 
@@ -84,6 +86,10 @@ class TodoData {
     getTodo(arr).until = time;
   }
 
+  void setRepeat(List<int> arr, int? repeat) {
+    getTodo(arr).repeat = repeat;
+  }
+
   // used to convert the object to json
   Map toJson() {
     List<Map>? subs = this.sub.map((i) => i.toJson()).toList();
@@ -93,6 +99,7 @@ class TodoData {
       'done': this.done,
       'until': this.until?.toIso8601String(),
       'favorite' : this.favorite,
+      'repeat' : this.repeat,
       'sub': subs,
     };
   }
@@ -111,7 +118,8 @@ class TodoData {
       parsedJson['done'] ?? false,
       parsedJson['favorite'] ?? false,
       s,
-      time == null ? null : DateTime.parse(time)
+      time == null ? null : DateTime.parse(time),
+      parsedJson['repeat']
     );
   }
 
