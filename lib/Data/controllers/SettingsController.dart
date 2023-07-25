@@ -28,6 +28,10 @@ class SettingsController extends GetxController {
     return settings.color;
   }
 
+  MaterialColor colorOf(int id){
+    return getColors()[id];
+  }
+
   void setColor(int c){
     settings.color = c;
     Get.changeTheme(

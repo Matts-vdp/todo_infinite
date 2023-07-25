@@ -22,8 +22,15 @@ class Tags {
 
   void save() {writeToPersistence(this.getJson(), "tags.json");}
 
-  Tag getById(String id) {
-    return tags.firstWhere((tag) => tag.id == id);
+  Tag? getById(String? id) {
+    for (var tag in tags){
+      if (tag.id == id) return tag;
+    }
+    return null;
+  }
+
+  List<Tag> toList() {
+    return tags;
   }
 }
 
@@ -37,7 +44,6 @@ class Tag {
   Tag(this.label);
   Tag.withColor(this.label, this.color);
   Tag.fromData(this.label, this.color, this.id);
-
 
   Map toJson() {
     return {
