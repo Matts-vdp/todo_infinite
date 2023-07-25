@@ -6,6 +6,7 @@ import '../data/PersistedTodos.dart';
 import '../data/settings.dart';
 import '../data/trashData.dart';
 import 'dart:io' show Platform;
+import 'data/Tags.dart';
 import 'data/controllers/TagsController.dart';
 import 'notifications/notification_service.dart' if (Platform.isAndroid) "";
 import 'data/persistence/persistence.dart';
@@ -50,12 +51,13 @@ Future<void> registerDependencies() async {
   var workspaces = await initializeWorkSpaces();
   var todos = await initializeTodoData(workspaces.syncKey);
   var trashDataList = await initializeTrashData();
+  var tags = await initializeTagsData();
 
   Get.put(TodoController(todos));
   Get.put(SettingsController(settings));
   Get.put(WorkSpaceController(workspaces));
   Get.put(TrashController(trashDataList));
-  Get.put(TagsController());
+  Get.put(TagsController(tags));
 }
 
 // Initialises the needed classes for notifications
@@ -82,6 +84,12 @@ Future<Settings> initializeSettings() async {
   var str = await readFromPersistence("settings.json");
   if (str.isEmpty) return Settings(1, 0);
   return Settings.fromJson(jsonDecode(str));
+}
+
+Future<Tags> initializeTagsData() async{
+  var str = await readFromPersistence("tags.json");
+  if (str.isEmpty) return Tags([]);
+  return Tags.fromJson(jsonDecode(str));
 }
 
 Future<PersistedTodos> initializeTodoData(String key) async {

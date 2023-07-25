@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:todo_infinite/data/Tags.dart';
 import 'package:todo_infinite/data/controllers/SettingsController.dart';
 import '../data/controllers/TagsController.dart';
-import '../data/controllers/WorkSpaceController.dart';
 
 
 class TagSettings extends StatelessWidget {

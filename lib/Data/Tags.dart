@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:uuid/uuid.dart';
-
 import 'persistence/persistence.dart';
 
 class Tags {
@@ -21,7 +19,7 @@ class Tags {
   }
 
   void save() {
-    // writeToPersistence(this.getJson(), "tags.json");
+    writeToPersistence(this.getJson(), "tags.json");
   }
 
   Tag? getById(String? id) {
@@ -79,7 +77,7 @@ class Tag {
     return Tag.fromData(
       parsedJson["id"] ?? Uuid().v4(),
       parsedJson["label"] ?? "",
-      parsedJson["color"] ?? 1
+      parsedJson["color"] ?? 0
     );
   }
 }
