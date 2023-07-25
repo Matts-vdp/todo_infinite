@@ -133,8 +133,8 @@ class TagPicker extends StatelessWidget {
       child: Container(
           decoration: BoxDecoration(
               color: tag == null ? null : settings.colorOf(tag.color),
-              borderRadius: BorderRadius.all(Radius.circular(5))),
-          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+              borderRadius: BorderRadius.all(Radius.circular(15))),
+          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
           child: Text(tag == null ? "label" : tag.label)),
       onSelected: (value){handleSelect(value);},
       onCanceled: (){handleSelect(null);},

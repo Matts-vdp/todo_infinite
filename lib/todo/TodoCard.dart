@@ -1,9 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_infinite/data/controllers/SettingsController.dart';
+import 'package:todo_infinite/data/controllers/TagsController.dart';
 import 'package:todo_infinite/data/todoData.dart';
 import 'package:todo_infinite/utils/timeUtils.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../data/Tags.dart';
 import '../data/controllers/TodoController.dart';
 import 'TodoPage.dart';
 
@@ -45,10 +48,15 @@ class Info extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tags = Get.find<TagsController>();
+
+
     return Expanded(
       child: GetBuilder<TodoController>(
         builder: (todo) {
           var todoData = todo.getTodo(arr);
+          var tag = tags.getTag(todoData.tag);
+
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -64,6 +72,8 @@ class Info extends StatelessWidget {
                       Until(time: todoData.until!),
                     if (todoData.repeat != null)
                       Repeat(repeat: todoData.repeat!),
+                    if (tag != null)
+                      TagInfo(tag: tag),
                   ],
                 ),
               ),
@@ -88,6 +98,30 @@ class Favorite extends StatelessWidget {
           Icons.favorite,
           size: 12,
           color: Colors.yellow,
+      ),
+    );
+  }
+}
+
+class TagInfo extends StatelessWidget {
+  const TagInfo({
+    Key? key, required this.tag
+  }) : super(key: key);
+
+  final Tag tag;
+
+  @override
+  Widget build(BuildContext context) {
+    final settings = Get.find<SettingsController>();
+
+    return Padding(
+      padding: const EdgeInsets.only(right:5),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 0.5),
+        child: Text(tag.label, style: TextStyle(fontSize: 10)),
+        decoration: BoxDecoration(
+            color: settings.colorOf(tag.color),
+            borderRadius: BorderRadius.all(Radius.circular(5))),
       ),
     );
   }
@@ -126,6 +160,7 @@ class Repeat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.only(right:5),
       height: 10,
       child: Row(
         children: [
