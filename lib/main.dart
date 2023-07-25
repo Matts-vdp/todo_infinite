@@ -6,6 +6,7 @@ import '../data/PersistedTodos.dart';
 import '../data/settings.dart';
 import '../data/trashData.dart';
 import 'dart:io' show Platform;
+import 'data/controllers/TagsController.dart';
 import 'notifications/notification_service.dart' if (Platform.isAndroid) "";
 import 'data/persistence/persistence.dart';
 import 'todo/TodoPage.dart';
@@ -54,6 +55,7 @@ Future<void> registerDependencies() async {
   Get.put(SettingsController(settings));
   Get.put(WorkSpaceController(workspaces));
   Get.put(TrashController(trashDataList));
+  Get.put(TagsController());
 }
 
 // Initialises the needed classes for notifications

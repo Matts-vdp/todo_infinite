@@ -51,6 +51,11 @@ class TodoController extends GetxController {
     update();
   }
 
+  void setTag(List<int> arr, String? tag){
+    todo.setTag(arr, tag);
+    update();
+  }
+
   void setTodo(PersistedTodos todos) {
     todo = todos;
     update();

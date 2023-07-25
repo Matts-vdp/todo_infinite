@@ -19,6 +19,7 @@ dependencies:
   http: ^1.1.0
   localstorage: ^4.0.1+4
   url_launcher: ^6.1.12
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_test:

@@ -110,6 +110,11 @@ class PersistedTodos {
     data.setRepeat(arr, repeat);
     save();
   }
+
+  void setTag(List<int> arr, String? tag) {
+    data.setTag(arr, tag);
+    save();
+  }
 }
 
 Future<PersistedTodos> readTodosFromFile(String key) async {
