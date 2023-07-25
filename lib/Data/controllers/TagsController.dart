@@ -19,4 +19,19 @@ class TagsController extends GetxController {
   List<Tag> list() {
     return tags.toList();
   }
+
+  void addTag(String text) {
+    tags.addTag(text);
+    update();
+  }
+
+  void setColor(String id, int value) {
+    tags.setColor(id, value);
+    update();
+  }
+
+  void remove(String id) {
+    tags.remove(id);
+    update();
+  }
 }

@@ -91,6 +91,7 @@ class RepeatPicker extends StatelessWidget {
     return Row(
       children: [
         PopupMenuButton<int>(
+            tooltip: "",
             constraints: BoxConstraints(maxHeight: 200, minWidth: 100),
             icon: Icon(Icons.repeat),
             onSelected: (value){handleSelect(value);},
@@ -129,6 +130,7 @@ class TagPicker extends StatelessWidget {
     Tag? tag = tags.getTag(todoData.tag);
 
     return PopupMenuButton<String>(
+      tooltip: "",
       constraints: BoxConstraints(maxHeight: 200, minWidth: 100),
       child: Container(
           decoration: BoxDecoration(

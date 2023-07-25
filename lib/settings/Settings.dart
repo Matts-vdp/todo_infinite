@@ -4,6 +4,7 @@ import '../components/actions/actions.dart';
 import 'ClipboardActions.dart';
 import 'ColorPicker.dart';
 import 'SyncSettings.dart';
+import 'TagSettings.dart';
 
 // Displays the settings tab
 class Settings extends StatelessWidget {
@@ -28,11 +29,10 @@ class Settings extends StatelessWidget {
             ColorPicker(),
             ClipboardActions(),
             SyncSettings(),
+            TagSettings()
           ],
         ),
       ),
     );
   }
 }
-
-

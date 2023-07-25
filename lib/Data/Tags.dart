@@ -20,7 +20,9 @@ class Tags {
     return Tags(tags ?? []);
   }
 
-  void save() {writeToPersistence(this.getJson(), "tags.json");}
+  void save() {
+    // writeToPersistence(this.getJson(), "tags.json");
+  }
 
   Tag? getById(String? id) {
     for (var tag in tags){
@@ -31,6 +33,21 @@ class Tags {
 
   List<Tag> toList() {
     return tags;
+  }
+
+  void addTag(String text) {
+    tags.add(Tag(text));
+    save();
+  }
+
+  void setColor(String id, int value) {
+    getById(id)?.color = value;
+    save();
+  }
+
+  void remove(String id) {
+    tags.removeWhere((element) => element.id == id);
+    save();
   }
 }
 
