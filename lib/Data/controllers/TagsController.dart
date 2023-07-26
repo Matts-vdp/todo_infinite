@@ -3,14 +3,9 @@ import '../Tags.dart';
 
 
 class TagsController extends GetxController {
-  Tags tags = Tags([
-    Tag.fromData("bug", 6, "a"),
-    Tag.fromData("minor", 0, "b"),
-    Tag.fromData("major", 2, "c"),
-    Tag.fromData("extra", 5, "d")
-  ]);
+  Tags tags;
 
-  TagsController();
+  TagsController(this.tags);
 
   Tag? getTag(String? id) {
     return tags.getById(id);
