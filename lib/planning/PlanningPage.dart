@@ -48,15 +48,13 @@ class PlannedGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var isTooOld = isBeforeToday(group.until);
-
     return Column(
       children: [
         Text(
             formatDate(group.until),
             style: TextStyle(
                 fontSize: 18,
-                color: isTooOld ? Colors.red : Colors.white,
+                color: dayColor(group.until),
                 fontWeight: FontWeight.bold
             )),
         SizedBox.fromSize(size: Size.fromHeight(5)),

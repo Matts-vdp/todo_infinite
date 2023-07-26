@@ -118,7 +118,7 @@ class TagInfo extends StatelessWidget {
       padding: const EdgeInsets.only(right:5),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 5, vertical: 0.5),
-        child: Text(tag.label, style: TextStyle(fontSize: 10)),
+        child: Text(tag.label, style: TextStyle(fontSize: 10, color: Colors.black)),
         decoration: BoxDecoration(
             color: settings.colorOf(tag.color),
             borderRadius: BorderRadius.all(Radius.circular(5))),
@@ -143,7 +143,7 @@ class Until extends StatelessWidget {
       child: Text(formatDate(time),
         style: TextStyle(
           fontSize: 10,
-          color: isBeforeToday(time) ? Colors.red : Colors.white38
+          color: dayColor(time)
         ),),
     );
   }
@@ -262,9 +262,7 @@ class Name extends StatelessWidget {
           for (var word in words)
             TextSpan(
               text: "$word",
-              recognizer: new TapGestureRecognizer() ..onTap = word.isURL ?
-                  (){openUrl(word);} :
-                  (){},
+              recognizer: word.isURL ? (new TapGestureRecognizer() ..onTap = (){openUrl(word);}) : null,
               style: TextStyle(
                 fontSize: 18,
                 color: word.isURL ? Colors.blue : todo.done ? Colors.grey : Colors.white,

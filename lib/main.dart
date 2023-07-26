@@ -53,11 +53,11 @@ Future<void> registerDependencies() async {
   var trashDataList = await initializeTrashData();
   var tags = await initializeTagsData();
 
+  Get.put(TagsController(tags));
   Get.put(TodoController(todos));
   Get.put(SettingsController(settings));
   Get.put(WorkSpaceController(workspaces));
   Get.put(TrashController(trashDataList));
-  Get.put(TagsController(tags));
 }
 
 // Initialises the needed classes for notifications

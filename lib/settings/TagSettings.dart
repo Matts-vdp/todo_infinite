@@ -138,7 +138,7 @@ class TagButton extends StatelessWidget {
             color: settings.colorOf(tag.color),
             borderRadius: BorderRadius.all(Radius.circular(15))),
         padding: EdgeInsets.symmetric(vertical: 10),
-        child: Text(tag.label, textScaleFactor: 1.1,));
+        child: Text(tag.label, textScaleFactor: 1.1, style: TextStyle(color: Colors.black),));
   }
 }
 

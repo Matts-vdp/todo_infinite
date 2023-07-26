@@ -75,9 +75,9 @@ class Tag {
   // used to create a object from a json string
   factory Tag.fromJson(Map<String, dynamic> parsedJson) {
     return Tag.fromData(
-      parsedJson["id"] ?? Uuid().v4(),
       parsedJson["label"] ?? "",
-      parsedJson["color"] ?? 0
+      parsedJson["color"] ?? 0,
+      parsedJson["id"] ?? Uuid().v4(),
     );
   }
 }
