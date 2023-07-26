@@ -137,7 +137,7 @@ class TagPicker extends StatelessWidget {
               color: tag == null ? null : settings.colorOf(tag.color),
               borderRadius: BorderRadius.all(Radius.circular(15))),
           padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-          child: Text(tag == null ? "label" : tag.label, style: TextStyle(color: tag == null ? Colors.white : Colors.black),)),
+          child: Text(tag == null ? "tag" : tag.label, style: TextStyle(color: tag == null ? Colors.white : Colors.black),)),
       onSelected: (value){handleSelect(value);},
       onCanceled: (){handleSelect(null);},
       shape: BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
