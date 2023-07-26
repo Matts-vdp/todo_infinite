@@ -38,21 +38,25 @@ class TodoController extends GetxController {
 
   void toggleFavorite(List<int> arr) {
     todo.toggleFavorite(arr);
+    updateSyncState();
     update();
   }
 
   void setUntil(List<int> arr, DateTime? time){
     todo.setUntil(arr, time);
+    updateSyncState();
     update();
   }
 
   void setRepeat(List<int> arr, int? repeat){
     todo.setRepeat(arr, repeat);
+    updateSyncState();
     update();
   }
 
   void setTag(List<int> arr, String? tag){
     todo.setTag(arr, tag);
+    updateSyncState();
     update();
   }
 
