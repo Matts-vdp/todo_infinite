@@ -89,7 +89,13 @@ class WorkSpaceController extends GetxController {
     update();
   }
 
-  void updateSyncState({bool doUpdate = false}){
+  void updateSyncState({bool doUpdate = false, bool setUnknown = false}){
+    if (setUnknown) {
+      isSynced = SyncState.Unknown;
+      update();
+      return;
+    }
+
     if (isSynced == SyncState.Offline) return;
     if (isSynced == SyncState.Unknown) return;
     isSynced = SyncState.MoreRecent;
