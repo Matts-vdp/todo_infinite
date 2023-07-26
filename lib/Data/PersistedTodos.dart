@@ -84,10 +84,15 @@ class PersistedTodos {
     return lastMod.compareTo(other.lastMod);
   }
 
-  void save() {
-    lastMod = DateTime.now();
+  void save({updateLastMod = true}) {
+    if (updateLastMod)
+      lastMod = DateTime.now();
     var path = dataPath(key);
     writeToPersistence(this.getJson(), path);
+  }
+
+  void backUp(){
+    writeToPersistence(this.getJson(), "backup.json");
   }
 
   void addTodoData(List<int> parentArr, TodoData todoData) {
@@ -145,8 +150,8 @@ class PersistedTodos {
   }
 }
 
-Future<PersistedTodos> readTodosFromFile(String key) async {
-  var path = dataPath(key);
+Future<PersistedTodos> readTodosFromFile(String key, {bool useBackup = false}) async {
+  var path = useBackup ? "backup.json" : dataPath(key);
   var str = await readFromPersistence(path);
   if (str.isEmpty) return PersistedTodos(DateTime(0), TodoData("To Do"), Tags([]), key);
   return PersistedTodos.fromJson(jsonDecode(str), key);

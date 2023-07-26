@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../PersistedTodos.dart';
 import '../Tags.dart';
@@ -62,13 +61,15 @@ class TodoController extends GetxController {
   }
 
   void setTodo(PersistedTodos todos) {
+    todo.backUp();
     todo = todos;
+    todo.save(updateLastMod: false);
     update();
   }
 
   Future<void> loadTodos(String key) async {
-    todo = await readTodosFromFile(key);
-    update();
+    var todos = await readTodosFromFile(key);
+    setTodo(todos);
   }
 
   void changeName(List<int> arr, String name) {
@@ -124,13 +125,11 @@ class TodoController extends GetxController {
   }
 
   void addToParent(List<int> arr, String parent, TodoData todoData){
-    debugPrint("a");
     List<int> parentArr = List<int>.from(arr);
     parentArr.removeLast();
     if (parent != getText(parentArr)) {
       arr = <int>[];
     }
-    debugPrint("a");
     todo.addTodoData(parentArr, todoData);
     update();
     updateSyncState();
@@ -158,10 +157,8 @@ class TodoController extends GetxController {
     }
     try {
       PersistedTodos newTodo = PersistedTodos.fromJson(jsonDecode(json), getSyncKey());
-      todo = newTodo;
+      setTodo(newTodo);
       updateSyncState();
-      update();
-      todo.save();
     } catch (e) {
       return;
     }
@@ -202,6 +199,14 @@ class TodoController extends GetxController {
   void remove(String id) {
     todo.removeTag(id);
     updateSyncState();
+    update();
+  }
+
+  Future<void> restoreBackup() async {
+    final c = Get.find<WorkSpaceController>();
+    var backup = await readTodosFromFile(c.getSyncKey(), useBackup: true);
+    todo = backup;
+    c.updateSyncState(setUnknown: true);
     update();
   }
 }
