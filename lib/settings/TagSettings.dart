@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_infinite/data/Tags.dart';
 import 'package:todo_infinite/data/controllers/SettingsController.dart';
-import '../data/controllers/TagsController.dart';
+import '../data/controllers/TodoController.dart';
 
 
 class TagSettings extends StatelessWidget {
@@ -34,7 +34,7 @@ class TagList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<TagsController>(
+    return GetBuilder<TodoController>(
       builder: (tags) {
         return Column(
           children: [
@@ -71,7 +71,7 @@ class TagItem extends StatelessWidget {
   }
 
   removeTag() {
-    final c = Get.find<TagsController>();
+    final c = Get.find<TodoController>();
     c.remove(tag.id);
   }
 }
@@ -114,7 +114,7 @@ class TagItemInfo extends StatelessWidget {
   }
 
   void handleSelect(int value) {
-    final c = Get.find<TagsController>();
+    final c = Get.find<TodoController>();
     c.setColor(tag.id, value);
   }
 }
@@ -156,7 +156,7 @@ class _MakeTag extends State<MakeTag> {
   void addTag() async {
     if (fieldText.text.isEmpty) return;
 
-    final c = Get.find<TagsController>();
+    final c = Get.find<TodoController>();
     c.addTag(fieldText.text);
     fieldText.clear();
   }

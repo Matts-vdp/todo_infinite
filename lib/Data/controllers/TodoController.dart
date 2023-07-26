@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../PersistedTodos.dart';
+import '../Tags.dart';
 import '../todoData.dart';
 import 'TrashController.dart';
 import 'WorkSpaceController.dart';
@@ -176,6 +177,32 @@ class TodoController extends GetxController {
   String getSyncKey() {
     final WorkSpaceController c = Get.find<WorkSpaceController>();
     return c.getSyncKey();
+  }
+
+  Tag? getTag(String? id) {
+    return todo.getTag(id);
+  }
+
+  List<Tag> list() {
+    return todo.tagList();
+  }
+
+  void addTag(String text) {
+    todo.addTag(text);
+    updateSyncState();
+    update();
+  }
+
+  void setColor(String id, int value) {
+    todo.setColor(id, value);
+    updateSyncState();
+    update();
+  }
+
+  void remove(String id) {
+    todo.removeTag(id);
+    updateSyncState();
+    update();
   }
 }
 

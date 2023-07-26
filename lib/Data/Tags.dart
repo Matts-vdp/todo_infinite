@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:uuid/uuid.dart';
-import 'persistence/persistence.dart';
 
 class Tags {
   List<Tag> tags;
@@ -9,17 +8,9 @@ class Tags {
 
   Map toJson() { return {'tags': this.tags}; }
 
-  String getJson() {
-    return jsonEncode(this);
-  }
-
   factory Tags.fromJson(Map<String, dynamic> parsedJson) {
     List<Tag>? tags = (parsedJson["tags"] as List?)?.map((item)=>Tag.fromJson(item)).toList();
     return Tags(tags ?? []);
-  }
-
-  void save() {
-    writeToPersistence(this.getJson(), "tags.json");
   }
 
   Tag? getById(String? id) {
@@ -35,17 +26,14 @@ class Tags {
 
   void addTag(String text) {
     tags.add(Tag(text));
-    save();
   }
 
   void setColor(String id, int value) {
     getById(id)?.color = value;
-    save();
   }
 
   void remove(String id) {
     tags.removeWhere((element) => element.id == id);
-    save();
   }
 }
 

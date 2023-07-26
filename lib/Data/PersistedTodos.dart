@@ -1,13 +1,15 @@
 import 'dart:convert';
 import '../data/todoData.dart';
+import 'Tags.dart';
 import 'persistence/persistence.dart';
 
 class PersistedTodos {
   DateTime lastMod;
   TodoData data;
+  Tags tags;
   String key;
 
-  PersistedTodos(this.lastMod, this.data, this.key);
+  PersistedTodos(this.lastMod, this.data, this.tags, this.key);
 
   // used to convert the object to json
   Map<String, dynamic> toJson() {
@@ -16,6 +18,7 @@ class PersistedTodos {
     return {
       'lastMod': lastMod.toIso8601String(),
       'data': todo,
+      'tags': tags.toJson()
     };
   }
 
@@ -27,12 +30,14 @@ class PersistedTodos {
   factory PersistedTodos.fromJson(Map<String, dynamic> parsedJson, String key) {
     //handle legacy save structure
     if (!parsedJson.containsKey("data")) {
-      return PersistedTodos(DateTime.now(), TodoData.fromJson(parsedJson), key);
+      return PersistedTodos(DateTime.now(), TodoData.fromJson(parsedJson), Tags([]), key);
     }
 
+    var tags = parsedJson['tags'];
     return PersistedTodos(
         DateTime.parse(parsedJson["lastMod"]),
         TodoData.fromJson(parsedJson["data"]),
+        tags == null ? Tags([]) : Tags.fromJson(tags),
         key
     );
   }
@@ -115,12 +120,35 @@ class PersistedTodos {
     data.setTag(arr, tag);
     save();
   }
+
+  Tag? getTag(String? id) {
+    return tags.getById(id);
+  }
+
+  List<Tag> tagList() {
+    return tags.toList();
+  }
+
+  void addTag(String text) {
+    tags.addTag(text);
+    save();
+  }
+
+  void setColor(String id, int value) {
+    tags.setColor(id, value);
+    save();
+  }
+
+  void removeTag(String id) {
+    tags.remove(id);
+    save();
+  }
 }
 
 Future<PersistedTodos> readTodosFromFile(String key) async {
   var path = dataPath(key);
   var str = await readFromPersistence(path);
-  if (str.isEmpty) return PersistedTodos(DateTime(0), TodoData("To Do"), key);
+  if (str.isEmpty) return PersistedTodos(DateTime(0), TodoData("To Do"), Tags([]), key);
   return PersistedTodos.fromJson(jsonDecode(str), key);
 }
 

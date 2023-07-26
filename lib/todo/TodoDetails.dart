@@ -4,7 +4,6 @@ import 'package:todo_infinite/data/controllers/SettingsController.dart';
 import 'package:todo_infinite/data/todoData.dart';
 import 'package:todo_infinite/utils/timeUtils.dart';
 import '../data/Tags.dart';
-import '../data/controllers/TagsController.dart';
 import '../data/controllers/TodoController.dart';
 
 class TodoDetails extends StatelessWidget {
@@ -126,7 +125,7 @@ class TagPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settings = Get.find<SettingsController>();
-    final tags = Get.find<TagsController>();
+    final tags = Get.find<TodoController>();
     Tag? tag = tags.getTag(todoData.tag);
 
     return PopupMenuButton<String>(

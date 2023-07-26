@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_infinite/data/controllers/SettingsController.dart';
-import 'package:todo_infinite/data/controllers/TagsController.dart';
 import 'package:todo_infinite/data/todoData.dart';
 import 'package:todo_infinite/utils/timeUtils.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -48,7 +47,7 @@ class Info extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tags = Get.find<TagsController>();
+    final tags = Get.find<TodoController>();
 
 
     return Expanded(
