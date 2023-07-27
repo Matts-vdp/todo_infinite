@@ -111,6 +111,12 @@ class TodoController extends GetxController {
     update();
   }
 
+  void addTodoData(List<int> arr, TodoData data) {
+    todo.addTodoData(arr, data);
+    updateSyncState();
+    update();
+  }
+
   void delTodo(List<int> arr) {
     final TrashController c = Get.find<TrashController>();
 

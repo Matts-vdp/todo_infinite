@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-
-import '../data/controllers/TodoController.dart';
+import '../data/persistence/clipboard.dart';
 
 
 class ClipboardActions extends StatelessWidget {
@@ -43,17 +40,4 @@ class ClipboardActions extends StatelessWidget {
           ]),
         ));
   }
-}
-
-// Copies the stored data to the clipboard
-void toClip() async {
-  final c = Get.find<TodoController>();
-  ClipboardData data = ClipboardData(text: c.getJson());
-  await Clipboard.setData(data);
-}
-
-// copies the data from clipboard to the saved data
-void fromClip() async {
-  final c = Get.find<TodoController>();
-  Clipboard.getData("text/plain").then((value) => {c.fromJson(value?.text)});
 }

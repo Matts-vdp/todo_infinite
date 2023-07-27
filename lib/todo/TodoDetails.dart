@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_infinite/data/controllers/SettingsController.dart';
+import 'package:todo_infinite/data/persistence/clipboard.dart';
 import 'package:todo_infinite/data/todoData.dart';
 import 'package:todo_infinite/utils/timeUtils.dart';
 import '../data/Tags.dart';
@@ -32,11 +33,74 @@ class TodoDetails extends StatelessWidget {
                   TagPicker(arr: arr, todoData: todoData)
                 ],
               ),
-
+              SizedBox.fromSize(size: Size.fromHeight(20)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Copy(arr: arr, todoData: todoData),
+                  Paste(arr: arr, todoData: todoData),
+                ],
+              )
             ],
           );
         }
     );
+  }
+}
+
+class Paste extends StatelessWidget {
+  const Paste({
+    Key? key,
+    required this.arr,
+    required this.todoData,
+  }) : super(key: key);
+
+  final List<int> arr;
+  final TodoData todoData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      child: IconButton.outlined(
+          onPressed: (){
+            handlePress();
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Pasting todo')));
+            },
+          icon: Icon(Icons.paste)),
+    );
+  }
+
+  void handlePress() {
+    fromClip(arr: arr);
+  }
+}
+
+class Copy extends StatelessWidget {
+  const Copy({
+    Key? key,
+    required this.arr,
+    required this.todoData,
+  }) : super(key: key);
+
+  final List<int> arr;
+  final TodoData todoData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8),
+        child: IconButton.outlined(
+            onPressed: (){
+                handlePress();
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Copying todo')));
+            },
+            icon: Icon(Icons.copy)),
+    );
+  }
+
+  void handlePress() {
+    toClip(arr: arr);
   }
 }
 
