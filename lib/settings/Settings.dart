@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_infinite/data/controllers/TodoController.dart';
+import 'package:todo_infinite/settings/ApiKeySettings.dart';
 import '../components/SyncIcon.dart';
 import '../components/actions/actions.dart';
 import 'ClipboardActions.dart';
@@ -31,6 +32,7 @@ class Settings extends StatelessWidget {
             ColorPicker(),
             ClipboardActions(),
             SyncSettings(),
+            ApiKeySettings(),
             BackupSettings(),
             TagSettings()
           ],

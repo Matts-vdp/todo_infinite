@@ -15,7 +15,7 @@ class WorkSpaceController extends GetxController {
 
   Future<void> post() async {
     final TodoController c = Get.find<TodoController>();
-    var status = await Sync.post(workspaces.syncKey, c.todo);
+    var status = await Sync.post(workspaces.syncKey, c.todo, workspaces.apiKey);
     isSynced = mapSyncStatus(status);
     update();
   }
@@ -23,7 +23,7 @@ class WorkSpaceController extends GetxController {
   Future<SyncState> fetch({bool overwrite = false}) async {
     final TodoController c = Get.find<TodoController>();
 
-    var result = await Sync.fetch(workspaces.syncKey);
+    var result = await Sync.fetch(workspaces.syncKey, workspaces.apiKey);
 
     if (result.status == Status.Other)
       isSynced = SyncState.Unknown;
@@ -67,6 +67,15 @@ class WorkSpaceController extends GetxController {
 
   String getSyncKey(){
     return workspaces.syncKey;
+  }
+
+  void setApiKey(String key){
+    workspaces.apiKey = key;
+    workspaces.save();
+  }
+
+  String getApiKey(){
+    return workspaces.apiKey;
   }
 
   List<String> getWorkSpaces(){

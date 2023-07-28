@@ -7,10 +7,10 @@ class Sync {
   // static const baseUrl = "http://localhost:5000/api/store/";
   static const baseUrl = "https://api.mattsvdp.com/api/store/";
 
-  static Future<FetchResult> fetch(String key) async {
+  static Future<FetchResult> fetch(String key, String apiKey) async {
     var uri = baseUrl + key;
     try {
-      var response = await http.get(Uri.parse(uri));
+      var response = await http.get(Uri.parse(uri), headers: {"Authorization": apiKey});
       var status = mapStatus(response.statusCode);
       if (status != Status.Success) return FetchResult(null, status);
 
@@ -22,13 +22,16 @@ class Sync {
     }
   }
 
-  static Future<Status> post(String key, PersistedTodos data) async {
+  static Future<Status> post(String key, PersistedTodos data, String apiKey) async {
     var uri = baseUrl + key;
     try {
       var response = await http.post(
           Uri.parse(uri),
           body: data.getJson(),
-          headers: {"content-type": "application/json"});
+          headers: {
+            "content-type": "application/json",
+            "Authorization": apiKey
+          });
       return mapStatus(response.statusCode);
 
     } catch (e) {

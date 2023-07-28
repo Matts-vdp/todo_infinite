@@ -72,7 +72,7 @@ Future<TrashDataList> initializeTrashData() async {
 
 Future<WorkSpaces> initializeWorkSpaces() async {
   var str = await readFromPersistence("workspaces.json");
-  if (str.isEmpty) return WorkSpaces("", []);
+  if (str.isEmpty) return WorkSpaces("", "", []);
   return WorkSpaces.fromJson(jsonDecode(str));
 }
 

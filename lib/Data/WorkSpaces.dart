@@ -4,17 +4,16 @@ import 'persistence/persistence.dart';
 
 class WorkSpaces {
   String syncKey = "";
+  String apiKey = "";
   List<String> workspaces = [];
 
-  WorkSpaces(String key, List<String> w){
-    syncKey = key;
-    workspaces = w;
-  }
+  WorkSpaces(this.syncKey, this.apiKey, this.workspaces);
 
   // used to convert the object to json
   Map toJson() {
     return {
       'syncKey': this.syncKey,
+      'apiKey': this.apiKey,
       'workspaces': this.workspaces
     };
   }
@@ -28,6 +27,7 @@ class WorkSpaces {
     List<String>? w = (parsedJson["workspaces"] as List?)?.map((item)=>item as String).toList();
     return WorkSpaces(
         parsedJson["syncKey"] ?? "",
+        parsedJson["apiKey"] ?? "",
         w ?? []
     );
   }
