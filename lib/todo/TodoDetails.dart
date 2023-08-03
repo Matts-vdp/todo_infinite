@@ -39,12 +39,39 @@ class TodoDetails extends StatelessWidget {
                 children: [
                   Copy(arr: arr, todoData: todoData),
                   Paste(arr: arr, todoData: todoData),
+                  Export(arr: arr),
                 ],
               )
             ],
           );
         }
     );
+  }
+}
+
+class Export extends StatelessWidget {
+  const Export({
+    Key? key,
+    required this.arr
+  }) : super(key: key);
+
+  final List<int> arr;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      child: IconButton.outlined(
+          onPressed: (){
+            handlePress();
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('exporting as text')));
+          },
+          icon: Icon(Icons.list_alt)),
+    );
+  }
+
+  void handlePress() {
+    toClipAsString(arr);
   }
 }
 

@@ -18,6 +18,15 @@ void toClip({List<int>? arr}) async {
   await Clipboard.setData(data);
 }
 
+void toClipAsString(List<int> arr) async {
+  final c = Get.find<TodoController>();
+
+  String text = c.getTodo(arr).asString(separator: "  ");
+
+  ClipboardData data = ClipboardData(text: text);
+  await Clipboard.setData(data);
+}
+
 // copies the data from clipboard to the saved data
 void fromClip({List<int>? arr}) async {
   Clipboard.getData("text/plain").then((value) => {
