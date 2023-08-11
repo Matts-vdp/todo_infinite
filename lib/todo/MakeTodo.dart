@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../data/controllers/TodoController.dart';
 
@@ -26,16 +27,31 @@ class MakeTodo extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: TextField(
-                      maxLines: 3,
-                      minLines: 1,
-                      controller: fieldText,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(8),
-                        border: OutlineInputBorder(),
-                        labelText: 'New Todo',
+                    child: RawKeyboardListener(
+                      focusNode: FocusNode(),
+                      onKey: (value) {
+                       if (value.isShiftPressed && value.isKeyPressed(LogicalKeyboardKey.enter))
+                          submitText(fieldText.text, c);
+                      },
+                      child: TextField(
+                        maxLines: 3,
+                        minLines: 1,
+                        controller: fieldText,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(8),
+                          border: OutlineInputBorder(),
+                          labelText: 'New Todo',
+                        ),
+                        onChanged: (value) {
+                          if (fieldText.text[0] == '\n') {
+                            fieldText.text = fieldText.text.trimLeft();
+                          }
+                        },
+                        onSubmitted: (String val) {
+                          FocusScope.of(context).unfocus();
+                          submitText(val, c);
+                        },
                       ),
-                      onSubmitted: (String val) => submitText(val, c),
                     ),
                   ),
                   SizedBox(
