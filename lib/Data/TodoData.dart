@@ -147,7 +147,7 @@ class TodoData {
     }
   }
 
-  String asString({int depth = 0, String separator = "  "}) {
+  String asString({int depth = 0, String separator = "    "}) {
     var str = "${separator * depth}- $text\n";
     for (var todo in sub) {
       str += todo.asString(depth: depth + 1);

@@ -21,7 +21,7 @@ void toClip({List<int>? arr}) async {
 void toClipAsString(List<int> arr) async {
   final c = Get.find<TodoController>();
 
-  String text = c.getTodo(arr).asString(separator: "  ");
+  String text = c.getTodo(arr).asString();
 
   ClipboardData data = ClipboardData(text: text);
   await Clipboard.setData(data);
